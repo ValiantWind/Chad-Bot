@@ -1,0 +1,25 @@
+{
+  "name": "valiant-utilities",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "ValiantWind",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/builders": "^0.13.0",
+    "@discordjs/collection": "^0.6.0",
+    "@discordjs/rest": "^0.4.1",
+    "discord-api-types": "^0.32.1",
+    "discord.js": "^13.7.0",
+    "dotenv": "^16.0.1",
+    "moment": "^2.29.3",
+    "mongoose": "^6.3.3",
+    "noblox.js": "^4.13.1",
+    "node-fetch": "^2.6.7",
+    "uuid": "^8.3.2"
+  }
+}
