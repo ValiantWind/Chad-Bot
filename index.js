@@ -4,15 +4,11 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
-const mongoose = require('mongoose');
 const fetch = require('node-fetch');
 
 const token = process.env.token
 const clientId = process.env.clientId
 const guildId = process.env.guildId
-const mongooseConnectionString = process.env.mongooseConnectionString
-//const botId = process.env.token
-//const cookie = process.env.token
 
 const client = new Client({
 	intents: [
