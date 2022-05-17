@@ -15,7 +15,7 @@ module.exports = {
       .setName('reason')
       .setDescription(`The reason you're ejecting (kicking) this user for.`)
     ),
-  requiredPerms: ['KICK_MEMBERS'],
+  cooldown: 5000,
   botRequiredPerms: ['KICK_MEMBERS'],
   async execute(interaction) {
     const member = interaction.options.getMember('user');

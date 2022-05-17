@@ -10,6 +10,7 @@ module.exports = {
       .setName('user')
       .setDescription('The user you want to view info about.')
     ),
+  cooldown: 3000,
  async execute(interaction) {
    const member = interaction.options.getMember('user');
   const color = getRoleColor(interaction.guild)

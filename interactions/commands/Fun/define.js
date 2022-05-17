@@ -12,6 +12,7 @@ module.exports = {
       .setDescription('Term you want to search up')
       .setRequired(true)
       ),
+  cooldown: 3000,
 	async execute(interaction) {
 		await interaction.deferReply();
     const trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...` : str);

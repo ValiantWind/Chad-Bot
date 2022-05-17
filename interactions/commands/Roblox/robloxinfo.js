@@ -1,4 +1,4 @@
-const { MessageEmbed, TextChannel } = require('discord.js');
+ const { MessageEmbed, TextChannel } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const moment = require('moment');
 const { getRoleColor } = require('../../../utils/getRoleColor');
@@ -13,6 +13,7 @@ module.exports = {
       .setDescription("The user you want to view info about.")
       .setRequired(true)
     ),
+  cooldown: 3000,
   async execute(interaction) {
     const color = getRoleColor(interaction.guild)
     const username = interaction.options.getString("username");

@@ -7,6 +7,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('panda')
 		.setDescription('Displays a random panda photo'),
+  cooldown: 3000,
 	async execute(interaction) {
 		await interaction.deferReply();
     const res = await fetch('https://some-random-api.ml/img/panda');

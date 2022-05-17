@@ -11,8 +11,7 @@ module.exports = {
       .setDescription(`The number of messages you want to purge.`)
       .setRequired(true)
     ),
-  requiredPerms: ['MANAGE_MESSAGES', 'KICK_MEMBERS'],
-  botRequiredPerms: ['MANAGE_MESSAGES'],
+  cooldown: 5000,
   async execute(interaction) {
     const amount = interaction.options.getInteger('amount');
     if (amount < 2 || amount > 100) {

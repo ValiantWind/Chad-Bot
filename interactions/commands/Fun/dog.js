@@ -7,8 +7,8 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('dog')
 		.setDescription('Displays a random dog photo'),
+  cooldown: 3000,
 	async execute(interaction) {
-		await interaction.deferReply();
     const res = await fetch('https://dog.ceo/api/breeds/image/random');
     const img = (await res.json()).link;
     const color = getRoleColor(interaction.guild);
@@ -17,6 +17,6 @@ module.exports = {
     .setImage(img)
     .setTimestamp()
     .setColor(color);
-		interaction.editReply({ embeds: [embed] });
+		interaction.reply({ embeds: [embed] });
 	},
 };

@@ -7,6 +7,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('serverinfo')
     .setDescription(`Displays information about the server you're in.`),
+  cooldown: 3000,
   execute(interaction) {
     let color = getRoleColor(interaction.guild);
     const serverInfoEmbed = new MessageEmbed()

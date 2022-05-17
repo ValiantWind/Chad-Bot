@@ -13,9 +13,7 @@ module.exports = {
 				.setName("command")
 				.setDescription("The specific command to see the info of.")
 		),
-
-	
-
+cooldown: 3000,
 	async execute(interaction) {
 		
 		const commands = interaction.client.commands;

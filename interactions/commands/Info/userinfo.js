@@ -11,6 +11,7 @@ module.exports = {
       .setName('user')
       .setDescription('The user you want to view info about.')
     ),
+  cooldown: 3000,
   execute(interaction) {
     let color = getRoleColor(interaction.guild);
     const member = interaction.options.getMember('user');

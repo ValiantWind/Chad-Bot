@@ -20,8 +20,7 @@ module.exports = {
       .setName('reason')
       .setDescription(`The reason you're silencing (muting) this user for.`)
     ),
-  requiredPerms: ['KICK_MEMBERS'],
-  botRequiredPerms: ['MANAGE_ROLES', 'MANAGE_CHANNELS'],
+  cooldown: 3000,
   async execute(interaction) {
     const member = interaction.options.getMember('user');
     const user = interaction.options.getUser('user');

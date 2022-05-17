@@ -9,6 +9,7 @@ module.exports = {
         .setDescription('User you want to "hack"')
         .setRequired(true)
     ),
+  cooldown: 3000,
 	async execute(interaction) {
     await interaction.deferReply()
 	 const tohack = interaction.options.getMentionable("user");

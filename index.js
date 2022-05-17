@@ -32,6 +32,7 @@ require("./handler")(client);
 
 
 client.commands = new Collection();
+client.cooldowns = new Collection();
 client.buttonCommands = new Collection();
 client.selectMenuCommands = new Collection();
 client.contextMenuCommands = new Collection();
