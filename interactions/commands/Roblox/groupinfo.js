@@ -26,7 +26,7 @@ module.exports = {
       let groupShout = info.shout
       let groupShoutMessage;
       if(groupShout === null){
-        groupShoutMessage = groupShout;
+        groupShoutMessage = 'No Group Shout';
       } else {
         groupShoutMessage = groupShout.body
       }
@@ -37,7 +37,7 @@ module.exports = {
     .addField('Group Owner', info.owner.username || 'No Owner')
     .addField('Group ID', info.id.toString())
     .addField('Group Description', info.description || 'No Description')
-    .addField(`Current Group Shout Message`, `"${groupShoutMessage}"`)
+    .addField(`Current Group Shout Message`, `${groupShoutMessage}`)
     .addField('Group Open to Everyone?', info.publicEntryAllowed.toString())
     .addField('Member Count', info.memberCount.toString())
     .setTimestamp()
