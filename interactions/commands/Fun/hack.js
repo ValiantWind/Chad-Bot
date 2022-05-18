@@ -4,7 +4,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('hack')
 		.setDescription('"Hack" a random user.')
-    .addMentionableOption((option) => option
+    .addUserOption((option) => option
         .setName('user')
         .setDescription('User you want to "hack"')
         .setRequired(true)
@@ -12,7 +12,7 @@ module.exports = {
   cooldown: 3000,
 	async execute(interaction) {
     await interaction.deferReply()
-	 const tohack = interaction.options.getMentionable("user");
+	 const tohack = interaction.options.getUser("user");
     let msg = await interaction.editReply(`Hacking ${tohack.displayName}....`);
 
     let time = "1s";
