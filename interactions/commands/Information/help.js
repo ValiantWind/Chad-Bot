@@ -1,5 +1,5 @@
 const { readdirSync } = require("fs");
-const { MessageButton, MessageEmbed, MessageActionRow, MessageActionRowComponent } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
 const client = require('../../../index');
