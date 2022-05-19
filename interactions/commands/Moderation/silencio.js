@@ -21,6 +21,7 @@ module.exports = {
       .setDescription(`The reason you're silencing (muting) this user for.`)
     ),
   cooldown: 3000,
+  category: 'Moderation',
   async execute(interaction) {
     const member = interaction.options.getMember('user');
     const user = interaction.options.getUser('user');

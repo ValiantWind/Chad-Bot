@@ -5,6 +5,8 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('snake')
 		.setDescription('Start a game of Snake!'),
+  cooldown: 10000,
+  category: 'Fun',
 	async execute(interaction) {
     new Snake({
       message: interaction,

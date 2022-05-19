@@ -8,6 +8,7 @@ module.exports = {
     .setName('serverinfo')
     .setDescription(`Displays information about the server you're in.`),
   cooldown: 3000,
+  category: 'Information',
   execute(interaction) {
     let color = getRoleColor(interaction.guild);
     const serverInfoEmbed = new MessageEmbed()

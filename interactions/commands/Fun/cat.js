@@ -6,6 +6,7 @@ module.exports = {
 		.setName('cat')
 		.setDescription('Displays a random cat photo'),
   cooldown: 3000,
+  category: 'Fun',
 	async execute(interaction) {
      const { message } = await fetch('https://aws.random.cat/meow').then(response => response.json());
     const color = getRoleColor(interaction.guild);

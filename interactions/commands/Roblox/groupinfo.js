@@ -13,14 +13,15 @@ module.exports = {
       .setRequired(true)
     ),
   cooldown: 3000,
+  category: 'Roblox',
   async execute(interaction) {
     const color = getRoleColor(interaction.guild)
     const groupId = interaction.options.getInteger("groupid");
     await interaction.deferReply();
+    const productInfo = await noblox.getProductInfo(1117747196)
 
     try {
       const info = await noblox.getGroup(groupId)
-
        const groupLogo = await noblox.getLogo(groupId, '720x720', false, 'png')
 
       let groupShout = info.shout
@@ -48,5 +49,6 @@ module.exports = {
       console.log(error)
       interaction.editReply({content: 'An Error occured. Make sure the group id you typed in exists or that the group is not banned!'})
     }
+  console.log(productInfo)
   }
 };

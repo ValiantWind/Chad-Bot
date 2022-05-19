@@ -5,7 +5,8 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('pokemon')
 		.setDescription('Guess a random Pokemon on Discord!'),
-        
+    cooldown: 3000,
+    category: 'Fun',
 	async execute(interaction) {
     new GuessThePokemon({
       message: interaction,

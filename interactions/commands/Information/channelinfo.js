@@ -57,7 +57,7 @@ module.exports = {
 				break;
 		}
 		embed.addField('Channel Type:', channelTypes, true);
-		embed.addField('Channel Created At:', `<t:${Math.floor(channel.createdTimestamp / 1000)}:R>`, true);
+		embed.addField('Channel Created About:', `<t:${Math.floor(channel.createdTimestamp / 1000)}:R>`, true);
 		embed.setColor(color);
 		interaction.reply({
 			embeds: [embed],

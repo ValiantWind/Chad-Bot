@@ -16,7 +16,7 @@ module.exports = {
       .setDescription(`The reason you're unbanning this user.`)
     ),
   cooldown: 5000,
-  botRequiredPerms: ['BAN_MEMBERS'],
+  category: 'Moderation',
   async execute(interaction) {
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason');

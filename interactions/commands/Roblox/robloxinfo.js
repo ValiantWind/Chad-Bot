@@ -14,6 +14,7 @@ module.exports = {
       .setRequired(true)
     ),
   cooldown: 3000,
+  category: 'Roblox',
   async execute(interaction) {
     const color = getRoleColor(interaction.guild)
     const username = interaction.options.getString("username");

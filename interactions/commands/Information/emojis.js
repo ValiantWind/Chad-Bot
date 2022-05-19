@@ -7,6 +7,7 @@ module.exports = {
 		.setName('emojis')
 		.setDescription('Displays all the emojis in the server'),
   cooldown: 5000,
+  category: 'Information',
 	async execute(interaction) {
 		const emojis = interaction.guild.emojis.cache.map((r) => r).join(' ');
     const color = getRoleColor(interaction.guild);

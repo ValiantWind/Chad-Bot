@@ -32,6 +32,7 @@ require("./handler")(client);
 
 
 client.commands = new Collection();
+client.categories = new Collection();
 client.cooldowns = new Collection();
 client.buttonCommands = new Collection();
 client.selectMenuCommands = new Collection();
@@ -200,6 +201,17 @@ client.once('ready', () => {
     
 client.login(token);
 
+
 process.on('unhandledRejection', error => {
 	console.error('Unhandled promise rejection:', error);
 });
+
+process.on('uncaughtException', (err, origin) => {
+  console.log(`Uncaught Exception: `, err, origin);
+  })
+process.on('uncaughtExceptionMonitor', (err, origin) => {
+  console.log('Uncaught Exception Monitor', err, origin);
+  })
+process.on('multipleResolves', (type, promise, reason) => {
+  console.log('Multiple Resolves:', type, promise, reason);
+  })    

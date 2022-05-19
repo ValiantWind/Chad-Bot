@@ -5,7 +5,8 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('trivia')
 		.setDescription('Play Trivia on Discord!'),
-        
+  cooldown: 10000,
+  category: 'Fun',
 	async execute(interaction, client) {
         new Trivia({
             message: interaction,

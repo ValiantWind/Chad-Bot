@@ -8,6 +8,7 @@ module.exports = {
 		.setName('dog')
 		.setDescription('Displays a random dog photo'),
   cooldown: 3000,
+  category: 'Fun',
 	async execute(interaction) {
     const res = await fetch('https://dog.ceo/api/breeds/image/random');
     const img = (await res.json()).link;

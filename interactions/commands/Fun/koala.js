@@ -8,6 +8,7 @@ module.exports = {
 		.setName('koala')
 		.setDescription('Displays a random koala photo'),
   cooldown: 3000,
+  category: 'Fun',
 	async execute(interaction) {
 		await interaction.deferReply();
     const res = await fetch('https://some-random-api.ml/img/koala');

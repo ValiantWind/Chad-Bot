@@ -10,6 +10,8 @@ module.exports = {
       .setDescription('Select an opponent to play TicTacToe with!')
       .setRequired(true)
       ),
+  cooldown: 30000,
+  category: 'Fun',
 	async execute(interaction) {
     new TicTacToe({
       message: interaction,

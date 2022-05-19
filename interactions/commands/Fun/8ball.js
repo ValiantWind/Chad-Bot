@@ -11,7 +11,8 @@ module.exports = {
       .setDescription('The question you want to ask to the 100% reliable Magic 8-Ball.')
     ),
   cooldown: 3000,
-  execute(interaction) {
+  category: 'Fun',
+  async execute(interaction) {
     let color = getRoleColor(interaction.guild);
     const question = interaction.options.getString('question');
     let replies = [

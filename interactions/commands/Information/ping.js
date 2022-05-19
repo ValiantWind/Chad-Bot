@@ -5,6 +5,7 @@ module.exports = {
 		.setName('ping')
 		.setDescription('Replies with Pong!'),
   cooldown: 5000,
+  category: 'Information',
 	async execute(interaction) {
 		return interaction.reply('Pong!');
 	},

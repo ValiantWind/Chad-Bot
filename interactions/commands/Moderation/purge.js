@@ -12,6 +12,7 @@ module.exports = {
       .setRequired(true)
     ),
   cooldown: 5000,
+  category: 'Moderation',
   async execute(interaction) {
     const amount = interaction.options.getInteger('amount');
     if (amount < 2 || amount > 100) {

@@ -9,7 +9,8 @@ module.exports = {
       .setName('opponent')
       .setDescription('Select an opponent to play Connect 4 with!')
       .setRequired(true)),
-        
+  cooldown: 30000,
+  category: 'Fun',
 	async execute(interaction) {
 
 		new Connect4({
