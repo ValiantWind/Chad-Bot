@@ -215,7 +215,7 @@ async function getLatestPosts() {
 // });
 
 client.once('ready', () => {
-	getLatestPosts()
+	//getLatestPosts()
 });
     
 client.login(token);
