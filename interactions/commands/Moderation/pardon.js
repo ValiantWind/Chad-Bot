@@ -18,7 +18,7 @@ module.exports = {
   cooldown: 5000,
   category: 'Moderation',
   async execute(interaction) {
-    const member = interaction.options.getMember('user');
+    const member = interaction.options.getMember('user')?.value;
     const reason = interaction.options.getString('reason');
     if (member.id == interaction.member.user.id) {
       return interaction.reply({ content: `No`, ephemeral: true });
@@ -28,22 +28,15 @@ module.exports = {
     
 
     let color = getRoleColor(interaction.guild);
-    const kickEmbed = new MessageEmbed()
+    const banEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Pardon Information`)
-      .addFields(
-        { name: `Defendant's name:`, value: `${member.user.tag}` },
-        { name: `Issued by:`, value: `${author}` }
-      )
+      .setTitle(`***Unbanned!**`)
+      .setDescription(`***Successfully unbanned **${user}! || ${reason} `)
       .setTimestamp();
-    let msg = `${author} pardoned (unbanned) you from ${interaction.guild.name}.`;
-    if (reason) {
-      kickEmbed.addField('Reason', reason);
-      msg += ` Reason: ${reason}`;
-    }
+    let msg = `${author}  unbanned you from ${interaction.guild.name}.`;
     
     if (!member.user.bot) await member.send({ content: msg });
     
-    member.unban();
+    guild.members.unban(member);
   }
 }

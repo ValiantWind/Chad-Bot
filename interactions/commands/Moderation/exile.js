@@ -38,20 +38,15 @@ module.exports = {
     let color = getRoleColor(interaction.guild);
     const kickEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Ban Information`)
-      .addFields(
-        { name: `Defendant's name:`, value: `${member.user.tag}` },
-        { name: `Issued by:`, value: `${author}` }
-      )
+      .setTitle(`***Banned!**`)
+      .setDescription(`***Successfully banned **${user}! || ${reason} `)
+      .setFooter('Imagine being banned lol')
       .setTimestamp();
-    let msg = `${author} banned you from ${interaction.guild.name}.`;
-    if (reason) {
-      kickEmbed.addField('Reason', reason);
-      msg += ` Reason: ${reason}`;
-    }
+    let msg = `${author} ejected (kicked) you from ${interaction.guild.name}.`;
     
     if (!member.user.bot) await member.send({ content: msg });
     
-    member.ban();
+    guild.members.ban(member);
+    interaction.reply({ embeds: embed})
   }
 }

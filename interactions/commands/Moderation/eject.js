@@ -19,11 +19,11 @@ module.exports = {
   category: 'Moderation',
   async execute(interaction) {
     const member = interaction.options.getMember('user');
-    const reason = interaction.options.getString('reason');
+    const reason = interaction.options.getString('reason') || 'No reason specified.'
     if (member.id == interaction.member.user.id) {
       return interaction.reply({ content: `I mean you could just leave the server.` });
     }
-
+  
     if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
       interaction.reply({ content: `Your roles must be higher than the roles of the person you want to eject!`, ephemeral: true });
     }
@@ -38,20 +38,15 @@ module.exports = {
     let color = getRoleColor(interaction.guild);
     const kickEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Ejection Information`)
-      .addFields(
-        { name: `Defendant's name:`, value: `${member.user.tag}` },
-        { name: `Issued by:`, value: `${author}` }
-      )
+      .setTitle(`***Kicked!**`)
+      .setDescription(`***Successfully kicked **${user}! || ${reason} `)
+      .setFooter('Imagine being kicked lol')
       .setTimestamp();
     let msg = `${author} ejected (kicked) you from ${interaction.guild.name}.`;
-    if (reason) {
-      kickEmbed.addField('Reason', reason);
-      msg += ` Reason: ${reason}`;
-    }
     
     if (!member.user.bot) await member.send({ content: msg });
     
     member.kick();
+    interaction.reply({embeds: kickEmbed});
   }
 }
