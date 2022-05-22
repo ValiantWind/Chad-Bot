@@ -4,11 +4,11 @@ const { getRoleColor } = require('../../../utils/getRoleColor');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('exile')
-    .setDescription(`Allows a Staff Member with sufficient permissions to exile (ban) a member from the server.`)
+    .setName('ban')
+    .setDescription(`Allows a Staff Member with sufficient permissions to ban a member from the server.`)
     .addUserOption((option) => option
       .setName('user')
-      .setDescription(`The user that you want to exile (ban).`)
+      .setDescription(`The user that you want to ban.`)
       .setRequired(true)
     )
     .addStringOption((option) => option
@@ -42,7 +42,7 @@ module.exports = {
       .setDescription(`***Successfully banned **${user}! || ${reason} `)
       .setFooter('Imagine being banned lol')
       .setTimestamp();
-    let msg = `${author} ejected (kicked) you from ${interaction.guild.name}.`;
+    let msg = `${author} banned you from ${interaction.guild.name}.`;
     
     if (!member.user.bot) await member.send({ content: msg });
     

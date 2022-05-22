@@ -4,21 +4,21 @@ const { getRoleColor } = require('../../../utils/getRoleColor');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('sliencio')
+    .setName('mute')
     .setDescription(`Restricts a user from sending messages.`)
     .addUserOption((option) => option
       .setName('user')
-      .setDescription(`The user that you want to slience (mute).`)
+      .setDescription(`The user that you want to mute.`)
       .setRequired(true)
     )
     .addNumberOption((option) => option
       .setName('minutes')
-      .setDescription(`The amount of minutes that you want the user to stay quiet (muted).`)
+      .setDescription(`The amount of minutes that you want the user to stay muted.`)
       .setRequired(true)
     )
     .addStringOption((option) => option
       .setName('reason')
-      .setDescription(`The reason you're silencing (muting) this user for.`)
+      .setDescription(`The reason you're muting this user for.`)
     ),
   cooldown: 3000,
   category: 'Moderation',
@@ -34,11 +34,11 @@ module.exports = {
     }
 
     if (member.id == interaction.member.user.id) {
-      return interaction.reply({ content: `Stupid mod. You can't silence youself, dumbass why would you even want to do that lol`, ephemeral: true });
+      return interaction.reply({ content: `Stupid mod. You can't mute youself. Why would you even want to do that lol`, ephemeral: true });
     }
 
     if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
-      return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to silence!`, ephemeral: true });
+      return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to mute!`, ephemeral: true });
     }
 
 
@@ -58,35 +58,29 @@ module.exports = {
     }
 
     if (member.roles.cache.has(mutedRole.id)) {
-      return interaction.reply({ content: `${user.username} is already silenced!`, ephemeral: true });
+      return interaction.reply({ content: `${user.username} is already muted!`, ephemeral: true });
     }
 
     member.roles.add(mutedRole);
-    let color = getRoleColor(interaction.guild);
+     let color = getRoleColor(interaction.guild);
     const muteEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`Slience Info`)
-      .addFields(
-        { name: `Defendant's name:`, value: `${member.user.tag}` },
-        { name: `Issued by:`, value: `${author}` },
-        { name: `Duration:`, value: `${mins} minutes` },
-      )
-      .setFooter(`You can use /unmute to unmute the user earlier than ${mins} minutes and /muteinfo to view information about his mute.`)
+      .setTitle(`***Banned!**`)
+      .setDescription(`***Successfully muted **${user}! || ${reason} `)
+      .setFooter('Imagine being muted lol')
       .setTimestamp();
+    let msg = `${author} muted you from ${interaction.guild.name}.`;
+    
+    if (!member.user.bot) await member.send({ content: msg });
     const millisecondsPerMinute = 60 * 1000;
     let MuteInfo = {};
     MuteInfo.userID = member.id;
     MuteInfo.unmuteDate = Date.now() + mins * millisecondsPerMinute;
     MuteInfo.author = author;
-    let msg = `${author} has muted you from ${interaction.guild.name}. Duration: ${mins} minutes.`;
-    if (reason) {
-      muteEmbed.addField('Reason', reason);
-      msg += ` Reason: ${reason}.`;
-      MuteInfo.reason = reason;
-    }
+    let msg = `${author} has muted you from ${interaction.guild.name} for ${reason}. Duration: ${mins} minutes.`;
 
     if (!member.user.bot) member.send({ content: msg });
 
-  await interaction.reply({content: `Successfully Muted ${member}. Imagine being muted smh`})
+  await interaction.reply({embeds: embed})
   }
 }

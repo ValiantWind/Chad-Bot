@@ -22,15 +22,12 @@ module.exports = {
     interaction.channel.bulkDelete(amount, true);
     let color = getRoleColor(interaction.guild);
     const clearEmbed = new MessageEmbed()
+       .setColor(color)
+      .setTitle(`***Unbanned!**`)
+      .setDescription(`***Successfully purged **${amount} messages in ${interaction.channel.name}!`)
       .setColor(color)
-      .setTitle(`Purged Messages`)
-      .addFields(
-        { name: 'Purged by:', value: `${interaction.member.user.username}` },
-        { name: 'Amount of Messages Purged:', value: `${amount}` },
-        { name: 'Channel:', value: `${interaction.channel.name}` }
-      )
       .setTimestamp();
 
-      await interaction.reply({content: `Successfully purged ${amount} messages!`, ephemeral: true});
+      await interaction.reply({embeds: clearEmbed});
   }
 }

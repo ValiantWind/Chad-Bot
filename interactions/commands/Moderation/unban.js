@@ -28,7 +28,7 @@ module.exports = {
     
 
     let color = getRoleColor(interaction.guild);
-    const banEmbed = new MessageEmbed()
+    const unbanEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle(`***Unbanned!**`)
       .setDescription(`***Successfully unbanned **${user}! || ${reason} `)
@@ -38,5 +38,7 @@ module.exports = {
     if (!member.user.bot) await member.send({ content: msg });
     
     guild.members.unban(member);
+
+    interaction.reply({embeds: unbanEmbed})
   }
 }

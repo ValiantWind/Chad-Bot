@@ -131,7 +131,7 @@ const commandJsonData = [
 
 		await rest.put(
 
-			Routes.applicationGuildCommands(clientId, guildId),
+			Routes.applicationCommands(clientId, guildId),
 			{ body: commandJsonData }
 		);
 
