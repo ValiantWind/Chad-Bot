@@ -28,5 +28,6 @@ module.exports = {
         .setDescription(`Total Warnings: ${warns}`)
         .setTimestamp()
         .setColor(color)
-        interaction.reply({ embeds: [embed] })
+    interaction.reply({ embeds: [embed] })
+  }
 }

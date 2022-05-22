@@ -38,7 +38,7 @@ module.exports = {
     const warnEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle(`***Warned!**`)
-      .setDescription(`***Successfully Warned **${user}! || ${reason} `)
+      .setDescription(`***Successfully Warned **${member}! || ${reason} `)
       .setFooter('Imagine being warned lol')
       .setTimestamp();
     let msg = `${author} warned you in ${interaction.guild.name} for ${reason}.`;
@@ -46,6 +46,6 @@ module.exports = {
     if (!member.user.bot) await member.send({ content: msg });
     
      db.add(`warns_${member.id}`, 1)
-    interaction.reply({embeds: warnEmbed});
+    interaction.reply({embeds: [warnEmbed]});
   }
 }

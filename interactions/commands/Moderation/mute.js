@@ -69,7 +69,6 @@ module.exports = {
       .setDescription(`***Successfully muted **${user}! || ${reason} `)
       .setFooter('Imagine being muted lol')
       .setTimestamp();
-    let msg = `${author} muted you from ${interaction.guild.name}.`;
     
     if (!member.user.bot) await member.send({ content: msg });
     const millisecondsPerMinute = 60 * 1000;
@@ -81,6 +80,6 @@ module.exports = {
 
     if (!member.user.bot) member.send({ content: msg });
 
-  await interaction.reply({embeds: embed})
+  await interaction.reply({embeds: muteEmbed})
   }
 }
