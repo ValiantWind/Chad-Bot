@@ -45,7 +45,9 @@ module.exports = {
     let msg = `${author} kicked you from ${interaction.guild.name}.`;
     
     if (!member.user.bot) await member.send({ content: msg });
-    
+    db.add(`kicks_${member.id}`, 1)
+    db.add(`kickModstat_${author.id}`, 1)
+    db.add(`totalModstats_${author.id}`, 1)
     member.kick();
     interaction.reply({embeds: kickEmbed});
   }

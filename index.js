@@ -5,8 +5,9 @@ const { Client, Collection, Intents } = require('discord.js');
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const fetch = require('node-fetch');
-const { GiveawaysManager } = require("discord-giveaways");
 const { getRoleColor } = require('./utils/getRoleColor');
+const modstatsdb = require('quick.db');
+
 
 const token = process.env.token
 const clientId = process.env.clientId
@@ -197,22 +198,7 @@ async function getLatestPosts() {
     })
 }
 
-// const color = getRoleColor(interaction.guild)
 
-// client.giveawaysManager = new GiveawaysManager(client, {
-//   storage: "./utils/giveaways.json",
-//   default: {
-//     botsCanWin: false,
-//     embedColor: color,
-//     reaction: "🎉",
-//     lastChance: {
-//       enabled: true,
-//       content: `🛑 **Last chance to enter** 🛑`,
-//       threshold: 5000,
-//       embedColor: '#FF0000'
-//     }
-//   }
-// });
 
 client.once('ready', () => {
 	//getLatestPosts()

@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
+const modstatsdb = require('quick.db');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -80,6 +81,8 @@ module.exports = {
 
     if (!member.user.bot) member.send({ content: msg });
 
-  await interaction.reply({embeds: muteEmbed})
+    modstatsdb.add(`muteModstats_${interaction.member.user.id}`, 1)
+    modstatsdb.add(`totalModstats_${interaction.member.user.id}`, 1)
+  await interaction.reply({embeds: [muteEmbed]})
   }
 }

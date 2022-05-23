@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
+const modstatsdb = require('quick.db');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -36,10 +37,10 @@ module.exports = {
     
 
     let color = getRoleColor(interaction.guild);
-    const kickEmbed = new MessageEmbed()
+    const banEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle(`***Banned!**`)
-      .setDescription(`***Successfully banned **${user}! || ${reason} `)
+      .setDescription(`***Successfully banned **${member}! || ${reason} `)
       .setFooter('Imagine being banned lol')
       .setTimestamp();
     let msg = `${author} banned you from ${interaction.guild.name}.`;
@@ -47,6 +48,8 @@ module.exports = {
     if (!member.user.bot) await member.send({ content: msg });
     
     guild.members.ban(member);
-    interaction.reply({ embeds: embed})
+    modstatsdb.add(`banModstats_${interaction.member.user.id}`, 1)
+    modstatsdb.add(`totalModstats_${interaction.member.user.id}`, 1)
+    interaction.reply({ embeds: [banEmbed]})
   }
 }

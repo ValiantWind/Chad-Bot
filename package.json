@@ -13,6 +13,7 @@
     "@discordjs/builders": "^0.13.0",
     "@discordjs/collection": "^0.6.0",
     "@discordjs/rest": "^0.4.1",
+    "@replit/database": "^2.0.2",
     "discord-api-types": "^0.32.1",
     "discord-gamecord": "^2.0.0",
     "discord-giveaways": "^5.1.1",

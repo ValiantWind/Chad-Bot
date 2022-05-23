@@ -38,7 +38,8 @@ module.exports = {
     if (!member.user.bot) await member.send({ content: msg });
     
     guild.members.unban(member);
-
+    db.subtract(`banModstats_${interaction.member.user.id}`, 1)
+    db.subtract(`totalModstats_${interaction.member.user.id}`, 1)
     interaction.reply({embeds: unbanEmbed})
   }
 }

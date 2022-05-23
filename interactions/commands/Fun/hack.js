@@ -13,7 +13,7 @@ module.exports = {
   category: 'Fun',
 	async execute(interaction) {
     await interaction.deferReply()
-	 const tohack = interaction.options.getUser("user");
+	 const tohack = interaction.options.getMember("user");
     let msg = await interaction.editReply(`Hacking ${tohack.displayName}....`);
 
     let time = "1s";
