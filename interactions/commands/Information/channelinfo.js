@@ -24,7 +24,7 @@ module.exports = {
 			embed.addField('Slow Mode:', `${channel.rateLimitPerUser} Secounds`, true);
 		}
 		if (channel.parent) {
-			embed.addField('Catgory Name:', channel.parent.name);
+			embed.addField('Category Name:', channel.parent.name);
 		}
 		if (channel.lastPinTimestamp) {
 			embed.addField('Last Pin Message At:', `<t:${Math.floor(channel.lastPinTimestamp / 1000)}:R>`, true);

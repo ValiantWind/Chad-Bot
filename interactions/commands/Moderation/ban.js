@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
 const modstatsdb = require('quick.db');
+const bandb = require('../../../models/bandb');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -32,6 +33,16 @@ module.exports = {
     if (!member.bannable) {
       interaction.reply({ content: `Make sure that my role is higher than the role of the person you want to ban!`, ephemeral: true });
     }
+
+new bandb({
+    userId: user.id,
+    guildId: interaction.guildId,
+    moderatorId: interaction.user.id,
+    reason,
+    timestamp: Date.now(),
+    
+  }).save();
+
     
     const author = interaction.member.user.username;
     
@@ -47,7 +58,7 @@ module.exports = {
     
     if (!member.user.bot) await member.send({ content: msg });
     
-    guild.members.ban(member);
+    interaction.guild.members.ban(member);
     modstatsdb.add(`banModstats_${interaction.member.user.id}`, 1)
     modstatsdb.add(`totalModstats_${interaction.member.user.id}`, 1)
     interaction.reply({ embeds: [banEmbed]})

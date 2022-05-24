@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
-const warndb = require('../../../models/warndb');
+const warndb =   require('../../../models/warndb');
 const moment = require('moment');
 
 module.exports = {
@@ -38,8 +38,9 @@ module.exports = {
     })
     .join("\n\n");
 
+
       const embed = new MessageEmbed()
-      .setTitle(`${user.tag}'s warnings`)
+      .setTitle(`${user.user.tag}'s warnings`)
       .setDescription(embedDescription)
       .setColor(color)
 

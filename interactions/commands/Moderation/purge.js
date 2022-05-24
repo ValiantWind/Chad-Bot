@@ -28,6 +28,6 @@ module.exports = {
       .setColor(color)
       .setTimestamp();
 
-      await interaction.reply({embeds: clearEmbed});
+      await interaction.reply({embeds: [clearEmbed]});
   }
 }

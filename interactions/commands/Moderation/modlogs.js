@@ -1,68 +1,99 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
-const db = require('../../../models/warndb');
-
+const warndb = require('../../../models/warndb');
+const mutedb = require('../../../models/mutedb');
+const kickdb = require('../../../models/kickdb');
+const bandb = require('../../../models/bandb');
+const moment = require('moment');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('modlogs')
     .setDescription(`Displays the number of modlogs a user has.`)
     .addUserOption((option) => option
-      .setName('user')
+      .setName('member')
       .setDescription(`The user that you want to view the modlogs of.`)
       .setRequired(true)
     ),
   cooldown: 5000,
   category: 'Moderation',
   async execute(interaction) {
-    const author = interaction.member.user.username;
-    const member = interaction.options.getMember('user') || author;
-    const color = getRoleColor(interaction.guild)
-    let warns = await db.fetch(`warns_${member.id}`);
-    let mutes = await db.fetch(`mutes_${member.id}`);
-    let kicks = await db.fetch(`kicks_${member.id}`);
-    let bans = await db.fetch(`bans_${member.id}`);
-    if(warns == null){ 
-      warns = 0;
-    }
-    if(mutes == null){
-      mutes = 0;
-    }
-    if(kicks == null){
-      kicks = 0;
-    }
-    if(bans == null){
-      bans = 0;
-    }
+    const user = interaction.options.getMember('member');
+        
+    const userWarnings = await warndb.find({      
+      userId: user.id,
+      guildId: interaction.guildId
+    })
+    const userMutes = await mutedb.find({
+      userId: user.id,
+      guildId: interaction.guildId
+    })
+    const userKicks = await kickdb.find({
+      userId: user.id,
+      guildId: interaction.guildId
+    })
+    const userBans = await bandb.find({
+      userId: user.id,
+      guildId: interaction.guildId
+    })
+    
+    if(!userWarnings?.length && !userMutes?.length && !userKicks?.length && !userBans?.length) return interaction.reply({content: `${user} has no infractions in this server.`})
+    
 
-    db.findOne({ guildId: interaction.guild.id, user: member.user.id}, async(err, data) => {
-            if(err) throw err;
-            if(data) {
-                message.channel.send(new MessageEmbed()
-                    .setTitle(`${member.user.tag}'s warns`)
-                    .setDescription(
-                        data.content.map(
-                            (w, i) => 
-                            `\`${i + 1}\` | Moderator : ${message.guild.members.cache.get(w.moderator).user.tag}\nReason : ${w.reason}`
-                        )
-                    )
-                    .setColor("BLUE")
-                )
-            } else {
-                message.channel.send('User has no data')
-            }
+    const warnField = userWarnings.map((warn) => {
+      const warnModerator = interaction.guild.members.cache.get(warn.moderatorId);
 
-        })
-    let embed = new MessageEmbed()
-        .setTitle(`Mod Logs of ${member.tag || member.user.tag}`)
-        .setDescription(`Total Mod Logs: ${warns}`)
-        .addField('Total Warnings: ', warns.toString(), true)
-        .addField('Total Mutes', mutes.toString(), true)
-        .addField('Total Kicks : ', kicks.toString(), true)
-        .addField('Total Bans :', bans.toString(), true)
-        .setTimestamp()
-        .setColor(color)
-    interaction.reply({ embeds: [embed] })
+      return [
+        `warnId: ${warn._id}`,
+        `Moderator: ${warnModerator || 'Has Left'}`,
+        `Date: ${moment(warn.timestamp).format("MMMM Do YYYY")}`,
+        `Reason: ${warn.reason}`,
+      ].join("\n")    
+    })
+    .join("\n\n");
+    const muteField = userMutes.map((mute) => {
+        const muteModerator = interaction.guild.members.cache.get(mute.moderatorId);
+
+        return [
+          `muteId: ${mute._id}`,
+          `Moderator: ${muteModerator || 'Has Left'}`,
+          `Date: ${moment(mute.timestamp).format("MMMM Do YYYY")}`,
+          `Reason: ${mute.reason}`,
+        ].join("\n")
+        }).join("\n\n")
+    const kickField = userKicks.map((kick) => {
+        const kickModerator = interaction.guild.members.cache.get(kick.moderatorId);
+
+        return [
+          `kickId: ${kick._id}`,
+          `Moderator: ${kickModerator || 'Has Left'}`,
+          `Date: ${moment(kick.timestamp).format("MMMM Do YYYY")}`,
+          `Reason: ${kick.reason}`,
+        ].join("\n")
+        }).join("\n\n");
+    const banField = userBans.map((ban) => {
+        const banModerator = interaction.guild.members.cache.get(ban.moderatorId);
+
+        return [
+          `banId: ${ban._id}`,
+          `Moderator: ${banModerator || 'Has Left'}`,
+          `Date: ${moment(ban.timestamp).format("MMMM Do YYYY")}`,
+          `Reason: ${ban.reason}`,
+        ].join("\n")
+        }).join("\n\n")
+    const color = getRoleColor(interaction.guild);
+       const embed = new MessageEmbed()
+      .setTitle(`${user.user.tag}'s ModLogs`)
+      .setDescription(`Self-Explanatory Command`)
+      .addField('Warnings', warnField || 'No Warnings')
+      .addField('Mutes', muteField || 'No Mutes')
+      .addField('Kicks', kickField || 'No Kicks')
+      .addField('Bans', banField || 'No Bans')
+      .setColor(color)
+
+    interaction.reply({embeds: [embed]})
+    
   }
+  
 }

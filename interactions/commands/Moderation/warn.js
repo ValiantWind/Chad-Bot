@@ -23,11 +23,6 @@ module.exports = {
   async execute(interaction) {
     const user = interaction.options.getMember('target');
     const reason = interaction.options.getString('reason') || 'No reason specified';
-    let totalModstats = db.fetch(`totalModstats_${user.id}`)
-let kickModstats = db.fetch(`kickModstats_${user.id}`)
-let banModstats = db.fetch(`banModstats_${user.id}`)
-let warnModstats = db.fetch(`warnModstats_${user.id}`)
-let muteModstats = db.fetch(`muteModstats_${user.id}`)
 
 
     if (user.id == interaction.member.user.id) {

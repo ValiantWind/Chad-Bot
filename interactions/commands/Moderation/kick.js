@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
+const kickdb = require('../../../models/kickdb')
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -34,6 +35,14 @@ module.exports = {
     
     const author = interaction.member.user.username;
     
+new kickdb({
+    userId: user.id,
+    guildId: interaction.guildId,
+    moderatorId: interaction.user.id,
+    reason,
+    timestamp: Date.now(),
+}).save();
+
 
     let color = getRoleColor(interaction.guild);
     const kickEmbed = new MessageEmbed()
@@ -45,9 +54,8 @@ module.exports = {
     let msg = `${author} kicked you from ${interaction.guild.name}.`;
     
     if (!member.user.bot) await member.send({ content: msg });
-    db.add(`kicks_${member.id}`, 1)
-    db.add(`kickModstat_${author.id}`, 1)
-    db.add(`totalModstats_${author.id}`, 1)
+    db.add(`kickModstat_${interaction.member.user.id}`, 1)
+    db.add(`totalModstats_${interaciton.member.user.id}`, 1)
     member.kick();
     interaction.reply({embeds: kickEmbed});
   }
