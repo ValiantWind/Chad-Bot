@@ -30,7 +30,7 @@ module.exports = {
     } else if (milliseconds < 1000) {
       interaction.reply('The minimum slowmode is 1 second (1000 milliseconds).')
       
-    } else if (channelToSlowDown.type === 'GUILD_TEXT') {
+    } else if (channelToSlowDown.isText()) {
    
     channelToSlowDown.setRateLimitPerUser(milliseconds / 1000);
 
