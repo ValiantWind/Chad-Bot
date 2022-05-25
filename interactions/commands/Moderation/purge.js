@@ -23,8 +23,8 @@ module.exports = {
     let color = getRoleColor(interaction.guild);
     const clearEmbed = new MessageEmbed()
        .setColor(color)
-      .setTitle(`***Unbanned!**`)
-      .setDescription(`***Successfully purged **${amount} messages in ${interaction.channel.name}!`)
+      .setTitle(`***Purged!***`)
+      .setDescription(`***Successfully purged ***${amount} messages in ${interaction.channel.name}!`)
       .setColor(color)
       .setTimestamp();
 

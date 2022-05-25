@@ -13,7 +13,7 @@ module.exports = {
   cooldown: 30000,
   category: 'Fun',
 	async execute(interaction) {
-    const user = interaction.options.getMember('user');
+    const user = interaction.options.getMember('user') || interaction.user;
         const avatar = user.displayAvatarURL({ size: 2048, format: "png" });
 
         const image = await Canvas.trigger(avatar);
