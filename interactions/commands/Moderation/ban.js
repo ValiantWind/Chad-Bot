@@ -35,7 +35,7 @@ module.exports = {
     }
 
 new bandb({
-    userId: user.id,
+    userId: member.id,
     guildId: interaction.guildId,
     moderatorId: interaction.user.id,
     reason,
