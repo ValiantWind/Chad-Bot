@@ -50,14 +50,23 @@ module.exports = {
                 const name = `\`${filen.data.name}\``
                 robloxCommandsList.push(name);
             });
+          const giveawayCommandsList = [];
+            readdirSync(`./interactions/commands/Giveaways`).forEach((file) => {
+                const filen = require(`../../commands/Giveaways/${file}`);
+                const name = `\`${filen.data.name}\``
+                giveawayCommandsList.push(name);
+            });
+
+          
             // This is what it commands when using the command without arguments
             const helpEmbed = new MessageEmbed()
                 .setTitle(`Slash Commands Help`)
                 .setDescription(`\n**Total SlashCommands:** ${client.commands.size}`)
                 .addField("Information Slash Commands", infoCommandsList.map((data) => `${data}`).join(", "), true)
-                .addField("🛠 - Moderation Slash Commands", modCommandsList.map((data) => `${data}`).join(", "), true)
+                .addField("Moderation Slash Commands", modCommandsList.map((data) => `${data}`).join(", "), true)
                 .addField("Fun Slash Commands", funCommandsList.map((data) => `${data}`).join(", "), true)
                 .addField("Roblox Slash Commands", robloxCommandsList.map((data) => `${data}`).join(", "), true)
+                .addField("Giveaway Slash Commands", giveawayCommandsList.map((data) => `${data}`).join(", "), true)
                 .setColor(color)
                 .setTimestamp()
 
@@ -67,7 +76,7 @@ module.exports = {
 
             // This is what it sends when using the command with argument and it does not find the command
             if (!command) {
-                interaction.reply({ content: `There isn't any SlashCommand named "${commandInt}"` });
+                interaction.reply({ content: `There aren't any Slash Commands named "${commandInt}"` });
             } else {
 
                 // This is what it sends when using the command with argument and if it finds the command

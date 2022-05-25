@@ -3,10 +3,10 @@ require('dotenv').config
 
 module.exports = {
   giveaway:
-    (process.env.everyoneMention ? "@everyone\n\n" : "") +
+    (process.env.everyoneMention ? "@Giveawaus\n\n" : "") +
     "🎉 **Giveaway!** 🎉",
   giveawayEnded:
-    (process.env.everyoneMention ? "@everyone\n\n" : "") +
+    (process.env.everyoneMention ? "@Giveaways\n\n" : "") +
     "🎉 **Giveaway Ended!** 🎉",
   drawing:  `Ends: **{timestamp}**`,
   inviteToParticipate: `React with 🎉 to participate!`,

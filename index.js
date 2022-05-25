@@ -25,7 +25,6 @@ const client = new Client({
   Intents.FLAGS.GUILD_MESSAGES,
   Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
   Intents.FLAGS.GUILD_MESSAGE_TYPING,
-  Intents.FLAGS.GUILD_SCHEDULED_EVENTS
   ],
 });
 
@@ -40,6 +39,22 @@ client.cooldowns = new Collection();
 client.buttonCommands = new Collection();
 client.selectMenuCommands = new Collection();
 client.contextMenuCommands = new Collection();
+
+const { GiveawaysManager } = require("discord-giveaways");
+client.giveawaysManager = new GiveawaysManager(client, {
+  storage: "./utils/giveaways.json",
+  default: {
+    botsCanWin: false,
+    embedColor: "BLURPLE",
+    reaction: "🎉",
+    lastChance: {
+      enabled: true,
+      content: `**Last chance to enter the giveaway!**`,
+      threshold: 5000,
+      embedColor: 'BLURPLE'
+    }
+  }
+});
 
 
 ///////////////Slash Commands///////////////////
@@ -112,10 +127,11 @@ for (const file of eventFiles) {
 	} else {
 		client.on(
 			event.name,
-			async (...args) => await event.execute(...args, client)
-		);
+			async (...args) => await event.execute(...args, client),
+      client.giveawaysManager.on(event.name, (...file) => event.execute(...file, client)), delete require.cache[require.resolve(`./events/${file}`)]
+		)
 	}
-}
+};
 
 
 
@@ -197,8 +213,6 @@ async function getLatestPosts() {
         });
     })
 }
-
-
 
 client.once('ready', () => {
 	//getLatestPosts()

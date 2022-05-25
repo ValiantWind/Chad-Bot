@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const messages = require("../utils/message");
+const messages = require("../../../utils/message");
 const ms = require("ms");
 const { getRoleColor } = require('../../../utils/getRoleColor');
 const client = require('../../../index');
@@ -17,7 +17,7 @@ module.exports = {
     .addIntegerOption((option) => option
      .setName('winners')
      .setDescription('The number of winners you want the giveaway to have')
-     .setRequire(true)
+     .setRequired(true)
   )
     .addStringOption((option) => option
       .setName('prize')
@@ -39,21 +39,20 @@ module.exports = {
     )
     .addIntegerOption((option) => option 
       .setName('bonus-entries')
-      .setDescription('The amount of bonus entries the role you selected above will receive (Required if you chose a bonus role)')
+      .setDescription('The # of bonus entries the role you chose above will receive (Required if you chose a bonus role)')
     )
     .addStringOption((option) => option
       .setName('invitelink')
       .setDescription('The Invite Link of the server you want to add as a join requirement (Optional)')        
-    )
-  ),
+    ),
   cooldown: 10000,
   category: "Giveaways",
   async execute(interaction) {
 
     // If the member doesn't have enough permissions
-    if (!interaction.member.permissions.has('MANAGE_MESSAGES') && !interaction.member.roles.cache.some((r) => r.name === "Giveaways")) {
+    if (!interaction.member.permissions.has('MANAGE_MESSAGES') && !interaction.member.roles.cache.some((r) => r.name === "GiveawayManager")) {
       return interaction.reply({
-        content: `You need to have the "Giveaways" role to start giveaways.`,
+        content: `You need to have the "GiveawayManager" role to start giveaways.`,
         ephemeral: true
       });
     }

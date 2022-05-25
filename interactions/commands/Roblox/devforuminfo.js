@@ -60,16 +60,16 @@ module.exports = {
     .addField('Title', devProfile.title)
     .addField(`Moderator?`, devProfile.moderator || 'No', true)
     .addField(`Admin?`, devProfile.admin || 'No', true)
-    .addField(`Trust Level:`, trustLevels[devProfile.trust_level])
-    .addField('Location:', devProfile.location)
-    .addField('Featured Website:', devProfile.website)
-    .addField(`Profile Views`, devProfile.profile_view_count.toString(), true)
-    .addField('Answer Count', devProfile.accepted_answers.toString(), true)
+    .addField(`Trust Level:`, trustLevels[devProfile.trust_level] || 'Unable to get trust level')
+    .addField('Location:', devProfile.location || 'Not provided')
+    .addField('Featured Website:', devProfile.website || 'Not Provided')
+    .addField(`Profile Views`, devProfile.profile_view_count.toString() || 'Unable to get View Count', true)
+    .addField('Answer Count', devProfile.accepted_answers.toString() || 'Unable to get answer count', true)
 //.addField('Total Post Count', devProfile.post_count.toString())
     interaction.editReply({embeds: [embed]})
     } catch(error) {
       console.log(error)
-      interaction.editReply({content: 'An Error occured. Make sure the username you typed in exists or that the user is not banned!'})
+      interaction.editReply({content: 'An Error occured. Make sure the username you typed in is a member of the DevForum or that the user is not banned from the DevForum!'})
     }
   }
 };

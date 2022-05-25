@@ -5,7 +5,7 @@ module.exports = {
     (process.env.everyoneMention ? "@everyone\n\n" : "") +
     "🎉 **GIVEAWAY** 🎉",
   giveawayEnded:
-    (p.everyoneMention ? "@everyone\n\n" : "") +
+    (process.env.everyoneMention ? "@everyone\n\n" : "") +
     "🎉 **GIVEAWAY ENDED** 🎉",
   drawing:  `Ends: **{timestamp}**`,
   inviteToParticipate: `React with 🎉 to participate!`,
