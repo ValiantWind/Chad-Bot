@@ -6,12 +6,12 @@ const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const fetch = require('node-fetch');
 const { getRoleColor } = require('./utils/getRoleColor');
-const modstatsdb = require('quick.db');
-
+const { ClashRoyaleAPI } = require('@varandas/clash-royale-api');
 
 const token = process.env.token
 const clientId = process.env.clientId
 const guildId = process.env.guildId
+const clashApiKey = process.env.clashApiKey
 
 const client = new Client({
 	intents: [
@@ -25,20 +25,30 @@ const client = new Client({
   Intents.FLAGS.GUILD_MESSAGES,
   Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
   Intents.FLAGS.GUILD_MESSAGE_TYPING,
+  Intents.FLAGS.DIRECT_MESSAGES
   ],
 });
 
+const clashapi = new ClashRoyaleAPI(clashApiKey)
+
 module.exports = client;
+module.exports = clashapi;
 
 require("./handler")(client);
 
 
 client.commands = new Collection();
 client.categories = new Collection();
+client.usages = new Collection();
 client.cooldowns = new Collection();
 client.buttonCommands = new Collection();
 client.selectMenuCommands = new Collection();
 client.contextMenuCommands = new Collection();
+client.snipes = new Collection();
+
+client.on('messageDelete', message => {
+    client.snipes.set(message.channel.id, message)
+})
 
 const { GiveawaysManager } = require("discord-giveaways");
 client.giveawaysManager = new GiveawaysManager(client, {
@@ -68,7 +78,7 @@ for (const module of commands) {
 
 	for (const commandFile of commandFiles) {
 		const command = require(`./interactions/commands/${module}/${commandFile}`);
-		client.commands.set(command.data.name, command);
+		client.commands.set(command.data.name, command)
 	}
 }
 

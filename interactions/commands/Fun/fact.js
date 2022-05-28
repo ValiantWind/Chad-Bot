@@ -9,7 +9,11 @@ module.exports = {
 		.setDescription("Gives you a random and most likely useless fact."),
   cooldown: 3000,
   category: 'Fun',
+  usage: "/fact",
 	async execute(interaction) {
+
+  if(!interaction.isCommand()) return;
+    
     const color = getRoleColor(interaction.guild)
       const response = await fetch('https://uselessfacts.jsph.pl/random.json?language=en');
     await response.json().then(res => {

@@ -4,11 +4,11 @@ const { getRoleColor } = require('../../../utils/getRoleColor');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('pardon')
-    .setDescription(`Allows a Staff Member with sufficient permissions to pardon (unban) a member from the server.`)
+    .setName('unban')
+    .setDescription(`Allows a Staff Member with sufficient permissions to unban a member from the server.`)
     .addUserOption((option) => option
       .setName('user')
-      .setDescription(`The user that you want to pardon (unban).`)
+      .setDescription(`The user you want to unban.`)
       .setRequired(true)
     )
     .addStringOption((option) => option
@@ -17,12 +17,14 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
+  usage: '/unban <member> <reason (Optional)>',
   async execute(interaction) {
-    const member = interaction.options.getMember('user')?.value;
+    const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason');
-    if (member.id == interaction.member.user.id) {
-      return interaction.reply({ content: `No`, ephemeral: true });
-    }
+
+    if(!interaction.isCommand()) return;
+
+    const id = member.id;
     
     const author = interaction.member.user.username;
     
@@ -30,14 +32,14 @@ module.exports = {
     let color = getRoleColor(interaction.guild);
     const unbanEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`***Unbanned!**`)
-      .setDescription(`***Successfully unbanned **${user}! || ${reason} `)
+      .setTitle(`***Unbanned!***`)
+      .setDescription(`***Successfully unbanned ***${member}! || ${reason} `)
       .setTimestamp();
     let msg = `${author}  unbanned you from ${interaction.guild.name}.`;
     
     if (!member.user.bot) await member.send({ content: msg });
     
-    guild.members.unban(member);
+    guild.members.unban(id);
     db.subtract(`banModstats_${interaction.member.user.id}`, 1)
     db.subtract(`totalModstats_${interaction.member.user.id}`, 1)
     interaction.reply({embeds: unbanEmbed})

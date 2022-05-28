@@ -11,8 +11,11 @@ module.exports = {
       .setRequired(true)),
   cooldown: 30000,
   category: 'Fun',
+  usage: '/connect4 <opponent>',
 	async execute(interaction) {
 
+    if(!interaction.isCommand()) return;
+    
 		new Connect4({
 			message: interaction,
 			slash_command: true,

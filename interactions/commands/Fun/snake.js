@@ -7,7 +7,11 @@ module.exports = {
 		.setDescription('Start a game of Snake!'),
   cooldown: 10000,
   category: 'Fun',
+  usage: '/snake',
 	async execute(interaction) {
+
+    if(!interaction.isCommand()) return;
+    
     new Snake({
       message: interaction,
       slash_command: true,

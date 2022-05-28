@@ -15,9 +15,12 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
+  usage: '/warnings <member>',
   async execute(interaction) {
     const user = interaction.options.getMember('target');
-    const color = getRoleColor(interaction.guild)
+    const color = getRoleColor(interaction.guild);
+
+    if(!interaction.isCommand()) return;
 
     const userWarnings = await warndb.find({
       userId: user.id,

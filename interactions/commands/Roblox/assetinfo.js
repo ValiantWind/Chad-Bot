@@ -14,11 +14,15 @@ module.exports = {
     ),
   cooldown: 3000,
   category: 'Roblox',
+  usage: '/assetinfo <roblox asset id>',
   async execute(interaction) {
     const color = getRoleColor(interaction.guild)
     const assetId = interaction.options.getInteger("assetid");
-    await interaction.deferReply();
 
+    if(!interaction.isCommand()) return;
+    
+    await interaction.deferReply();
+  
     try {
       const productInfo = await noblox.getProductInfo(assetId)
       let isLimited;

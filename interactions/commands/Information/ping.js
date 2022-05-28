@@ -6,7 +6,13 @@ module.exports = {
 		.setDescription('Replies with Pong!'),
   cooldown: 5000,
   category: 'Information',
+  usage: '/ping',
 	async execute(interaction) {
-		return interaction.reply('Pong!');
+
+    if(!interaction.isCommand()) return;
+    
+    await interaction.deferReply();
+    
+		await interaction.editReply('Pong!');
 	},
 };

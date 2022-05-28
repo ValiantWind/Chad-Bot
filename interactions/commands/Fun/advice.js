@@ -9,7 +9,11 @@ module.exports = {
 		.setDescription('Gives you some random advice'),
   cooldown: 3000,
   category: 'Fun',
+  usage: '/advice',
 	async execute(interaction) {
+
+    if(!interaction.isCommand()) return;
+    
     const res = await fetch('https://api.adviceslip.com/advice');
     const advice = (await res.json()).slip.advice;
     interaction.reply({content: advice})

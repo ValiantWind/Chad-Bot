@@ -11,7 +11,10 @@ module.exports = {
               ),
     cooldown: 5000,
     category: "Giveaways",
+    usage: '/greroll <giveaway message id>',
     async execute(interaction) {
+
+      if(!interaction.isCommand()) return;
 
         // If the member doesn't have enough permissions
         if (!interaction.member.permissions.has('MANAGE_MESSAGES') && !interaction.member.roles.cache.some((r) => r.name === "GiveawayManager")) {

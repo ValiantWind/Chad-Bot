@@ -15,9 +15,13 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
+  usage: '/modstats <member>',
   async execute(interaction) {
     const author = interaction.member.user.username;
     const member = interaction.options.getMember('user') || author;
+
+    if(!interaction.isCommand()) return;
+    
     const color = getRoleColor(interaction.guild)
     let totalModstats = modstatsdb.fetch(`totalModstats_${member.id}`)
     let kickModstats = modstatsdb.fetch(`kickModstats_${member.id}`)

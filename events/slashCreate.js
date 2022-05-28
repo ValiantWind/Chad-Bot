@@ -1,3 +1,4 @@
+const { MessageEmbed } = require('discord.js');
 const ms = require('ms-prettify').default;
 
 module.exports = {
@@ -21,6 +22,18 @@ module.exports = {
 
 		if (!command) return;
 
+    let embed = new MessageEmbed()
+    .setColor('RED')
+
+    if(!interaction.member.permissions.has(command.userPermissions || [])){
+      embed.setDescription(`You need the following permissions to execute this command: \`\`\`${command.permissions.join(" ")}\`\`\``)
+    }
+    if(!interaction.guild.me.permissions.has(command.botPermissions || [])){
+      embed.setDescription(`I need the following permissions to execute this command: \`\`\`${command.permissions.join(" ")}\`\`\``)
+    }
+
+    
+
 		// A try to executes the interaction.
 
 		try {
@@ -32,7 +45,7 @@ module.exports = {
 		} catch (err) {
 			console.error(err);
 			await interaction.reply({
-				content: "There was an issue while executing that command!",
+				content: "There was an issue while executing that command! Make sure you have the sufficient permissions to do so.",
 				ephemeral: true,
 			});
 		}

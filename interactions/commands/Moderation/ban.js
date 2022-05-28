@@ -19,9 +19,13 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
+  usage: '/ban <member>',
   async execute(interaction) {
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason');
+
+    if(!interaction.isCommand()) return;
+    
     if (member.id == interaction.member.user.id) {
       return interaction.reply({ content: `I mean you could just leave the server.`, ephemeral: true });
     }

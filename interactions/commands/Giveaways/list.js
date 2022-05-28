@@ -1,7 +1,6 @@
 const { MessageActionRow, MessageEmbed, MessageSelectMenu } = require("discord.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const client = require('../../../index');
-const getRoleColor = require("../../../utils/getRoleColor");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -9,8 +8,9 @@ module.exports = {
       .setDescription('List all the current running giveaways in this server.'),
     cooldown: 10000,
     category: "Giveaways",
+    usage: '/glist <giveaway message id>',
     async execute(interaction) {
-      const color = getRoleColor(interaction.guild);
+      if(!interaction.isCommand()) return;
         const select = new MessageSelectMenu().setCustomId("select").setPlaceholder("Select a type of giveaway to view!").addOptions([
             {
               label: '🎉 Normal Giveaways',
@@ -28,10 +28,10 @@ module.exports = {
           if (!giveaways.some(e => e.messageId)) {
             return interaction.reply('There are no currently running giveaways in this server.')
           }
-  const msg = await interaction.channel.send({ embeds: [new MessageEmbed().setDescription("Choose an option in the select menu to get started!").setColor(color || 'BLURPLE').setTimestamp()], components: [row] })
+  const msg = await interaction.channel.send({ embeds: [new MessageEmbed().setDescription("Choose an option in the select menu to get started!").setColor('BLURPLE').setTimestamp()], components: [row] })
           let embed = new MessageEmbed()
             .setTitle("Currently Running Giveaways")
-            .setColor(color)
+            .setColor('BLURPLE')
             .setFooter({
                text: `Requested by ${interaction.user.username}`,
                iconURL: interaction.user.displayAvatarURL()
@@ -39,7 +39,7 @@ module.exports = {
             .setTimestamp()
           let embedGuild = new MessageEmbed()
             .setTitle("Currently Running Join Requirement Giveaways")
-            .setColor(color)
+            .setColor('BLURPLE')
             .setFooter({
                text: `Requested by ${interaction.user.username}`,
                iconURL: interaction.user.displayAvatarURL()

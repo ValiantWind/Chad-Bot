@@ -15,11 +15,12 @@ module.exports = {
     ),
   cooldown: 3000,
   category: 'Information',
+  usage: '/repo <GitHub repository name>',
   async execute(interaction) {
     const color = getRoleColor(interaction.guild)
     const repository = interaction.options.getString("name");
 
-
+      if(!interaction.isCommand()) return;
 
     
     try {

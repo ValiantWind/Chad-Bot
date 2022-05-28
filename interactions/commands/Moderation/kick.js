@@ -18,9 +18,12 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
+  usage: '/kick <member>',
   async execute(interaction) {
     const member = interaction.options.getMember('user');
-    const reason = interaction.options.getString('reason') || 'No reason specified.'
+    const reason = interaction.options.getString('reason') || 'No reason specified.';
+    if(!interaction.isCommand()) return;
+    
     if (member.id == interaction.member.user.id) {
       return interaction.reply({ content: `I mean you could just leave the server.` });
     }

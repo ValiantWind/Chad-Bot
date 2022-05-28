@@ -20,14 +20,15 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
+  usage: '/warn <member> <reason>',
   async execute(interaction) {
     const user = interaction.options.getMember('target');
     const reason = interaction.options.getString('reason') || 'No reason specified';
 
+    if(!interaction.isCommand()) return;
+
 
     if (user.id == interaction.member.user.id) {
-      interaction.reply({ content: `Do you want to get yourself demoted my guy?` });
-    } else if (user.id == interaction.member.user.id) {
       interaction.reply({ content: `Do you want to get yourself demoted my guy?` });
     } else if (interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0){
       interaction.reply({ content: `Your roles must be higher than the roles of the person you want to warn!`, ephemeral: true });

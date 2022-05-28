@@ -7,7 +7,11 @@ module.exports = {
 		.setDescription('Play Trivia on Discord!'),
   cooldown: 10000,
   category: 'Fun',
+  usage: '/trivia',
 	async execute(interaction, client) {
+
+      if(!interaction.isCommand()) return;
+    
         new Trivia({
             message: interaction,
             slash_command: true,

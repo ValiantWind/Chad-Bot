@@ -14,9 +14,13 @@ module.exports = {
     ),
   cooldown: 3000,
   category: 'Roblox',
+  usage: '/groupinfo <roblox group id>',
   async execute(interaction) {
     const color = getRoleColor(interaction.guild)
     const groupId = interaction.options.getInteger("groupid");
+
+    if(!interaction.isCommand()) return;
+    
     await interaction.deferReply();
     const productInfo = await noblox.getProductInfo(1117747196)
 

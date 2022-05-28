@@ -9,21 +9,29 @@ module.exports = {
     .setDescription(`Displays information about the server you're in.`),
   cooldown: 3000,
   category: 'Information',
-  execute(interaction) {
+  usage: '/serverinfo',
+  async execute(interaction) {
+
+    if(!interaction.isCommand()) return;
+    
     let color = getRoleColor(interaction.guild);
+    const ownerId = interaction.guild.ownerId;
     const serverInfoEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle('Server Information')
       .addFields(
         { name: 'Server Name', value: `${interaction.guild.name}` },
         { name: 'Server ID', value: `${interaction.guild.id}` },
+        { name: 'Server Description', value: `${interaction.guild.description || 'No Description'}` },
         { name: 'Total Members', value: `${interaction.guild.memberCount}` },
-        { name: 'Owner', value: 'ValiantWind#0001' },
+        { name: 'Owner', value: `<@${ownerId}>` },
         { name: 'Created At', value: `${moment(interaction.guild.createdTimestamp).format('LT')} ${moment(interaction.guild.createdTimestamp).format('LL')} (${moment(interaction.guild.createdTimestamp).fromNow()})` },
         { name: 'Role Count', value: `${interaction.guild.roles.cache.size}` },
         { name: 'Channel Count', value: `${interaction.guild.channels.cache.size}` },
         { name: 'Custom Emoji Count', value: `${interaction.guild.emojis.cache.size}` },
-        { name: 'Boost Count', value: `${interaction.guild.premiumSubscriptionCount || '0'}` }
+        { name: 'Boost Count', value: `${interaction.guild.premiumSubscriptionCount || '0'}` },
+        { name: 'Verified?', value: `${interaction.guild.verified}` },
+        { name: 'Partnered?', value: `${interaction.guild.partnered}` }
       )
       .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
       .setTimestamp();

@@ -15,7 +15,10 @@ module.exports = {
 		),
     category: "Information",
     cooldown: 5000,
+    usage: '/help <command (optional)>',
     async execute(interaction){
+      if(!interaction.isCommand()) return;
+      
       const color = getRoleColor(interaction.guild)
 
         const commandInt = interaction.options.getString("command");
@@ -60,8 +63,8 @@ module.exports = {
           
             // This is what it commands when using the command without arguments
             const helpEmbed = new MessageEmbed()
-                .setTitle(`Slash Commands Help`)
-                .setDescription(`\n**Total SlashCommands:** ${client.commands.size}`)
+                .setTitle(`Help Menu`)
+                .setDescription(`\n**Total Slash Commands:** ${client.commands.size}`)
                 .addField("Information Slash Commands", infoCommandsList.map((data) => `${data}`).join(", "), true)
                 .addField("Moderation Slash Commands", modCommandsList.map((data) => `${data}`).join(", "), true)
                 .addField("Fun Slash Commands", funCommandsList.map((data) => `${data}`).join(", "), true)
@@ -80,17 +83,22 @@ module.exports = {
             } else {
 
                 // This is what it sends when using the command with argument and if it finds the command
-                let command = client.commands.get(commandInt.toLowerCase());
+                //let command = client.commands.get(commandInt.toLowerCase());
                 let name = command.data.name;
                 let description = command.data.description || "No description provided."
-                let category = command.data.category || "No category provided."
+                let cooldown = command.cooldown || 'No cooldown'
+                let category = command.category || 'No category provided.'
+              let usage = command.usage || 'No Usage Provided';
 
                 let helpCmdEmbed = new MessageEmbed()
-                    .setTitle(`Info about the \`${(name.toLocaleString())}\` SlashCommand`)
-                    .setDescription(``)
+                    .setTitle(`\`${(name.toLocaleString())}\` Slash Command Info`)
+                    .setDescription('')
                     .addFields(
                         { name: "Description", value: `${description}` },
-                        { name: 'Category', value: `${category}` })
+                      { name: 'Category', value: `${category}` },
+                        { name: 'Cooldown (in seconds)', value: `${cooldown / 1000}` },
+                      { name: 'Usage', value: `${usage}` }
+                    )
                     .setColor(color)
                     .setTimestamp()
 

@@ -19,22 +19,22 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
+  usage: "/slowmode <channel> <number of seconds>",
   async execute(interaction) {
     const amount = interaction.options.getString('time') || 0;
     const channelToSlowDown = interaction.options.getChannel('channel');
-    const milliseconds = ms(amount)
 
+    if(!interaction.isCommand()) return;
 
-    if(isNaN(milliseconds)){
-      interaction.reply('Please enter a valid time')
-    } else if (milliseconds < 1000) {
-      interaction.reply('The minimum slowmode is 1 second (1000 milliseconds).')
+  
+    if(isNaN(amount)){
+      interaction.reply('Please enter a valid time!')
       
     } else if (channelToSlowDown.isText()) {
    
-    channelToSlowDown.setRateLimitPerUser(milliseconds / 1000);
+    channelToSlowDown.setRateLimitPerUser(amount);
 
-    interaction.reply(`Successfully set the slowmode in ${channelToSlowDown} to ${milliseconds} milliseconds.`);
+    interaction.reply(`Successfully set the slowmode in ${channelToSlowDown} to ${amount} seconds.`);
     } else {
       interaction.reply('Please enter a Text channel!')
     }

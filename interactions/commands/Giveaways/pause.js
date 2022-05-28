@@ -10,10 +10,13 @@ module.exports = {
         .setDescription('The giveaway you want to pause (provide the message ID of the giveaway)')
         .setRequired(true)
         ),
-    cooldown: '5000',
+    cooldown: 5000,
     category: "Giveaways",
+    usage: '/gpause <giveaway message id>',  
     async execute(interaction){
 
+      if(!interaction.isCommand()) return;
+      
         // If the member doesn't have enough permissions
         if (!interaction.member.permissions.has('MANAGE_MESSAGES') && !interaction.member.roles.cache.some((r) => r.name === "GiveawayManager")) {
             return interaction.reply({

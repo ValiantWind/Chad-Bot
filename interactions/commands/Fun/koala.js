@@ -9,7 +9,11 @@ module.exports = {
 		.setDescription('Displays a random koala photo'),
   cooldown: 3000,
   category: 'Fun',
+  usage: "/koala",
 	async execute(interaction) {
+
+    if(!interaction.isCommand()) return;
+    
 		await interaction.deferReply();
     const res = await fetch('https://some-random-api.ml/img/koala');
     const img = (await res.json()).link;

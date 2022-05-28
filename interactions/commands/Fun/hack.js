@@ -11,7 +11,11 @@ module.exports = {
     ),
   cooldown: 10000,
   category: 'Fun',
+  usage: '/hack <user>',
 	async execute(interaction) {
+    
+    if(!interaction.isCommand()) return;
+    
     await interaction.deferReply()
 	 const tohack = interaction.options.getMember("user");
     let msg = await interaction.editReply(`Hacking ${tohack.displayName}....`);

@@ -57,7 +57,7 @@ module.exports = {
     .setColor(color)
     .setTitle(`${devuser}'s Profile`)
     .setDescription(`Yes`)
-    .addField('Title', devProfile.title)
+    .addField('Title', devProfile.title || 'Not available')
     .addField(`Moderator?`, devProfile.moderator || 'No', true)
     .addField(`Admin?`, devProfile.admin || 'No', true)
     .addField(`Trust Level:`, trustLevels[devProfile.trust_level] || 'Unable to get trust level')

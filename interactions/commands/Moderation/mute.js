@@ -25,6 +25,7 @@ module.exports = {
     ),
   cooldown: 3000,
   category: 'Moderation',
+  usage: '/mute <member> <duration (in minutes)> <reason>',
   async execute(interaction) {
     const member = interaction.options.getMember('user');
     const mins = interaction.options.getNumber('minutes');

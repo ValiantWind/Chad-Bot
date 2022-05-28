@@ -15,11 +15,12 @@ module.exports = {
     ),
   cooldown: 3000,
   category: 'Information',
+  usage: '/githubinfo <github username>',
   async execute(interaction) {
     const color = getRoleColor(interaction.guild)
     const username = interaction.options.getString("user");
 
-
+  if(!interaction.isCommand()) return;
 
     
     try {

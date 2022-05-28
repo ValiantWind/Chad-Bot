@@ -12,9 +12,14 @@ module.exports = {
       .setDescription('The user you want to view info about.')
     ),
   cooldown: 3000,
-  execute(interaction) {
+  category: 'Information',
+  usage: '/userinfo <member (optional)>',
+  async execute(interaction) {
     let color = getRoleColor(interaction.guild);
     const member = interaction.options.getMember('user');
+
+    if(!interaction.isCommand()) return;
+    
     let userInfoEmbed;
     if (!member) {
       const roles = '```' + interaction.member.roles.cache.map((role) => role.name).join(`, `) + '```';
@@ -29,7 +34,7 @@ module.exports = {
           { name: 'User ID:', value: `${interaction.member.user.id}` },
           { name: 'Account Since:', value: `${moment(interaction.member.user.createdTimestamp).format('LT')} ${moment(interaction.member.user.createdTimestamp).format('LL')} (${moment(interaction.member.user.createdTimestamp).fromNow()})` },
           { name: 'Badges:', value: `${badges}` },
-          { name: 'Status:', value: `${interaction.member.presence?.status}`},
+          { name: 'Status:', value: `${interaction.member.user.presence?.status}`},
           { name: 'Joined At:', value: `${moment(interaction.member.joinedTimestamp).format('LT')} ${moment(interaction.member.joinedTimestamp).format('LL')} (${moment(interaction.member.joinedTimestamp).fromNow()})` },
           { name: 'Roles', value: `${roles}` },
           { name: 'Permissions', value: `${perms}` }

@@ -12,24 +12,17 @@ module.exports = {
     ),
   category: 'Information',
   cooldown: 3000,
+  usage: '/avatar <member (optional)>',
  async execute(interaction) {
-   const member = interaction.options.getMember('user');
+   const member = interaction.options.getMember('user') || interaction.user;
+
+   if(!interaction.isCommand()) return;
   const color = getRoleColor(interaction.guild)
-   if(!member){
-   const selfembed = new MessageEmbed()
-      .setTitle(`${interaction.member.displayName}'s Avatar`)
-      .setImage(interaction.member.user.displayAvatarURL({ dynamic: true, size:  1024 }))
-      .setTimestamp()
-      .setColor(color);
-     interaction.reply({ embeds: [selfembed] });
-   } else {
      const embed = new MessageEmbed()
-      .setTitle(`${member.displayName}'s Avatar`)
-      .setImage(member.user.displayAvatarURL({ dynamic: true, size:  1024 }))
-      .setFooter(member.displayName,  interaction.member.user.displayAvatarURL({ dynamic: true }))
+      .setTitle(`${member.tag || member.user.tag}'s Avatar`)
+      .setImage(member.displayAvatarURL({ dynamic: true, size:  1024 }))
       .setTimestamp()
       .setColor(color);
      interaction.reply({ embeds: [embed] });
-   }
   }
 }

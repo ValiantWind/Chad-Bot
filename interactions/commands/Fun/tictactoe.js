@@ -12,7 +12,11 @@ module.exports = {
       ),
   cooldown: 30000,
   category: 'Fun',
+  usage: '/tictactoe <opponent>',
 	async execute(interaction) {
+
+    if(!interaction.isCommand()) return;
+    
     new TicTacToe({
       message: interaction,
       slash_command: true,

@@ -18,8 +18,11 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
+  usage: '/modlogs <member>',
   async execute(interaction) {
     const user = interaction.options.getMember('member');
+
+    if(!interaction.isCommand()) return;
         
     const userWarnings = await warndb.find({      
       userId: user.id,
@@ -59,6 +62,7 @@ module.exports = {
           `muteId: ${mute._id}`,
           `Moderator: ${muteModerator || 'Has Left'}`,
           `Date: ${moment(mute.timestamp).format("MMMM Do YYYY")}`,
+          `Duration (Minutes): ${mute.duration}`,
           `Reason: ${mute.reason}`,
         ].join("\n")
         }).join("\n\n")
@@ -79,6 +83,7 @@ module.exports = {
           `banId: ${ban._id}`,
           `Moderator: ${banModerator || 'Has Left'}`,
           `Date: ${moment(ban.timestamp).format("MMMM Do YYYY")}`,
+          
           `Reason: ${ban.reason}`,
         ].join("\n")
         }).join("\n\n")

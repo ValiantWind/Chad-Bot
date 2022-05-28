@@ -10,9 +10,13 @@ module.exports = {
       .setName('user')
       .setDescription('Person to trigger')
       ),
-  cooldown: 30000,
+  cooldown: 3000,
   category: 'Fun',
+  usage: '/triggered <optional member>',
 	async execute(interaction) {
+
+    if(!interaction.isCommand()) return;
+    
     const user = interaction.options.getMember('user') || interaction.user;
         const avatar = user.displayAvatarURL({ size: 2048, format: "png" });
 

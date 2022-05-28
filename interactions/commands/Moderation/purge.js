@@ -13,8 +13,12 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
+  usage: '/purge <messages> (must be less than 100 and greater than 1)',
   async execute(interaction) {
     const amount = interaction.options.getInteger('amount');
+
+    if(!interaction.isCommand()) return;
+    
     if (amount < 2 || amount > 100) {
       return interaction.reply({ content: `You must enter a number higher than 1 and less than 100.`, ephemeral: true });
     }

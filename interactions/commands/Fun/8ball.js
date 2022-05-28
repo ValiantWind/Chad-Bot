@@ -12,15 +12,19 @@ module.exports = {
     ),
   cooldown: 3000,
   category: 'Fun',
+  usage: "/8ball <Your Question>",
   async execute(interaction) {
     let color = getRoleColor(interaction.guild);
     const question = interaction.options.getString('question');
+
+    if(!interaction.isCommand()) return;
+    
     let replies = [
 			"Yes, of course",
 			"Perhaps not",
 			"Definitely not",
       "Definitely",
-			"This might be good",
+			"Joe says yes. Blame Joe if something goes wrong.",
       "Reply hazy, try again later",
       "Maybe, maybe not",
       "Of course not dumbo",
