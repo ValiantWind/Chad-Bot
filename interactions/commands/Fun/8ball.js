@@ -9,25 +9,29 @@ module.exports = {
     .addStringOption((option) => option
       .setName('question')
       .setDescription('The question you want to ask to the 100% reliable Magic 8-Ball.')
+      .setRequired(true)
     ),
   cooldown: 3000,
   category: 'Fun',
   usage: "/8ball <Your Question>",
   async execute(interaction) {
+    if(!interaction.isCommand()) return;
     let color = getRoleColor(interaction.guild);
     const question = interaction.options.getString('question');
 
-    if(!interaction.isCommand()) return;
     
     let replies = [
 			"Yes, of course",
 			"Perhaps not",
 			"Definitely not",
       "Definitely",
-			"Joe says yes. Blame Joe if something goes wrong.",
+			"Joe says yes. Blame Joe if something goes wrong",
+      "Lite said No, but don't listen to him since he burned the server down",
+      "The Karen say No. Try using this command again though since she says no to everything",
       "Reply hazy, try again later",
       "Maybe, maybe not",
       "Of course not dumbo",
+      "Leave me alone",
 		]
     let random = Math.floor(Math.random() * replies.length);
 

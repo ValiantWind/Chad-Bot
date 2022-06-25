@@ -19,15 +19,15 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
-  usage: '/ban <member>',
+  usage: '/ban <member> <reason>',
   async execute(interaction) {
+    if(!interaction.isCommand()) return;
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason');
 
-    if(!interaction.isCommand()) return;
     
     if (member.id == interaction.member.user.id) {
-      return interaction.reply({ content: `I mean you could just leave the server.`, ephemeral: true });
+      return interaction.reply({ content: `No.`, ephemeral: true });
     }
 
     if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
@@ -52,15 +52,17 @@ new bandb({
     
 
     let color = getRoleColor(interaction.guild);
+
+    
     const banEmbed = new MessageEmbed()
       .setColor(color)
-      .setTitle(`***Banned!**`)
-      .setDescription(`***Successfully banned **${member}! || ${reason} `)
+      .setTitle(`***Banned!***`)
+      .setDescription(`***Successfully banned*** ${member}! || ${reason} `)
       .setFooter('Imagine being banned lol')
       .setTimestamp();
-    let msg = `${author} banned you from ${interaction.guild.name}.`;
+    let msg = `${author} banned you from ${interaction.guild.name}. Reason: ${reason}`;
     
-    if (!member.user.bot) await member.send({ content: msg });
+    member.send(`You have been banned in ${interaction.guild.name} for ${reason}`);
     
     interaction.guild.members.ban(member);
     modstatsdb.add(`banModstats_${interaction.member.user.id}`, 1)

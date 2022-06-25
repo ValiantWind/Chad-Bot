@@ -15,23 +15,22 @@ module.exports = {
   category: 'Moderation',
   usage: '/purge <messages> (must be less than 100 and greater than 1)',
   async execute(interaction) {
+    if(!interaction.isCommand()) return;
     const amount = interaction.options.getInteger('amount');
 
-    if(!interaction.isCommand()) return;
     
     if (amount < 2 || amount > 100) {
       return interaction.reply({ content: `You must enter a number higher than 1 and less than 100.`, ephemeral: true });
     }
 
-    interaction.channel.bulkDelete(amount, true);
-    let color = getRoleColor(interaction.guild);
-    const clearEmbed = new MessageEmbed()
-       .setColor(color)
-      .setTitle(`***Purged!***`)
-      .setDescription(`***Successfully purged ***${amount} messages in ${interaction.channel.name}!`)
-      .setColor(color)
-      .setTimestamp();
+   await interaction.channel.bulkDelete(amount, true);
 
-      await interaction.reply({embeds: [clearEmbed]});
+
+    const clearEmbed = new MessageEmbed()
+    .setTitle('Success!')
+    .setDescription(`Successfully purged ${amount} messages.`)
+    .setColor('BLURPLE')
+
+    await interaction.reply({embeds: [clearEmbed], ephemeral: true});
   }
 }

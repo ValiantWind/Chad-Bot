@@ -15,10 +15,11 @@ module.exports = {
   category: 'Information',
   usage: '/userinfo <member (optional)>',
   async execute(interaction) {
-    let color = getRoleColor(interaction.guild);
-    const member = interaction.options.getMember('user');
 
     if(!interaction.isCommand()) return;
+    
+    let color = getRoleColor(interaction.guild);
+    const member = interaction.options.getMember('user');
     
     let userInfoEmbed;
     if (!member) {

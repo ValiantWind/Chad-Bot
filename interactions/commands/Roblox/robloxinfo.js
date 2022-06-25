@@ -18,10 +18,11 @@ module.exports = {
   category: 'Roblox',
   usage: '/robloxinfo <roblox username>',
   async execute(interaction) {
-    const color = getRoleColor(interaction.guild)
-    const username = interaction.options.getString("username");
 
     if(!interaction.isCommand()) return;
+    
+    const color = getRoleColor(interaction.guild)
+    const username = interaction.options.getString("username");
     
     await interaction.deferReply();
 

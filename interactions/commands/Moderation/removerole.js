@@ -20,10 +20,13 @@ module.exports = {
   category: 'Moderation',
   usage: '/removerole <member> <role>',
   async execute(interaction) {
+    if(!interaction.isCommand()) return;
     const user = interaction.options.getMember('user');
     const roleToRemove = interaction.options.getRole('role');
 
-    if(!interaction.isCommand()) return;
+    if (interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0) {
+      return interaction.reply({ content: `You can't modify the roles of someone who has a higher rank than yours.`, ephemeral: true });
+    }
 
       user.roles.remove(roleToRemove);
   await interaction.reply('Role Removed!')

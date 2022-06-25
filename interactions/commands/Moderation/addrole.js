@@ -24,6 +24,10 @@ module.exports = {
     const roleToAdd = interaction.options.getRole('role');
 
     if(!interaction.isCommand()) return;
+
+        if (interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0) {
+      return interaction.reply({ content: `You can't modify the roles of someone who has a higher rank than yours. You can't give yourself roles that are higher than yours either.`, ephemeral: true });
+    }
    
       user.roles.add(roleToAdd);
     await interaction.reply('Role Added!')

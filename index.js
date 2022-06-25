@@ -6,12 +6,12 @@ const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const fetch = require('node-fetch');
 const { getRoleColor } = require('./utils/getRoleColor');
-const { ClashRoyaleAPI } = require('@varandas/clash-royale-api');
+//const { TwitterApi } = require('twitter-api-v2');
 
 const token = process.env.token
 const clientId = process.env.clientId
 const guildId = process.env.guildId
-const clashApiKey = process.env.clashApiKey
+//const twitterToken = process.env.twitterBearerToken
 
 const client = new Client({
 	intents: [
@@ -29,12 +29,18 @@ const client = new Client({
   ],
 });
 
-const clashapi = new ClashRoyaleAPI(clashApiKey)
+
 
 module.exports = client;
-module.exports = clashapi;
 
 require("./handler")(client);
+
+// const twitterClient = new TwitterApi(twitterToken);
+
+// const roClient = twitterClient.readOnly;
+
+
+// module.exports = twitterClient;
 
 
 client.commands = new Collection();
@@ -44,11 +50,6 @@ client.cooldowns = new Collection();
 client.buttonCommands = new Collection();
 client.selectMenuCommands = new Collection();
 client.contextMenuCommands = new Collection();
-client.snipes = new Collection();
-
-client.on('messageDelete', message => {
-    client.snipes.set(message.channel.id, message)
-})
 
 const { GiveawaysManager } = require("discord-giveaways");
 client.giveawaysManager = new GiveawaysManager(client, {

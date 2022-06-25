@@ -1,7 +1,8 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
-const kickdb = require('../../../models/kickdb')
+const kickdb = require('../../../models/kickdb');
+const modstatsdb = require('quick.db');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -18,7 +19,7 @@ module.exports = {
     ),
   cooldown: 5000,
   category: 'Moderation',
-  usage: '/kick <member>',
+  usage: '/kick <member> <reason>',
   async execute(interaction) {
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason') || 'No reason specified.';
@@ -39,7 +40,7 @@ module.exports = {
     const author = interaction.member.user.username;
     
 new kickdb({
-    userId: user.id,
+    userId: member.id,
     guildId: interaction.guildId,
     moderatorId: interaction.user.id,
     reason,
@@ -51,15 +52,15 @@ new kickdb({
     const kickEmbed = new MessageEmbed()
       .setColor(color)
       .setTitle(`***Kicked!**`)
-      .setDescription(`***Successfully kicked **${user}! || ${reason} `)
+      .setDescription(`***Successfully kicked **${member}! || ${reason} `)
       .setFooter('Imagine being kicked lol')
       .setTimestamp();
-    let msg = `${author} kicked you from ${interaction.guild.name}.`;
+    let msg = `${author} kicked you from ${interaction.guild.name}. Reason: ${reason}`;
     
-    if (!member.user.bot) await member.send({ content: msg });
-    db.add(`kickModstat_${interaction.member.user.id}`, 1)
-    db.add(`totalModstats_${interaciton.member.user.id}`, 1)
+    modstatsdb.add(`kickModstat_${interaction.member.user.id}`, 1)
+    modstatsdb.add(`totalModstats_${interaction.member.user.id}`, 1)
     member.kick();
     interaction.reply({embeds: kickEmbed});
+    await member.send({ content: msg });
   }
 }

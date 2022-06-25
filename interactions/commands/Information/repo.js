@@ -17,10 +17,11 @@ module.exports = {
   category: 'Information',
   usage: '/repo <GitHub repository name>',
   async execute(interaction) {
+
+  if(!interaction.isCommand()) return;
+    
     const color = getRoleColor(interaction.guild)
     const repository = interaction.options.getString("name");
-
-      if(!interaction.isCommand()) return;
 
     
     try {

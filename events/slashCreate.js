@@ -1,5 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const ms = require('ms-prettify').default;
+//const blockedUsers = ['681030703156166672'];
+
 
 module.exports = {
 	name: "interactionCreate",
@@ -21,16 +23,16 @@ module.exports = {
 		// If the interaction is not a command in cache.
 
 		if (!command) return;
+    //if(!interaction.isCommand()) return;
+
+ //  if (blockedUsers.includes(interaction.user.id)) return;
 
     let embed = new MessageEmbed()
     .setColor('RED')
 
-    if(!interaction.member.permissions.has(command.userPermissions || [])){
-      embed.setDescription(`You need the following permissions to execute this command: \`\`\`${command.permissions.join(" ")}\`\`\``)
-    }
-    if(!interaction.guild.me.permissions.has(command.botPermissions || [])){
-      embed.setDescription(`I need the following permissions to execute this command: \`\`\`${command.permissions.join(" ")}\`\`\``)
-    }
+    //if(!interaction.member.permissions.has(command.userPermissions || [])){
+    //=
+    //if(!interaction.guild.me.permissions.has(command.botPermissions || [])){
 
     
 

@@ -3,6 +3,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
 const modstatsdb = require('quick.db');
 const mutedb = require('../../../models/mutedb');
+const ms = require('ms');
+const parseTime = require('parse-duration')
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,85 +15,64 @@ module.exports = {
       .setDescription(`The user that you want to mute.`)
       .setRequired(true)
     )
-    .addNumberOption((option) => option
-      .setName('minutes')
-      .setDescription(`The amount of minutes that you want the user to stay muted.`)
-      .setRequired(true)
-    )
     .addStringOption((option) => option
       .setName('reason')
       .setDescription(`The reason you're muting this user for.`)
       .setRequired(true)
+    )
+   .addStringOption((option) => option
+      .setName('duration')
+      .setDescription(`The amount of minutes that you want the user to stay muted.`)
     ),
-  cooldown: 3000,
+  cooldown: 5000,
   category: 'Moderation',
-  usage: '/mute <member> <duration (in minutes)> <reason>',
+  usage: '/mute <member> <reason> <duration (1m, 1h, 1d)>',
   async execute(interaction) {
+
+    if(!interaction.isCommand()) return;
+    
     const member = interaction.options.getMember('user');
-    const mins = interaction.options.getNumber('minutes');
+    const duration = interaction.options.getString('duration');
     const reason = interaction.options.getString('reason') || 'No reason provided.'
-    const author = interaction.member.user.username;
-    let mutedRole = interaction.guild.roles.cache.find((r) => r.name === 'Muted');
-    if (mins > 720 || mins <= 0) {
-      return interaction.reply({ content: `Minutes must be a positive number lower than 720.`, ephemeral: true });
-    }
 
-    if (member.id == interaction.member.user.id) {
+    const parsedTime = parseTime(duration);
+    
+
+    const muteEmbed = new MessageEmbed()
+      .setColor('BLURPLE')
+      .setTitle(`**Muted!**`)
+      .setDescription(`***Successfully muted ***${member} for ${duration}! || ${reason} `)
+      .setFooter('Imagine being muted lol')
+      .setTimestamp();
+
+    let msg = `You have been muted in ${interaction.guild.name}. Reason: ${reason}. Duration: ${duration}.`;
+    
+      
+      if (member.id == interaction.member.user.id) {
       return interaction.reply({ content: `Stupid mod. You can't mute youself. Why would you even want to do that lol`, ephemeral: true });
-    }
-
-    if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+    } else if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
       return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to mute!`, ephemeral: true });
-    }
+      } else if (parsedTime < ms('1m') || parsedTime > ms('28d')) {
+        return interaction.reply({content:'Please provide a time greater than 1 minute (1m) and less than 28 days (28d)'})
+      } else {  
+        await member.timeout(parsedTime, reason)
+        member.send(msg)
+        interaction.reply({embeds: [muteEmbed]})
+      }
+  
+     
 new mutedb({
     userId: member.id,
     guildId: interaction.guildId,
     moderatorId: interaction.user.id,
-    duration: mins,
+    duration,
     reason,
     timestamp: Date.now(),
     
   }).save();
-    
-    if (!mutedRole) {
-      const newMutedRole = await interaction.guild.roles.create({
-        name: 'Muted',
-        permissions: []
-      });
-      interaction.guild.channels.cache.forEach(async (channel) => {
-        await channel.permissionOverwrites.edit(newMutedRole, {
-          'SEND_MESSAGES': false,
-          'ADD_REACTIONS': false,
-          'SPEAK': false
-        });
-      });
-      mutedRole = newMutedRole;
-    }
 
-    if (member.roles.cache.has(mutedRole.id)) {
-      return interaction.reply({ content: `${member.username} is already muted!`, ephemeral: true });
-    }
-
-
-     let color = getRoleColor(interaction.guild);
-    const muteEmbed = new MessageEmbed()
-      .setColor(color)
-      .setTitle(`**Muted!**`)
-      .setDescription(`***Successfully muted ***${member}! || ${reason} `)
-      .setFooter('Imagine being muted lol')
-      .setTimestamp();
-    
-    const millisecondsPerMinute = 60 * 1000;
-    let MuteInfo = {};
-    MuteInfo.userID = member.id;
-    MuteInfo.unmuteDate = Date.now() + mins * millisecondsPerMinute;
-    MuteInfo.author = author;
-    let msg = `${author} has muted you from ${interaction.guild.name} for ${reason}. Duration: ${mins} minutes.`;
-
-    if (!member.user.bot) member.send({ content: msg });
-
-   member.roles.add(mutedRole); modstatsdb.add(`muteModstats_${interaction.member.user.id}`, 1)
+     
+modstatsdb.add(`muteModstats_${interaction.member.user.id}`, 1)
     modstatsdb.add(`totalModstats_${interaction.member.user.id}`, 1)
-  await interaction.reply({embeds: [muteEmbed]})
   }
 }

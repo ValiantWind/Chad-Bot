@@ -1,20 +1,20 @@
-const { MessageEmbed } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+// const { MessageEmbed } = require('discord.js');
+// const { SlashCommandBuilder } = require('@discordjs/builders');
 
-module.exports = {
-  data: new SlashCommandBuilder()
-    .setName('badnickreset')
-    .setDescription(`Automatically sets a user's nickname to "Inappropriate Nickname"`)
-    .addUserOption((option) => option
-      .setName('target')
-      .setDescription(`The user that you want to set the nickname of.`)
-      .setRequired(true)
-    ),
-  cooldown: 5000,
-  category: 'Moderation',
-  usage: '/badnickreset <member>',
-  async execute(interaction) {
-    const user = interaction.options.getMember('target');
+// module.exports = {
+//   data: new SlashCommandBuilder()
+//     .setName('badnickreset')
+//     .setDescription(`Automatically sets a user's nickname to "Inappropriate Nickname"`)
+//     .addUserOption((option) => option
+//       .setName('target')
+//       .setDescription(`The user that you want to set the nickname of.`)
+//       .setRequired(true)
+//     ),
+//   cooldown: 5000,
+//   category: 'Moderation',
+//   usage: '/badnickreset <member>',
+//   async execute(interaction) {
+//     const user = interaction.options.getMember('target');
 
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
@@ -47,8 +47,6 @@ if(interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0){
     .setColor('BLURPLE')
     .setTimestamp()
    await interaction.reply({embeds: [embed]})
-}
-  }
 }
   }
 }

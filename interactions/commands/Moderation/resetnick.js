@@ -14,9 +14,9 @@ module.exports = {
   category: 'Moderation',
   usage: '/resetnick <member>',
   async execute(interaction) {
+    if(!interaction.isCommand()) return;
     const user = interaction.options.getMember('target');
 
-     if(!interaction.isCommand()) return;
 
 if(interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0){
       interaction.reply({ content: `Your roles must be higher than the roles of the person you want to reset the nickname of.`, ephemeral: true });

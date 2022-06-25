@@ -22,10 +22,11 @@ module.exports = {
   category: 'Moderation',
   usage: '/warn <member> <reason>',
   async execute(interaction) {
-    const user = interaction.options.getMember('target');
-    const reason = interaction.options.getString('reason') || 'No reason specified';
 
     if(!interaction.isCommand()) return;
+    
+    const user = interaction.options.getMember('target');
+    const reason = interaction.options.getString('reason') || 'No reason specified';
 
 
     if (user.id == interaction.member.user.id) {
