@@ -2,6 +2,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
 const noblox = require('noblox.js');
+const fetch = require('node-fetch');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -23,7 +24,6 @@ module.exports = {
     const groupId = interaction.options.getInteger("groupid");
     
     await interaction.deferReply();
-    //const productInfo = await noblox.getProductInfo(1117747196)
 
     try {
       const info = await noblox.getGroup(groupId)
@@ -36,7 +36,19 @@ module.exports = {
       } else {
         groupShoutMessage = groupShout.body
       }
-        
+
+    const res = await fetch(`https://groups.roblox.com/v1/groups/${groupId}/name-history?sortOrder=Asc&limit=10`);
+
+     // const response = await fetch(`https://economy.roblox.com/v1/groups/${groupId}/currency`)
+     // let groupFunds = await noblox.getGroupFunds(groupId) || 'Not Publicly Visible';
+
+//const fundsres = await response.json()
+
+      //console.log(fundsres)
+      
+
+      const nameHistory = (await res.json()).data.name;
+      
   const embed = new MessageEmbed()
     .setColor(color)
     .setTitle(`${info.name}'s Group Info`)
@@ -46,6 +58,8 @@ module.exports = {
     .addField(`Current Group Shout Message`, `${groupShoutMessage}`)
     .addField('Group Open to Everyone?', info.publicEntryAllowed.toString())
     .addField('Member Count', info.memberCount.toString())
+    .addField('Previous Group Names', nameHistory || 'No Previous Names')
+   //.addField('Group Funds', groupFunds.toString())
     .setTimestamp()
     .setThumbnail(groupLogo)
 
@@ -54,6 +68,5 @@ module.exports = {
       console.log(error)
       interaction.editReply({content: 'An Error occured. Make sure the group id you typed in exists or that the group is not banned!'})
     }
-  //console.log(productInfo)
   }
 };

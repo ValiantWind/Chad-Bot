@@ -7,6 +7,6 @@ module.exports = {
 
     const command = client.commands.get(interaction.commandName);
     
-		console.log(`${interaction.user.tag} triggered the ${command.data.name} command in #${interaction.channel.name}`);
+		console.log(`${interaction.user.tag} triggered the ${command.data.name} command in #${interaction.channel.name} in ${interaction.guild.name}`);
 	},
 };

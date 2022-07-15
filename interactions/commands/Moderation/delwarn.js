@@ -20,9 +20,10 @@ module.exports = {
   category: 'Moderation',
   usage: '/delwarn <warn id>',
   async execute(interaction) {
-   const warnId = interaction.options.getString('warnid');
 
     if(!interaction.isCommand()) return;
+    
+   const warnId = interaction.options.getString('warnid');
 
     const data = await warndb.findById(warnId);
 

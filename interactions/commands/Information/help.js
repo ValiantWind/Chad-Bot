@@ -2,7 +2,7 @@ const { readdirSync } = require("fs");
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
-const client = require('../../../index');
+//const client = require('../../../index');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,7 +16,8 @@ module.exports = {
     category: "Information",
     cooldown: 5000,
     usage: '/help <command (optional)>',
-    async execute(interaction){
+    async execute(interaction, client){
+      
       if(!interaction.isCommand()) return;
       
       const color = getRoleColor(interaction.guild)

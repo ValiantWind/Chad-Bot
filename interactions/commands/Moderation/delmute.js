@@ -20,9 +20,10 @@ module.exports = {
   category: 'Moderation',
   usage: '/delmute <mute id>',
   async execute(interaction) {
-   const muteId = interaction.options.getString('muteid');
 
-          if(!interaction.isCommand()) return;
+    if(!interaction.isCommand()) return;
+    
+   const muteId = interaction.options.getString('muteid');
 
     const data = await mutedb.findById(muteId);
     if(!data) return interaction.reply({

@@ -20,8 +20,7 @@ module.exports = {
 
        if(!interaction.isCommand()) return;
     
-    const color = getRoleColor(interaction.guild)
-    const gameid = interaction.options.getString("gameid");
+   const 
     
     //await interaction.deferReply();
 
@@ -29,7 +28,7 @@ module.exports = {
       
     } catch(error) {
       console.log(error)
-      interaction.reply({content: 'An Error occured. Make sure the gameId you typed is valid and exists!'})
+      interaction.reply({content: 'An Error occured. Make sure the game id you typed is valid and exists!'})
     }
   }
 };

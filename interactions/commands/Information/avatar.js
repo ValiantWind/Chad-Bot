@@ -14,9 +14,11 @@ module.exports = {
   cooldown: 3000,
   usage: '/avatar <member (optional)>',
  async execute(interaction) {
-   const member = interaction.options.getMember('user') || interaction.user;
 
    if(!interaction.isCommand()) return;
+   
+   const member = interaction.options.getMember('user') || interaction.user;
+
   const color = getRoleColor(interaction.guild)
      const embed = new MessageEmbed()
       .setTitle(`${member.tag || member.user.tag}'s Avatar`)

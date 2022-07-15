@@ -2,7 +2,6 @@ const { MessageEmbed, Channel } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
 const ms = require('ms');
-const client = require('../../../index')
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,10 +20,11 @@ module.exports = {
   category: 'Moderation',
   usage: "/slowmode <channel> <number of seconds>",
   async execute(interaction) {
-    const amount = interaction.options.getString('time') || 0;
-    const channelToSlowDown = interaction.options.getChannel('channel');
 
     if(!interaction.isCommand()) return;
+    
+    const amount = interaction.options.getString('time') || 0;
+    const channelToSlowDown = interaction.options.getChannel('channel');
 
   
     if(isNaN(amount)){

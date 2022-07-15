@@ -17,12 +17,12 @@ module.exports = {
   category: 'Information',
   usage: '/githubinfo <github username>',
   async execute(interaction) {
+
+    if(!interaction.isCommand()) return;
+    
     const color = getRoleColor(interaction.guild)
     const username = interaction.options.getString("user");
 
-  if(!interaction.isCommand()) return;
-
-    
     try {
       fetch(`https://api.github.com/users/${username}`)
         .then(response=>response.json().then(data=>{

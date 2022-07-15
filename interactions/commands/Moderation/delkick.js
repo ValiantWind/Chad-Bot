@@ -17,9 +17,11 @@ module.exports = {
   category: 'Moderation',
   usage: '/delkick <kick id>',
   async execute(interaction) {
-   const kickId = interaction.options.getString('kickid');
 
     if(!interaction.isCommand()) return;
+    
+   const kickId = interaction.options.getString('kickid');
+
 
     const data = await kickdb.findById(kickId);
     if(!data) return interaction.reply({

@@ -17,9 +17,10 @@ module.exports = {
   category: 'Moderation',
   usage: '/delban <ban id>',
   async execute(interaction) {
-   const banId = interaction.options.getString('banid');
 
     if(!interaction.isCommand()) return;
+    
+   const banId = interaction.options.getString('banid');
 
     const data = await bandb.findById(banId);
     if(!data) return interaction.reply({

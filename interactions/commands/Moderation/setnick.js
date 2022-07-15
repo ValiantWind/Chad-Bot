@@ -19,10 +19,11 @@ module.exports = {
   category: 'Moderation',
   usage: '/setnick <member> <new nickname>',
   async execute(interaction) {
-    const user = interaction.options.getMember('target');
-    const newNick = interaction.options.getString('nickname');
 
     if(!interaction.isCommand()) return;
+    
+    const user = interaction.options.getMember('target');
+    const newNick = interaction.options.getString('nickname');
 
 if(interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0){
       interaction.reply({ content: `Your roles must be higher than the roles of the person you want to set the nickname of.`, ephemeral: true });

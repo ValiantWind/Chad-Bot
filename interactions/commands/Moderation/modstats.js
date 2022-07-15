@@ -17,10 +17,12 @@ module.exports = {
   category: 'Moderation',
   usage: '/modstats <member>',
   async execute(interaction) {
-    const author = interaction.member.user.username;
-    const member = interaction.options.getMember('user') || author;
 
     if(!interaction.isCommand()) return;
+
+    
+    const author = interaction.member.user.username;
+    const member = interaction.options.getMember('user') || author;
     
     const color = getRoleColor(interaction.guild)
     let totalModstats = modstatsdb.fetch(`totalModstats_${member.id}`)

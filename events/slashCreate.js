@@ -43,7 +43,7 @@ module.exports = {
      if (Date.now() - t < 0) return interaction.reply({ content: `You are on a cooldown of ${ms(t - Date.now(), { till: 'second' })}`, ephemeral: true });
 
         client.cooldowns.set(`${interaction.user.id}_${command.name}`, Date.now() + (command.cooldown || 0));
-			await command.execute(interaction);
+			await command.execute(interaction, client);
 		} catch (err) {
 			console.error(err);
 			await interaction.reply({

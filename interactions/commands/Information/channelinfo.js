@@ -15,9 +15,10 @@ module.exports = {
   category: 'Information',
   usage: '/channelinfo <channel>',
  async execute(interaction) {
-   const channel = interaction.options.getChannel('channel');
 
    if(!interaction.isCommand()) return;
+   
+   const channel = interaction.options.getChannel('channel');
    
    const color = getRoleColor(interaction.guild)
 		const embed = new MessageEmbed().setTitle(`${channel.name} Info`);
