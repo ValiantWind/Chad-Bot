@@ -83,20 +83,6 @@ for (const module of commands) {
 	}
 }
 
-///////////////Context Menus///////////////////
-
-const contextMenus = fs.readdirSync("./interactions/contextMenus");
-
-for (const folder of contextMenus) {
-	const files = fs
-		.readdirSync(`./interactions/contextMenus/${folder}`)
-		.filter((file) => file.endsWith(".js"));
-	for (const file of files) {
-		const menu = require(`./interactions/contextMenus/${folder}/${file}`);
-		const keyName = `${folder.toUpperCase()} ${menu.data.name}`;
-		client.contextMenuCommands.set(keyName, menu);
-	}
-}
 
 ///////////////Buttons///////////////////
 
@@ -112,20 +98,6 @@ for (const module of buttonCommands) {
 		client.buttonCommands.set(command.id, command);
 	}
 }
-
-/////////////// Select Menus ///////////////////
-
- const selectMenus = fs.readdirSync("./interactions/selectMenus");
-
-for (const module of selectMenus) {
-	 const commandFiles = fs
-		 .readdirSync(`./interactions/selectMenus/${module}`)
-		 .filter((file) => file.endsWith(".js"));
-	 for (const commandFile of commandFiles) {
-		 const command = require(`./interactions/selectMenus/${module}/${commandFile}`);
-		 client.selectMenuCommands.set(command.id, command);
-	 }
- }
 
 const eventFiles = fs
 	.readdirSync("./events")
@@ -228,6 +200,16 @@ async function getLatestPosts() {
 client.once('ready', () => {
 	//getLatestPosts()
 });
+
+const express = require('express')
+const app = express();
+const port = 3000
+ 
+app.get('/', (req, res) => res.send('The Bot is Online.'))
+ 
+app.listen(port, () =>
+console.log(`Your app is listening a http://localhost:${port}`)
+);
     
 client.login(token);
 

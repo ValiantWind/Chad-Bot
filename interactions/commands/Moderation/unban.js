@@ -30,47 +30,18 @@ module.exports = {
   if(!interaction.isCommand()) return;
 
 
-    // const totalBans = await interaction.guild.bans.fetch()
-
-    // const userToUnban = totalBans.find(x => x.user.id === user.value || x.user.username === user.value || x.user.tag === user.value);
-
-    
-    // const author = interaction.member.user.username;
-
-    // const guild = interaction.guild;
-
-    // let color = getRoleColor(interaction.guild);
-    // const unbanEmbed = new MessageEmbed()
-    //   .setColor(color)
-    //   .setTitle(`***Unbanned!***`)
-    //   .setDescription(`Successfully unbanned ${user}! || ${reason}`)
-    //   .setTimestamp();
-    
-    // await guild.members.unban(user)
-    
-    // interaction.reply({embeds: unbanEmbed})
 
     const options = interaction.options;
 
       const target = options.get('userid')?.value;
 
       // default embed
-      const embed = new MessageEmbed().setColor("BLURPLE");
+      const embed = new MessageEmbed()
+        .setColor("BLURPLE");
 
 
       const totalbans = await interaction.guild.bans.fetch()
 
-
-      // we will match three conditions 1. id, 2. username, 3. tag
-      //const userToUnban = totalbans.find(x => x.user.id === user?.value || x.user.username === user?.value || x.user.tag === user?.value)
-
-      // let userTag;
-      // if (!userToUnban) {
-      //   embed.setDescription(`Invalid User or User is Not Banned`)
-      //   return await interaction.reply({embeds: [embed]})
-      // }
-
-      //userTag = userToUnban.user.tag || "User";
 
       await interaction.guild.bans.remove(target);
 

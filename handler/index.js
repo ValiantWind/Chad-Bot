@@ -1,4 +1,3 @@
-const { Client } = require("discord.js");
 const mongoose = require('mongoose');
 
 module.exports = async (client) => {
@@ -9,7 +8,7 @@ module.exports = async (client) => {
     mongoose.connect(mongooseConnectionString, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
-    }).then(() => console.log('✔️ MongoDB'));
+    }).then(() => console.log('Connected to MongoDB'));
 }
 
   
