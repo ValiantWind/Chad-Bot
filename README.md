@@ -60,3 +60,7 @@ The command format I use is @discordjs/builders.
 Learn about it [here](https://github.com/discordjs/discord.js/tree/main/packages/builders)
 
 I hope lots of people find use of this bot. Have a good day :D
+
+### License
+
+This repo is registered under the MIT License. (Just make sure you pls give credit :D )
