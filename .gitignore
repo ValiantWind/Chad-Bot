@@ -5,3 +5,4 @@ node_modules/
 /json.sqlite
 Archive/
 utils/giveaways.json
+/.breakpoints
