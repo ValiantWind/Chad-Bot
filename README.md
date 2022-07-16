@@ -2,6 +2,8 @@
 
 A Multipurpose Discord Bot coded with Discord.js with various different commands.
 
+Open source as of 7/15/2022
+
 Features:
 - Uses Slash Commands
 - A Full Moderation System
