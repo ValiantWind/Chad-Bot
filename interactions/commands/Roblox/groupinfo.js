@@ -1,6 +1,5 @@
- const { MessageEmbed, TextChannel, InteractionType } = require('discord.js');
+ const { MessageEmbed, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const noblox = require('noblox.js');
 const fetch = require('node-fetch');
 
@@ -20,7 +19,6 @@ module.exports = {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
     
-    const color = getRoleColor(interaction.guild)
     const groupId = interaction.options.getInteger("groupid");
     
     await interaction.deferReply();
@@ -50,15 +48,23 @@ module.exports = {
       const nameHistory = (await res.json()).data.name;
       
   const embed = new MessageEmbed()
-    .setColor(color)
+    .setColor('BLURPLE')
     .setTitle(`${info.name}'s Group Info`)
-    .addField('Group Owner', info.owner.username || 'No Owner')
-    .addField('Group ID', info.id.toString())
-    .addField('Group Description', info.description || 'No Description')
-    .addField(`Current Group Shout Message`, `${groupShoutMessage}`)
-    .addField('Group Open to Everyone?', info.publicEntryAllowed.toString())
-    .addField('Member Count', info.memberCount.toString())
-    .addField('Previous Group Names', nameHistory || 'No Previous Names')
+    .setDescription(info.description)
+    .addFields(
+      {name: 'Group Owner', value: info.owner.username || 'No Owner'},
+      {name: 'Group ID', value: info.id.toString()},
+      {name: 'Current Group Shout Message', value: groupShoutMessage || 'No Group Shout'},
+      {name: 'Group Open to Everyone?', value: info.publicEntryAllowed.toString()},
+      {name: 'Member Count', value: info.memberCount.toString() || 'Not Available'},
+      {name: 'Previous Group Name(s)', value: nameHistory || 'No Previous Names'}
+    )
+    // .addField('Group Owner', info.owner.username || 'No Owner')
+    // .addField('Group ID', info.id.toString())
+    // .addField(`Current Group Shout Message`, `${groupShoutMessage}`)
+    // .addField('Group Open to Everyone?', info.publicEntryAllowed.toString())
+    // .addField('Member Count', info.memberCount.toString())
+    // .addField('Previous Group Names', nameHistory || 'No Previous Names')
    //.addField('Group Funds', groupFunds.toString())
     .setTimestamp()
     .setThumbnail(groupLogo)
