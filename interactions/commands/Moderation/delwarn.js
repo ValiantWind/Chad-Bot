@@ -1,11 +1,6 @@
-const { MessageEmbed } = require('discord.js');
+const { InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
-const warndb = require('../../../models/warndb')
-const modstatsdb = require('quick.db');
-const mutedb = require('../../../models/mutedb');
-const kickdb = require('../../../models/kickdb');
-const bandb = require('../../../models/bandb');
+const warndb = require('../../../models/warndb');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,7 +16,7 @@ module.exports = {
   usage: '/delwarn <warn id>',
   async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
    const warnId = interaction.options.getString('warnid');
 
@@ -34,8 +29,7 @@ module.exports = {
     data.delete()
 
     const user = interaction.guild.members.cache.get(data.userId);
-    modstatsdb.subtract(`warnModstats_${interaction.member.user.id}`, 1)
-    modstatsdb.subtract(`totalModstats_${interaction.member.user.id}`, 1)
+  
     return interaction.reply({
       content:  `Successfully removed 1 of ${user}'s warnings.`
     });

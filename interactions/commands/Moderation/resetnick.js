@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
   category: 'Moderation',
   usage: '/resetnick <member>',
   async execute(interaction) {
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     const user = interaction.options.getMember('target');
 
 
@@ -23,7 +23,7 @@ if(interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0){
 } else {
   
       user.setNickname(' ');
-      let embed = new MessageEmbed()
+      let embed = new EmbedBuilder()
     .setTitle("Success!")
     .setDescription(`Successfully reset ${user.user.tag}'s nickname.`)
     .setColor('BLURPLE')

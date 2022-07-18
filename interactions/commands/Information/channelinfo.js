@@ -1,6 +1,5 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, InteractionType, ChannelType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,25 +13,25 @@ module.exports = {
   cooldown: 5000,
   category: 'Information',
   usage: '/channelinfo <channel>',
- async execute(interaction) {
+ async execute(interaction, client) {
 
-   if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
    
    const channel = interaction.options.getChannel('channel');
    
-   const color = getRoleColor(interaction.guild)
-		const embed = new MessageEmbed().setTitle(`${channel.name} Info`);
-		if (channel.isText && channel.topic) {
+
+		const embed = new EmbedBuilder().setTitle(`${channel.name} Info`);
+		if (channel.type === ChannelType.GuildText && channel.topic) {
 			embed.setDescription(channel.topic);
 		}
 		if (channel.rateLimitPerUser) {
-			embed.addField('Slow Mode:', `${channel.rateLimitPerUser} Secounds`, true);
+			embed.addFields({name: 'Slow Mode:', value: `${channel.rateLimitPerUser} Seconds`, inline: true});
 		}
 		if (channel.parent) {
-			embed.addField('Category Name:', channel.parent.name);
+			embed.addFields({name: 'Category Name:', value: channel.parent.name});
 		}
 		if (channel.lastPinTimestamp) {
-			embed.addField('Last Pin Message At:', `<t:${Math.floor(channel.lastPinTimestamp / 1000)}:R>`, true);
+			embed.addFields({name: 'Last Pin Message At:', value: `<t:${Math.floor(channel.lastPinTimestamp / 1000)}:R>`, inline: true});
 		}
 		let channelTypes;
 		switch (channel.type) {
@@ -61,9 +60,9 @@ module.exports = {
 				channelTypes = 'Stage Channel';
 				break;
 		}
-		embed.addField('Channel Type:', channelTypes, true);
-		embed.addField('Channel Created About:', `<t:${Math.floor(channel.createdTimestamp / 1000)}:R>`, true);
-		embed.setColor(color);
+		embed.addFields({name: 'Channel Type:', value: channelTypes, inline: true },
+        {name: "Channel Created About:", value: `<t:${Math.floor(channel.createdTimestamp / 1000)}:R>`, inline: true});
+		embed.setColor('BLURPLE');
 		interaction.reply({
 			embeds: [embed],
 		});

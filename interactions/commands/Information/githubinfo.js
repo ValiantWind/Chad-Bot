@@ -1,4 +1,4 @@
- const { MessageEmbed, TextChannel } = require('discord.js');
+ const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const moment = require('moment');
 const { getRoleColor } = require('../../../utils/getRoleColor');
@@ -18,9 +18,8 @@ module.exports = {
   usage: '/githubinfo <github username>',
   async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
-    const color = getRoleColor(interaction.guild)
     const username = interaction.options.getString("user");
 
     try {
@@ -32,21 +31,32 @@ module.exports = {
           let updateDate = new Date(data.updated_at)
           let id = data.id
           let avatarUrl = `https://avatars.githubusercontent.com/u/${id}?v=4`
-  const embed = new MessageEmbed()
-    .setColor(color)
+  const embed = new EmbedBuilder()
+    .setColor('BLURPLE')
     .setTitle(`${username}'s GitHub Profile`)
     .setURL(data.html_url)
     .setThumbnail(avatarUrl)
     .setDescription('**Description:** ' + data.bio || 'No Description')
-    .addField('Follower Count', data.followers.toString(), true)
-    .addField('Following Count', data.following.toString(), true)
-    .addField('Public Repo Count', data.public_repos.toString(), true)
-    .addField('Blog', data.blog || 'Not Available')
-    .addField('Location', data.location || 'Not Available', true)
-    .addField('Company', data.company || 'Not Available', true)
-    .addField('Twitter', data.twitter_username || 'Not Available')
-    .addField('Created At', creationDate.toDateString(), true)
-    .addField('Last Updated At', updateDate.toDateString(), true)
+    .addFields(
+      {name: "Follower Count", value: data.followers.toString(), inline: true},
+      {name: "Following Count", value: data.following.toString(), inline: true},
+      {name: 'Public Repo Count', value: data.public_repos_toString(), inline: true},
+      {name: 'Blog', value: data.blog || 'N/A', inline: false},
+      {name: 'Location', value: data.location || 'N/A', inline: true},
+      {name: 'Company', value: data.company || 'N/A', inline: true},
+      {name: 'Twitter', value: data.twitter_username || 'N/A', inline: true},
+      {name: 'Created At', value: creationDate.toDateString(), inline: true},
+      {name: 'Last Updated At', value: updateData.toDateString(), inline: true}
+    )
+    // .addField('Follower Count', data.followers.toString(), true)
+    // .addField('Following Count', data.following.toString(), true)
+    // .addField('Public Repo Count', data.public_repos.toString(), true)
+    // .addField('Blog', data.blog || 'Not Available')
+    // .addField('Location', data.location || 'Not Available', true)
+    // .addField('Company', data.company || 'Not Available', true)
+    // .addField('Twitter', data.twitter_username || 'Not Available')
+    // .addField('Created At', creationDate.toDateString(), true)
+    // .addField('Last Updated At', updateDate.toDateString(), true)
     interaction.reply({embeds: [embed]})
             }));
     } catch(error) {

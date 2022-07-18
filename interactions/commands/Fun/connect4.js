@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Connect4 } = require('discord-gamecord');
+const { InteractionType } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -14,7 +15,7 @@ module.exports = {
   usage: '/connect4 <opponent>',
 	async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     
 		new Connect4({
 			message: interaction,

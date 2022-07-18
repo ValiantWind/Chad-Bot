@@ -1,8 +1,6 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const modstatsdb = require('quick.db');
-const requiemId = process.env.requiemId
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -18,13 +16,12 @@ module.exports = {
   usage: '/modstats <member>',
   async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
 
     
     const author = interaction.member.user.username;
     const member = interaction.options.getMember('user') || author;
     
-    const color = getRoleColor(interaction.guild)
     let totalModstats = modstatsdb.fetch(`totalModstats_${member.id}`)
     let kickModstats = modstatsdb.fetch(`kickModstats_${member.id}`)
     let banModstats = modstatsdb.fetch(`banModstats_${member.id}`)
@@ -46,7 +43,7 @@ module.exports = {
       totalModstats = 0;
     }
     
-    let embed = new MessageEmbed()
+    let embed = new EmbedBuilder()
         .setTitle(`Modstats of ${member.tag || member.user.tag}`)
         .setDescription(`Total Mod Stats: ${totalModstats}`)
         .addField('Total Warn Mod Stats: ', warnModstats.toString(), true)
@@ -54,7 +51,7 @@ module.exports = {
         .addField('Total Kick Mod Stats: ', kickModstats.toString(), true)
         .addField('Total Ban Mod stats', banModstats.toString(), true)
         .setTimestamp()
-        .setColor(color)
+        .setColor('BLURPLE')
     interaction.reply({ embeds: [embed] })
   }
 }

@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { InteractionType } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -9,7 +10,7 @@ module.exports = {
   usage: "/puppy",
 	async execute(interaction) {
     
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
 		return interaction.reply('https://valiantwind.me/puppy');
 	},

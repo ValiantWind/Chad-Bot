@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
 
@@ -15,7 +15,7 @@ module.exports = {
   category: 'Moderation',
   usage: '/purge <messages> (must be less than 100 and greater than 1)',
   async execute(interaction) {
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     const amount = interaction.options.getInteger('amount');
 
     
@@ -26,7 +26,7 @@ module.exports = {
    await interaction.channel.bulkDelete(amount, true);
 
 
-    const clearEmbed = new MessageEmbed()
+    const clearEmbed = new EmbedBuilder()
     .setTitle('Success!')
     .setDescription(`Successfully purged ${amount} messages.`)
     .setColor('BLURPLE')

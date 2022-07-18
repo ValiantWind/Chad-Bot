@@ -1,7 +1,6 @@
- const { MessageEmbed, TextChannel } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const moment = require('moment');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const noblox = require('noblox.js');
 const request = require('request-promise');
 const fetch = require('node-fetch');
@@ -20,23 +19,12 @@ module.exports = {
   usage: '/robloxinfo <roblox username>',
   async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     
-    const color = getRoleColor(interaction.guild)
     const username = interaction.options.getString("username");
 
     interaction.deferReply()
 
-    // if(!username){
-    //   const robloxProfile = await robloxuserdb.find({
-    //   userId: interaction.user.id,
-    //   guildId: interaction.guildId,
-      
-    // })
-
-    
-      
-    // } else {
       try {
       const devForumData = await request({
         uri: `https://devforum.roblox.com/u/${username}.json`,
@@ -71,8 +59,8 @@ module.exports = {
 
       const avatarurl = await noblox.getPlayerThumbnail([id], '720x720', 'png', false, 'body')
 
-  const embed = new MessageEmbed()
-    .setColor(color)
+  const embed = new EmbedBuilder()
+    .setColor('BLURPLE')
     .setTitle(`${username}'s Profile`)
     .setDescription(info.blurb || 'No Description')
     .addField('Display Name', info.displayName || 'No Display Name')
@@ -94,7 +82,6 @@ module.exports = {
       console.log(error)
       interaction.editReply({content: 'An Error occured. Make sure the username you typed in exists or that the user is not banned!'})
     }
-   // }
     
   }
 };

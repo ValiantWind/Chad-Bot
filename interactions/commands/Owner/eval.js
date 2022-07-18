@@ -1,6 +1,6 @@
 require('dotenv').config;
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const fetch = require('node-fetch');
 const noblox = require('noblox.js');
 
@@ -16,11 +16,12 @@ module.exports = {
     .setRequired(true)
   ),
   cooldown: 5000,
+  userPermissions: "ADMINISTRATOR",
   category: 'Information',
   usage: '/eval <user>',
 	async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
 
     if(interaction.user.id === ownerId) {
 

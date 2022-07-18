@@ -1,6 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const warndb = require('../../../models/warndb');
 const modstatsdb = require('quick.db');
 
@@ -23,7 +22,7 @@ module.exports = {
   usage: '/warn <member> <reason>',
   async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     
     const user = interaction.options.getMember('target');
     const reason = interaction.options.getString('reason') || 'No reason specified';
@@ -60,24 +59,5 @@ new warndb({
       modstatsdb.add(`warnModstats_${interaction.member.user.id}`, 1)
       modstatsdb.add(`totalModstats_${interaction.member.user.id}`, 1)  
   }
-
-    //let color = getRoleColor(interaction.guild);
-    //db2.add(`warnModstats_${interaction.member.user.id}`, 1)
-        //db2.add(`totalModstats_${interaction.member.user.id}`, 1)
-        //interaction.reply({embeds: [success]})
-    
-    // let color = getRoleColor(interaction.guild);
-    // const warnEmbed = new MessageEmbed()
-    //   .setColor(color)
-    //   .setTitle(`***Warned!***`)
-    //   .setDescription(`***Successfully Warned ${member}!*** || ${reason} `)
-    //   .setFooter('Imagine being warned lol')
-    //   .setTimestamp();
-    // let msg = `${author} warned you in ${interaction.guild.name} for ${reason}.`;
-    
-    // if (!member.user.bot) await member.send({ content: msg });
-    
-    //  db.add(`modlogs_${member.id}`, {reason: reason, modlogs: 1})
-    // interaction.reply({embeds: [warnEmbed]});
   }
 }

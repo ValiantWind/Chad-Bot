@@ -1,31 +1,32 @@
 require('dotenv').config;
 
 const fs = require('fs');
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const fetch = require('node-fetch');
-const { getRoleColor } = require('./utils/getRoleColor');
-//const { TwitterApi } = require('twitter-api-v2');
-
 const token = process.env.token
 const clientId = process.env.clientId
 const guildId = process.env.guildId
-//const twitterToken = process.env.twitterBearerToken
 
 const client = new Client({
 	intents: [
-  Intents.FLAGS.GUILDS,
-  Intents.FLAGS.GUILD_MEMBERS,
-  Intents.FLAGS.GUILD_BANS,
-  Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
-  Intents.FLAGS.GUILD_INTEGRATIONS,
-  Intents.FLAGS.GUILD_VOICE_STATES,
-  Intents.FLAGS.GUILD_PRESENCES,
-  Intents.FLAGS.GUILD_MESSAGES,
-  Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-  Intents.FLAGS.GUILD_MESSAGE_TYPING,
-  Intents.FLAGS.DIRECT_MESSAGES
+  GatewayIntentBits.Guilds,
+  GatewayIntentBits.GuildMembers,
+  GatewayIntentBits.GuildBans,
+  GatewayIntentBits.GuildEmojisAndStickers,
+  GatewayIntentBits.GuildVoiceStates,
+  GatewayIntentBits.GuildPresences,
+  GatewayIntentBits.GuildMessages,
+  GatewayIntentBits.GuildMessageReactions,
+  GatewayIntentBits.GuildMessageTyping,
+  GatewayIntentBits.DirectMessages,
+  GatewayIntentBits.MessageContent
+  ],
+  partials: [
+    Partials.User,
+    Partials.Message,
+    Partials.Channel,
   ],
 });
 
@@ -35,37 +36,29 @@ module.exports = client;
 
 require("./handler")(client);
 
-// const twitterClient = new TwitterApi(twitterToken);
-
-// const roClient = twitterClient.readOnly;
-
-
-// module.exports = twitterClient;
-
 
 client.commands = new Collection();
 client.categories = new Collection();
 client.usages = new Collection();
 client.cooldowns = new Collection();
+client.userPermissions = new Collection();
 client.buttonCommands = new Collection();
-client.selectMenuCommands = new Collection();
-client.contextMenuCommands = new Collection();
 
-const { GiveawaysManager } = require("discord-giveaways");
-client.giveawaysManager = new GiveawaysManager(client, {
-  storage: "./utils/giveaways.json",
-  default: {
-    botsCanWin: false,
-    embedColor: "BLURPLE",
-    reaction: "🎉",
-    lastChance: {
-      enabled: true,
-      content: `**Last chance to enter the giveaway!**`,
-      threshold: 5000,
-      embedColor: 'BLURPLE'
-    }
-  }
-});
+// const { GiveawaysManager } = require("discord-giveaways");
+// client.giveawaysManager = new GiveawaysManager(client, {
+//   storage: "./utils/giveaways.json",
+//   default: {
+//     botsCanWin: false,
+//     embedColor: "BLURPLE",
+//     reaction: "🎉",
+//     lastChance: {
+//       enabled: true,
+//       content: `**Last chance to enter the giveaway!**`,
+//       threshold: 5000,
+//       embedColor: 'BLURPLE'
+//     }
+//   }
+// });
 
 
 ///////////////Slash Commands///////////////////
@@ -108,11 +101,7 @@ for (const file of eventFiles) {
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args, client));
 	} else {
-		client.on(
-			event.name,
-			async (...args) => await event.execute(...args, client),
-      client.giveawaysManager.on(event.name, (...file) => event.execute(...file, client)), delete require.cache[require.resolve(`./events/${file}`)]
-		)
+		client.on(event.name, (...args) => event.execute(...args));
 	}
 };
 
@@ -122,7 +111,6 @@ const rest = new REST({ version: "9" }).setToken(token);
 
 const commandJsonData = [
 	...Array.from(client.commands.values()).map((c) => c.data.toJSON()),
-	...Array.from(client.contextMenuCommands.values()).map((c) => c.data),
 ];
 
 (async () => {
@@ -224,6 +212,6 @@ process.on('uncaughtException', (err, origin) => {
 process.on('uncaughtExceptionMonitor', (err, origin) => {
   console.log('Uncaught Exception Monitor', err, origin);
   })
-process.on('multipleResolves', (type, promise, reason) => {
-  console.log('Multiple Resolves:', type, promise, reason);
-  })    
+// process.on('multipleResolves', (type, promise, reason) => {
+//   console.log('Multiple Resolves:', type, promise, reason);
+//   })    

@@ -1,6 +1,6 @@
 require('dotenv').config;
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const fetch = require('node-fetch');
 const noblox = require('noblox.js');
 
@@ -18,7 +18,7 @@ module.exports = {
   usage: '/badgeinfo <badgeid>',
 	async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+   if(interaction.type != InteractionType.ApplicationCommand) return;
 
     const badgeId = interaction.options.getString('badgeid');
 
@@ -32,7 +32,7 @@ module.exports = {
     
    try {
 
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle(`Info for the "${badgeInfo.name}" Badge`)
         .setDescription(`Earn this Badge from ${badgeInfo.awardingUniverse.name}` || 'Unknown Badge Origin')
         .addField('Description', badgeInfo.description || 'No Description')

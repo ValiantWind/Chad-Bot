@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Canvas } = require('canvacord');
-const { MessageAttachment } = require('discord.js');
+const { Attachment, InteractionType } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -15,14 +15,14 @@ module.exports = {
   usage: '/triggered <optional member>',
 	async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
     const user = interaction.options.getMember('user') || interaction.user;
         const avatar = user.displayAvatarURL({ size: 2048, format: "png" });
 
         const image = await Canvas.trigger(avatar);
 
-        const attachment = new MessageAttachment(image, "xopbottriggered.gif");
+        const attachment = new Attachment(image, "xopbottriggered.gif");
         return interaction.reply({ files: [{ attachment: image }] });
 	},  
 };

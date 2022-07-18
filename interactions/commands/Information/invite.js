@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -7,12 +8,12 @@ module.exports = {
   cooldown: 5000,
   category: 'Information',
   usage: '/invite',
-	async execute(interaction) {
+	async execute(interaction, client) {
 
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
     //Discord.js embed
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setColor('BLURPLE')
         .setTitle('Invite Link to the Support Server')
         .setURL('https://discord.gg/zPzwgzczHz')

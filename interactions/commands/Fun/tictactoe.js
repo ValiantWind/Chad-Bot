@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { TicTacToe } = require('discord-gamecord');
+const { InteractionType } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -15,7 +16,7 @@ module.exports = {
   usage: '/tictactoe <opponent>',
 	async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
     new TicTacToe({
       message: interaction,

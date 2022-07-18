@@ -1,4 +1,4 @@
- const { MessageEmbed, TextChannel } = require('discord.js');
+ const { MessageEmbed, TextChannel, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
 const noblox = require('noblox.js');
@@ -18,7 +18,7 @@ module.exports = {
   usage: '/groupinfo <roblox group id>',
   async execute(interaction) {
 
-     if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
     const color = getRoleColor(interaction.guild)
     const groupId = interaction.options.getInteger("groupid");

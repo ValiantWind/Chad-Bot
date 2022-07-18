@@ -1,6 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -20,7 +19,7 @@ module.exports = {
   category: 'Moderation',
   usage: '/removerole <member> <role>',
   async execute(interaction) {
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     const user = interaction.options.getMember('user');
     const roleToRemove = interaction.options.getRole('role');
 

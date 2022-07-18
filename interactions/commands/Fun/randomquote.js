@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const fetch = require('node-fetch');
+const { InteractionType } = require('discord.js');
 
 function getQuote() {
   return fetch("https://zenquotes.io/api/random")
@@ -19,7 +20,7 @@ module.exports = {
   usage: '/randomquote',
 	async execute(interaction) {
     
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     
 		return getQuote().then(quote => interaction.reply(quote))
 	},

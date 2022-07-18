@@ -1,8 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const fetch = require('node-fetch');
-const { getRoleColor } = require('../../../utils/getRoleColor');
-
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('fact')
@@ -12,16 +10,15 @@ module.exports = {
   usage: "/fact",
 	async execute(interaction) {
 
-  if(!interaction.isCommand()) return;
+  if(interaction.type != InteractionType.ApplicationCommand) return;
     
-    const color = getRoleColor(interaction.guild)
       const response = await fetch('https://uselessfacts.jsph.pl/random.json?language=en');
     await response.json().then(res => {
       interaction.reply({
-        embeds: [new MessageEmbed()
+        embeds: [new EmbedBuilder()
     .setTitle('Your Useless Fact')
     .setDescription(res.text)
-    .setColor(color)]
+    .setColor('BLURPLE')]
       });
     });
 	},

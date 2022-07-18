@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { InteractionType } = require('discord.js');
 const ms = require('ms');
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -14,7 +15,7 @@ module.exports = {
   usage: '/hack <user>',
 	async execute(interaction) {
     
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
     await interaction.deferReply()
 	 const tohack = interaction.options.getMember("user");

@@ -1,6 +1,6 @@
-const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { getRoleColor } = require('../../../utils/getRoleColor');
+const { InteractionType } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,8 +15,8 @@ module.exports = {
   category: 'Fun',
   usage: "/8ball <Your Question>",
   async execute(interaction) {
-    if(!interaction.isCommand()) return;
-    let color = getRoleColor(interaction.guild);
+    if(interaction.type != InteractionType.ApplicationCommand) return;
+    
     const question = interaction.options.getString('question');
 
     

@@ -1,6 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const warndb = require('../../../models/warndb');
 const mutedb = require('../../../models/mutedb');
 const kickdb = require('../../../models/kickdb');
@@ -20,8 +19,7 @@ module.exports = {
   category: 'Moderation',
   usage: '/modlogs <member>',
   async execute(interaction) {
-    if(!interaction.isCommand()) return;
-   // const user = interaction.options.getMember('member');
+    if(interaction.type != InteractionType.ApplicationCommand) return;
 
     const options = interaction.options;
 
@@ -30,7 +28,6 @@ module.exports = {
     if(!target){
       const userId = interaction.user.id;
       const userWarnings = await warndb.find({      
-     // userId: user.id,
       userId: userId,
       guildId: interaction.guildId
     })
@@ -97,16 +94,21 @@ module.exports = {
         }).join("\n\n");
 
     const totalModlogs = userWarnings?.length + userMutes?.length + userKicks?.length + userBans?.length
-    const color = getRoleColor(interaction.guild);
-       const embed = new MessageEmbed()
+       const embed = new EmbedBuilder()
       .setTitle(`${interaction.user.tag}'s ModLogs`)
       .setDescription(`Total ModLogs: ${totalModlogs}`)
-      .addField('Warnings', warnField || 'No Warnings')
-      .addField('Mutes', muteField || 'No Mutes')
-      .addField('Kicks', kickField || 'No Kicks')
-      .addField('Bans', banField || 'No Bans')
+      .addFields(
+        {name: 'Warnings', value: warnField || 'No Warnings'},
+        {name: 'Mutes', value: muteField || 'No Mutes'},
+        {name: 'Kicks', value: kickField || 'No Kicks'},
+        {name: 'Bans', value: banField || 'No Bans'}
+      )
+      // .addField('Warnings', warnField || 'No Warnings')
+      // .addField('Mutes', muteField || 'No Mutes')
+      // .addField('Kicks', kickField || 'No Kicks')
+      // .addField('Bans', banField || 'No Bans')
       .setFooter(`${totalModLogs} Total Modlogs`)
-      .setColor(color)
+      .setColor('BLURPLE')
 
     interaction.reply({embeds: [embed]})
     
@@ -181,14 +183,19 @@ module.exports = {
 
     const totalModlogs = userWarnings?.length + userMutes?.length + userKicks?.length + userBans?.length
     const color = getRoleColor(interaction.guild);
-       const embed = new MessageEmbed()
+       const embed = new EmbedBuilder()
       .setTitle(`<@${target}>'s ModLogs`)
       .setDescription(`Total ModLogs: ${totalModlogs}`)
-      //.addFields('Warnings', warnField || 'No Warnings')
-      .addField('Warnings', warnField || 'No Warnings')
-      .addField('Mutes', muteField || 'No Mutes')
-      .addField('Kicks', kickField || 'No Kicks')
-      .addField('Bans', banField || 'No Bans')
+         .addFields(
+        {name: 'Warnings', value: warnField || 'No Warnings'},
+        {name: 'Mutes', value: muteField || 'No Mutes'},
+        {name: 'Kicks', value: kickField || 'No Kicks'},
+        {name: 'Bans', value: banField || 'No Bans'}
+      )
+      // .addField('Warnings', warnField || 'No Warnings')
+      // .addField('Mutes', muteField || 'No Mutes')
+      // .addField('Kicks', kickField || 'No Kicks')
+      // .addField('Bans', banField || 'No Bans')
       .setColor('BLURPLE')
 
     interaction.reply({embeds: [embed]})

@@ -1,7 +1,5 @@
- const { MessageEmbed, TextChannel } = require('discord.js');
+ const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const moment = require('moment');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const fetch = require('node-fetch');
 
 module.exports = {
@@ -16,45 +14,46 @@ module.exports = {
   cooldown: 3000,
   category: 'Information',
   usage: '/repo <GitHub repository name>',
-  async execute(interaction) {
+  async execute(interaction, client) {
 
-  if(!interaction.isCommand()) return;
+   if(interaction.type != InteractionType.ApplicationCommand) return;
     
-    const color = getRoleColor(interaction.guild)
+   
     const repository = interaction.options.getString("name");
 
     
     try {
       fetch(`https://api.github.com/repos/${repository}`)
-        .then(response=>response.json().then(data=>{
-            //console.log(data)
+        .then(response => response.json().then(data=>{
 
           let creationDate = new Date(data.created_at)
           let updateDate = new Date(data.updated_at)
           let id = data.owner.id
           let avatarUrl = `https://avatars.githubusercontent.com/u/${id}?v=4`
-  const embed = new MessageEmbed()
-    .setColor(color)
+  const embed = new EmbedBuilder()
+    .setColor('BLURPLE')
     .setTitle(`${repository} Repository Information`)
     .setURL(data.html_url)
     .setThumbnail(avatarUrl)
     .setDescription('**Description:** ' + data.description || 'No Description')
-    .addField('Fork?', data.fork || 'false')
-    .addField('Star Count', data.stargazers_count.toString(), true)
-    .addField('Fork Count', data.forks_count.toString(), true)
-    .addField('Watcher Count', data.watchers_count.toString(), true)
-    .addField('Open Issues Count', data.open_issues_count.toString(), true)
-    .addField('Default Branch', data.default_branch || 'Not Available')
-    .addField('Template?', data.is_template || 'false', true)
-    .addField('Archived?', data.archived || 'false', true)
-    .addField('License', data.license.name || 'No License')
-    .addField('Created At', creationDate.toDateString(), true)
-    .addField('Last Updated At', updateDate.toDateString(), true)
+    .addFields(
+      {name: 'Fork?', value: data.fork || 'No'},
+      {name: 'Star Count', value: data.stargazers_count.toString(), inline: true},
+      {name: 'Fork Count', value: data.forks_count.toString(), inline: true},
+      {name: 'Watcher Count', value: data.watchers_count.toString(), inline: true},
+      {name: 'Open Issues', value: data.open_issues_count.toString(), inline: true},
+      {name: 'Default Branch', value: data.default_branch || 'Not Available'},
+      {name: 'Template?', value: data.is_template || 'No', inline: true},
+      {name: 'Archived?', value: data.archived || 'No', inline: true},
+      {name: 'License', value: data.license.name || 'No License'},
+      {name: 'Created At', value: creationDate.toDateString(), inline: true},
+      {name: 'Last Updated At', value: updateDate.toDateString(), inline: true},
+    )
     interaction.reply({embeds: [embed]})
             }));
     } catch(error) {
       console.log(error)
-      interaction.reply({content: 'An error occured. Make sure the username you typed in is valid and exists!'})
+      interaction.reply({content: 'An error occured. Make sure the repo name (Format: USERNAME/REPO NAME) you typed in is valid and exists!'})
     }
   }
 };

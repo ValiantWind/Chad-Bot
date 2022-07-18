@@ -1,7 +1,6 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const moment = require('moment');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -10,14 +9,13 @@ module.exports = {
   cooldown: 3000,
   category: 'Information',
   usage: '/serverinfo',
-  async execute(interaction) {
+  async execute(interaction, client) {
 
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
-    let color = getRoleColor(interaction.guild);
     const ownerId = interaction.guild.ownerId;
-    const serverInfoEmbed = new MessageEmbed()
-      .setColor(color)
+    const serverInfoEmbed = new EmbedBuilder()
+      .setColor('BLURPLE')
       .setTitle('Server Information')
       .addFields(
         { name: 'Server Name', value: `${interaction.guild.name}` },

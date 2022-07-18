@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { InteractionType } = require('discord.js');
 const ms = require('ms-prettify').default;
 
 
@@ -9,14 +9,15 @@ module.exports = {
 
 		const { client } = interaction;
 
-		if (!interaction.isCommand()) return;
+		if(interaction.type != InteractionType.ApplicationCommand) return;
 
 
 		const command = client.commands.get(interaction.commandName);
 
 
 		if (!command) return;
-
+    
+  
 
 		try {
       const t = client.cooldowns.get(`${interaction.user.id}_${command.name}`) || 0;

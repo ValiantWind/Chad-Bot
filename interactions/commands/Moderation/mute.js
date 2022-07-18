@@ -1,6 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const modstatsdb = require('quick.db');
 const mutedb = require('../../../models/mutedb');
 const ms = require('ms');
@@ -29,7 +28,7 @@ module.exports = {
   usage: '/mute <member> <reason> <duration (1m, 1h, 1d)>',
   async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     
     const member = interaction.options.getMember('user');
     const duration = interaction.options.getString('duration');
@@ -38,7 +37,7 @@ module.exports = {
     const parsedTime = parseTime(duration);
     
 
-    const muteEmbed = new MessageEmbed()
+    const muteEmbed = new EmbedBuilder()
       .setColor('BLURPLE')
       .setTitle(`**Muted!**`)
       .setDescription(`***Successfully muted ***${member} for ${duration}! || ${reason} `)

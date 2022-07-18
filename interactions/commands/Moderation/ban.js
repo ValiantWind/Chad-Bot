@@ -1,6 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const modstatsdb = require('quick.db');
 const bandb = require('../../../models/bandb');
 
@@ -21,7 +20,7 @@ module.exports = {
   category: 'Moderation',
   usage: '/ban <member> <reason>',
   async execute(interaction) {
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason');
 
@@ -54,8 +53,8 @@ new bandb({
     let color = getRoleColor(interaction.guild);
 
     
-    const banEmbed = new MessageEmbed()
-      .setColor(color)
+    const banEmbed = new EmbedBuilder()
+      .setColor('BLURPLE')
       .setTitle(`***Banned!***`)
       .setDescription(`***Successfully banned*** ${member}! || ${reason} `)
       .setFooter('Imagine being banned lol')

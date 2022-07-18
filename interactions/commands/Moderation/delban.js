@@ -1,7 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
-const modstatsdb = require('quick.db');
 const bandb = require('../../../models/bandb');
 
 module.exports = {
@@ -18,7 +16,7 @@ module.exports = {
   usage: '/delban <ban id>',
   async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
    const banId = interaction.options.getString('banid');
 

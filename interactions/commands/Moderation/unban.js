@@ -1,6 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 
 
 
@@ -22,30 +21,18 @@ module.exports = {
   usage: '/unban <user> <reason (Optional)>',
   async execute(interaction) {
 
-    // const options = interaction.options._hoistedOptions
-    
-    // const user = interaction.option
-    // const reason = interaction.options.getString('reason');
-
-  if(!interaction.isCommand()) return;
-
-
+if(interaction.type != InteractionType.ApplicationCommand) return;
 
     const options = interaction.options;
 
       const target = options.get('userid')?.value;
 
-      // default embed
-      const embed = new MessageEmbed()
-        .setColor("BLURPLE");
-
-
       const totalbans = await interaction.guild.bans.fetch()
 
-
       await interaction.guild.bans.remove(target);
-
-      embed.setColor('BLURPLE').setDescription(` Successfully unbanned <@${target}>.`)
+      const embed = new EmbedBuilder()
+      .setColor('BLURPLE')
+      .setDescription(` Successfully unbanned <@${target}>.`)
       await interaction.reply({embeds: [embed]})
   }
 }

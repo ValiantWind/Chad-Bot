@@ -1,7 +1,6 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const moment = require('moment');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,11 +13,11 @@ module.exports = {
   cooldown: 3000,
   category: 'Information',
   usage: '/userinfo <member (optional)>',
-  async execute(interaction) {
+  async execute(interaction, client) {
 
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
-    let color = getRoleColor(interaction.guild);
+    
     const member = interaction.options.getMember('user');
     
     let userInfoEmbed;
@@ -27,8 +26,8 @@ module.exports = {
       const perms = '```' + interaction.member.permissions.toArray().join(`, `) + '```';
       let badges = '```' + interaction.member.user.flags.toArray().join(', ') + '```';
       if (badges === '``````') badges = '```None```';
-      userInfoEmbed = new MessageEmbed()
-        .setColor(color)
+      userInfoEmbed = new EmbedBuilder()
+        .setColor('BLURPLE')
         .setTitle('User Information')
         .addFields(
           { name: 'Username:', value: `${interaction.member.user.tag}` },
@@ -47,8 +46,8 @@ module.exports = {
       const perms = '```' + member.permissions.toArray().join(`, `) + '```';
       let badges = '```' + member.user.flags.toArray().join(', ') + '```';
       if (badges === '``````') badges = '```None```';
-      userInfoEmbed = new MessageEmbed()
-        .setColor(color)
+      userInfoEmbed = new EmbedBuilder()
+        .setColor('BLURPLE')
         .setTitle(`${member.user.username}'s User Information`)
         .addFields(
           { name: 'Username: ', value: `${member.user.tag}` },

@@ -1,6 +1,5 @@
-const { MessageEmbed, MessageAttachment } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,18 +12,17 @@ module.exports = {
   category: 'Information',
   cooldown: 3000,
   usage: '/avatar <member (optional)>',
- async execute(interaction) {
+ async execute(interaction, client) {
 
-   if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
    
    const member = interaction.options.getMember('user') || interaction.user;
 
-  const color = getRoleColor(interaction.guild)
-     const embed = new MessageEmbed()
+     const embed = new EmbedBuilder()
       .setTitle(`${member.tag || member.user.tag}'s Avatar`)
       .setImage(member.displayAvatarURL({ dynamic: true, size:  1024 }))
       .setTimestamp()
-      .setColor(color);
+      .setColor('BLURPLE');
      interaction.reply({ embeds: [embed] });
   }
 }

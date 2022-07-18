@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Trivia } = require('discord-gamecord');
+const { InteractionType } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -10,7 +11,7 @@ module.exports = {
   usage: '/trivia',
 	async execute(interaction, client) {
 
-      if(!interaction.isCommand()) return;
+       if(interaction.type != InteractionType.ApplicationCommand) return;
     
         new Trivia({
             message: interaction,

@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const fetch = require('node-fetch');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,17 +11,16 @@ module.exports = {
   usage: "/koala",
 	async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+     if(interaction.type != InteractionType.ApplicationCommand) return;
     
 		await interaction.deferReply();
     const res = await fetch('https://some-random-api.ml/img/koala');
     const img = (await res.json()).link;
-    const color = getRoleColor(interaction.guild);
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
     .setTitle(`Koala! :D`)
     .setImage(img)
     .setTimestamp()
-    .setColor(color);
+    .setColor('BLURPLE');
 		interaction.editReply({ embeds: [embed] });
 	},
 };

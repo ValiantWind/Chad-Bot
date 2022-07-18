@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
   usage: '/setnick <member> <new nickname>',
   async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     
     const user = interaction.options.getMember('target');
     const newNick = interaction.options.getString('nickname');
@@ -30,23 +30,12 @@ if(interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0){
 } else {
   
       user.setNickname(newNick);
-      let embed = new MessageEmbed()
+      let embed = new EmbedBuilder()
     .setTitle("Success!")
     .setDescription(`Successfully set ${user.user.tag}'s nickname to ${newNick}`)
     .setColor('BLURPLE')
     .setTimestamp()
    await interaction.reply({embeds: [embed]})
-}
-
-   // let member = interaction.guild.members.cache.get(user.id);
-
-   //  await member.setNickname(newNick)
-
-   //  let embed = new MessageEmbed()
-   //  .setTitle("Success!")
-   //  .setDescription(`Successfully changed ${user.user.tag}'s nickname to ${newNick}`)
-   //  .setColor('BLURPLE')
-   //  .setTimestamp()
-   // interaction.reply({embeds: [embed]})
   }
+}
 }

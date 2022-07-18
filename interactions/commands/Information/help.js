@@ -1,8 +1,6 @@
 const { readdirSync } = require("fs");
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
-//const client = require('../../../index');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -18,7 +16,7 @@ module.exports = {
     usage: '/help <command (optional)>',
     async execute(interaction, client){
       
-      if(!interaction.isCommand()) return;
+      if(interaction.type != InteractionType.ApplicationCommand) return;
       
       const color = getRoleColor(interaction.guild)
 
@@ -63,15 +61,22 @@ module.exports = {
 
           
             // This is what it commands when using the command without arguments
-            const helpEmbed = new MessageEmbed()
+            const helpEmbed = new EmbedBuilder()
                 .setTitle(`Help Menu`)
                 .setDescription(`\n**Total Slash Commands:** ${client.commands.size}`)
-                .addField("Information Slash Commands", infoCommandsList.map((data) => `${data}`).join(", "), true)
-                .addField("Moderation Slash Commands", modCommandsList.map((data) => `${data}`).join(", "), true)
-                .addField("Fun Slash Commands", funCommandsList.map((data) => `${data}`).join(", "), true)
-                .addField("Roblox Slash Commands", robloxCommandsList.map((data) => `${data}`).join(", "), true)
-                .addField("Giveaway Slash Commands", giveawayCommandsList.map((data) => `${data}`).join(", "), true)
-                .setColor(color)
+                .addFields(
+                  {name: 'Information Slash Commands', value: infoCommandsList.map((data) => `${data}`).join(", "), inline: true},
+                  {name: 'Moderation Slash Commands', value: modCommandsList.map((data) => `${data}`).join(", "), inline: true},
+                  {name: 'Fun Slash Commands', value: funCommandsList.map((data) => `${data}`).join(", "), inline: true},
+                  {name: 'Roblox Slash Commands', value: robloxCommandsList.map((data) => `${data}`).join(", "), inline: true}
+                  // {name: 'Giveaway Slash Commands', value: giveawayCommandsList.map((data) => `${data}`).join(", "), inline: true}
+                )
+                // .addField("Information Slash Commands", infoCommandsList.map((data) => `${data}`).join(", "), true)
+                // .addField("Moderation Slash Commands", modCommandsList.map((data) => `${data}`).join(", "), true)
+                // .addField("Fun Slash Commands", funCommandsList.map((data) => `${data}`).join(", "), true)
+                // .addField("Roblox Slash Commands", robloxCommandsList.map((data) => `${data}`).join(", "), true)
+                //.addField("Giveaway Slash Commands", giveawayCommandsList.map((data) => `${data}`).join(", "), true)
+                .setColor('BLURPLE')
                 .setTimestamp()
 
             interaction.reply({ embeds: [helpEmbed] });
@@ -91,7 +96,7 @@ module.exports = {
                 let category = command.category || 'No category provided.'
               let usage = command.usage || 'No Usage Provided';
 
-                let helpCmdEmbed = new MessageEmbed()
+                let helpCmdEmbed = new EmbedBuilder()
                     .setTitle(`\`${(name.toLocaleString())}\` Slash Command Info`)
                     .setDescription('')
                     .addFields(
@@ -100,7 +105,7 @@ module.exports = {
                         { name: 'Cooldown (in seconds)', value: `${cooldown / 1000}` },
                       { name: 'Usage', value: `${usage}` }
                     )
-                    .setColor(color)
+                    .setColor('BLURPLE')
                     .setTimestamp()
 
                 interaction.reply({ embeds: [helpCmdEmbed] });

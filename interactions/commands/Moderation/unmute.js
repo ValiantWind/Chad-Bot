@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -20,19 +20,16 @@ module.exports = {
   usage: '/unmute <member> <reason>',
   async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason') || 'No reason provided.'
 
     
-    const unmuteEmbed = new MessageEmbed()
+    const unmuteEmbed = new EmbedBuilder()
       .setColor('BLURPLE')
       .setTitle(`**Unmuted!**`)
       .setDescription(`***Successfully unmuted*** ${member}! || ${reason} `)
       .setTimestamp();
-
-    
-      
       
         await member.timeout(null, reason)
         member.send(`You have been unmuted in ${interaction.guild.name}.`);

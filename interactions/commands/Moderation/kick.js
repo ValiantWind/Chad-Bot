@@ -1,6 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const kickdb = require('../../../models/kickdb');
 const modstatsdb = require('quick.db');
 
@@ -21,9 +20,11 @@ module.exports = {
   category: 'Moderation',
   usage: '/kick <member> <reason>',
   async execute(interaction) {
+
+    if(interaction.type != InteractionType.ApplicationCommand) return;
+    
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason') || 'No reason specified.';
-    if(!interaction.isCommand()) return;
     
     if (member.id == interaction.member.user.id) {
       return interaction.reply({ content: `I mean you could just leave the server.` });
@@ -49,8 +50,8 @@ new kickdb({
 
 
     let color = getRoleColor(interaction.guild);
-    const kickEmbed = new MessageEmbed()
-      .setColor(color)
+    const kickEmbed = new EmbedBuilder()
+      .setColor('BLURPLE')
       .setTitle(`***Kicked!**`)
       .setDescription(`***Successfully kicked **${member}! || ${reason} `)
       .setFooter('Imagine being kicked lol')

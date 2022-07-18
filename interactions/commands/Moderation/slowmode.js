@@ -1,6 +1,5 @@
-const { MessageEmbed, Channel } = require('discord.js');
+const { InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const ms = require('ms');
 
 module.exports = {
@@ -21,7 +20,7 @@ module.exports = {
   usage: "/slowmode <channel> <number of seconds>",
   async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     
     const amount = interaction.options.getString('time') || 0;
     const channelToSlowDown = interaction.options.getChannel('channel');

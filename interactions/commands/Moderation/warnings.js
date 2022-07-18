@@ -1,6 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, InteractionType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 const warndb =   require('../../../models/warndb');
 const moment = require('moment');
 
@@ -17,10 +16,10 @@ module.exports = {
   category: 'Moderation',
   usage: '/warnings <member>',
   async execute(interaction) {
-    const user = interaction.options.getMember('target');
-    const color = getRoleColor(interaction.guild);
 
-    if(!interaction.isCommand()) return;
+  if(interaction.type != InteractionType.ApplicationCommand) return;
+    
+    const user = interaction.options.getMember('target');
 
     const userWarnings = await warndb.find({
       userId: user.id,
@@ -42,10 +41,10 @@ module.exports = {
     .join("\n\n");
 
 
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
       .setTitle(`${user.user.tag}'s warnings`)
       .setDescription(embedDescription)
-      .setColor(color)
+      .setColor('BLURPLE')
 
     interaction.reply({embeds: [embed]})
 }

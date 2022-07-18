@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { InteractionType } = require('discord.js');
 const fetch = require('node-fetch');
-const { getRoleColor } = require('../../../utils/getRoleColor');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -12,7 +11,7 @@ module.exports = {
   usage: '/advice',
 	async execute(interaction) {
 
-    if(!interaction.isCommand()) return;
+    if(interaction.type != InteractionType.ApplicationCommand) return;
     
     const res = await fetch('https://api.adviceslip.com/advice');
     const advice = (await res.json()).slip.advice;
