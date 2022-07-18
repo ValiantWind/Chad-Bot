@@ -35,19 +35,27 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setTitle(`Info for the "${badgeInfo.name}" Badge`)
         .setDescription(`Earn this Badge from ${badgeInfo.awardingUniverse.name}` || 'Unknown Badge Origin')
-        .addField('Description', badgeInfo.description || 'No Description')
-        .addField('Enabled?', badgeInfo.enabled.toString() || 'Not Available')
-        .addField('Number of times awarded', badgeInfo.statistics.awardedCount.toString() || 'Not Available')
-        .addField('Number of times awarded yesterday', badgeInfo.statistics.pastDayAwardedCount.toString() || 'Not Available')
-        .addField('Created At', badgeInfo.created.toDateString() || 'Not Available')
-        .addField('Last Updated', badgeInfo.updated.toDateString() || 'Not Available')
+        .addFields(
+          {name: 'Description', value: badgeInfo.description || 'No Description'},
+          {name: 'Enabled?', value: badgeInfo.enabled.toString() || 'Not Available'},
+          {name: 'Number of times awarded', value: badgeInfo.statistics.awardedCount.toString() || 'Not Available'},
+          {name: 'Number of times awarded yesterday', value: badgeInfo.statistics.pastDayAwardedCount.toString() || 'Not Available'},
+          {name: 'Created At', value: badgeInfo.created.toDateString() || 'Not Available'},
+          {name: 'Last Updated', value: badgeInfo.updated.toDateString() || 'Not Available'}
+        )
+        // .addField('Description', badgeInfo.description || 'No Description')
+        // .addField('Enabled?', badgeInfo.enabled.toString() || 'Not Available')
+        // .addField('Number of times awarded', badgeInfo.statistics.awardedCount.toString() || 'Not Available')
+        // .addField('Number of times awarded yesterday', badgeInfo.statistics.pastDayAwardedCount.toString() || 'Not Available')
+        // .addField('Created At', badgeInfo.created.toDateString() || 'Not Available')
+        // .addField('Last Updated', badgeInfo.updated.toDateString() || 'Not Available')
         .setColor('BLURPLE')
         .setURL(`https://www.roblox.com/badges/${badgeId}`)
         .setTimestamp()
         //.setThumbnail(thumbnailUrl)
       interaction.reply({embeds: [embed]})
    } catch {
-      interaction.reply('An Error Occured. Make sure the Badge ID you typed you provided is valid.')
+      interaction.reply('An Error occured. Make sure the Badge ID you typed you provided is valid.')
 }
     
 	},
