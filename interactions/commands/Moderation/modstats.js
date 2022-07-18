@@ -46,10 +46,16 @@ module.exports = {
     let embed = new EmbedBuilder()
         .setTitle(`Modstats of ${member.tag || member.user.tag}`)
         .setDescription(`Total Mod Stats: ${totalModstats}`)
-        .addField('Total Warn Mod Stats: ', warnModstats.toString(), true)
-        .addField('Total Mute Mod Stats: ', muteModstats.toString(), true)
-        .addField('Total Kick Mod Stats: ', kickModstats.toString(), true)
-        .addField('Total Ban Mod stats', banModstats.toString(), true)
+      .addFields(
+        {name: 'Total Warn Mod Stats: ', value: warnModstats.toString(), inline: true},
+        {name: 'Total Mute Mod Stats: ', value: muteModstats.toString(), inline: true},
+        {name: 'Total Kick Mod Stats', value: kickModstats.toString(), inline: true},
+        {name: 'Total Ban Mod Stats', value: banModstats.toString(), inline: true}
+      )
+        // .addField('Total Warn Mod Stats: ', warnModstats.toString(), true)
+        // .addField('Total Mute Mod Stats: ', muteModstats.toString(), true)
+        // .addField('Total Kick Mod Stats: ', kickModstats.toString(), true)
+        // .addField('Total Ban Mod stats', banModstats.toString(), true)
         .setTimestamp()
         .setColor('BLURPLE')
     interaction.reply({ embeds: [embed] })
