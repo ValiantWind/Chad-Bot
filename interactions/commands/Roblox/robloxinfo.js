@@ -63,16 +63,28 @@ module.exports = {
     .setColor('BLURPLE')
     .setTitle(`${username}'s Profile`)
     .setDescription(info.blurb || 'No Description')
-    .addField('Display Name', info.displayName || 'No Display Name')
-    .addField('User ID', id.toString(), true)
-    .addField('Join Date', info.joinDate.toDateString(), true)
-    .addField('Account Age (in days)', info.age.toString() || "Not Available", true)
-    .addField('Friend Count', info.friendCount.toString(), true)
-    .addField('Follower Count', info.followerCount.toString(), true)
-    .addField('Following Count', info.followingCount.toString(), true)
-    .addField('Primary Group', primaryGroup || 'None')
-    .addField('Previous Username(s)', info.oldNames.toString() || 'No Previous Username(s)')
-    .addField('Ban Status', info.isBanned.toString())
+    .addFields(
+      {name: 'Display Name', value: info.displayName || 'No Display Name'},
+      {name: 'User ID', value: id.toString(), inline: true},
+      {name: 'Join Date', value: info.joinDate.toDateString(), inline: true},
+      {name: 'Account Age (in days)', value: info.age.toString() || 'Not Available', inline: true},
+      {name: 'Friend Count', value: info.friendCount.toString(), inline: true},
+      {name: 'Follower Count', value: info.followerCount.toString(), inline: true},
+      {name: 'Following Count', value: info.followingCount.toString(), inline: true},
+      {name: 'Primary Group', value: primaryGroup || 'None'},
+      {name: 'Previous Usernames(s)', value: info.oldNames.toString() || 'No Previous Usernames'},
+      {name: 'Ban Status', value: info.isBanned.toString()}
+    )
+    // .addField('Display Name', info.displayName || 'No Display Name')
+    // .addField('User ID', id.toString(), true)
+    // .addField('Join Date', info.joinDate.toDateString(), true)
+    // .addField('Account Age (in days)', info.age.toString() || "Not Available", true)
+    // .addField('Friend Count', info.friendCount.toString(), true)
+    // .addField('Follower Count', info.followerCount.toString(), true)
+    // .addField('Following Count', info.followingCount.toString(), true)
+    // .addField('Primary Group', primaryGroup || 'None')
+    // .addField('Previous Username(s)', info.oldNames.toString() || 'No Previous Username(s)')
+    // .addField('Ban Status', info.isBanned.toString())
     //.addField('DevForum Trust Level', trustLevel)
     .setTimestamp()
     .setThumbnail(avatarurl[0].imageUrl)
