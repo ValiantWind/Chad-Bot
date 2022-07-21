@@ -1,5 +1,5 @@
- const { MessageEmbed, InteractionType } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+ const { EmbedBuilder, InteractionType } = require('discord.js');
+const { SlashCommandBuilder, ButtonBuilder, ActionRowBuilder } = require('@discordjs/builders');
 const noblox = require('noblox.js');
 const fetch = require('node-fetch');
 
@@ -37,17 +37,20 @@ module.exports = {
 
     const res = await fetch(`https://groups.roblox.com/v1/groups/${groupId}/name-history?sortOrder=Asc&limit=10`);
 
-     // const response = await fetch(`https://economy.roblox.com/v1/groups/${groupId}/currency`)
-     // let groupFunds = await noblox.getGroupFunds(groupId) || 'Not Publicly Visible';
 
-//const fundsres = await response.json()
+      const row = new ActionRowBuilder()
+			.addComponents(
+				new ButtonBuilder()
+					.setLabel('Group Link')
+					.setStyle('Link')
+          .setURL(`https://roblox.com/groups/${groupId}/`)
+			);
 
-      //console.log(fundsres)
       
 
       const nameHistory = (await res.json()).data.name;
       
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setColor('BLURPLE')
     .setTitle(`${info.name}'s Group Info`)
     .setDescription(info.description)
@@ -59,17 +62,10 @@ module.exports = {
       {name: 'Member Count', value: info.memberCount.toString() || 'Not Available'},
       {name: 'Previous Group Name(s)', value: nameHistory || 'No Previous Names'}
     )
-    // .addField('Group Owner', info.owner.username || 'No Owner')
-    // .addField('Group ID', info.id.toString())
-    // .addField(`Current Group Shout Message`, `${groupShoutMessage}`)
-    // .addField('Group Open to Everyone?', info.publicEntryAllowed.toString())
-    // .addField('Member Count', info.memberCount.toString())
-    // .addField('Previous Group Names', nameHistory || 'No Previous Names')
-   //.addField('Group Funds', groupFunds.toString())
     .setTimestamp()
     .setThumbnail(groupLogo)
 
-    interaction.editReply({embeds: [embed]})
+    interaction.editReply({embeds: [embed], components: [row]})
     } catch(error) {
       console.log(error)
       interaction.editReply({content: 'An Error occured. Make sure the group id you typed in exists or that the group is not banned!'})

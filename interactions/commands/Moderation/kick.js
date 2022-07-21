@@ -28,15 +28,13 @@ module.exports = {
     
     if (member.id == interaction.member.user.id) {
       return interaction.reply({ content: `I mean you could just leave the server.` });
-    }
-  
-    if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
-      interaction.reply({ content: `Your roles must be higher than the roles of the person you want to kick!`, ephemeral: true });
-    }
-
-    if (!member.kickable) {
-      interaction.reply({ content: `Make sure that my role is higher than the role of the person you want to kick!`, ephemeral: true });
-    }
+    } else if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+     return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to kick!`, ephemeral: true });
+    } else  if (!member.kickable) {
+     return interaction.reply({ content: `I am unable to kick this member.`, ephemeral: true });
+    } else if(!member.manageable){
+      return interaction.reply({content: "Make sure my role is higher than the roles of the person you want to kick."})
+    } else {
     
     const author = interaction.member.user.username;
     
@@ -54,14 +52,14 @@ new kickdb({
       .setColor('BLURPLE')
       .setTitle(`***Kicked!**`)
       .setDescription(`***Successfully kicked **${member}! || ${reason} `)
-      .setFooter('Imagine being kicked lol')
       .setTimestamp();
-    let msg = `${author} kicked you from ${interaction.guild.name}. Reason: ${reason}`;
+    let msg = `You have been kicked from ${interaction.guild.name}. Reason: ${reason}`;
     
     modstatsdb.add(`kickModstat_${interaction.member.user.id}`, 1)
     modstatsdb.add(`totalModstats_${interaction.member.user.id}`, 1)
     member.kick();
     interaction.reply({embeds: kickEmbed});
     await member.send({ content: msg });
+  }
   }
 }

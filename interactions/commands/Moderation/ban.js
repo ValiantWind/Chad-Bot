@@ -27,17 +27,15 @@ module.exports = {
     
     if (member.id == interaction.member.user.id) {
       return interaction.reply({ content: `No.`, ephemeral: true });
-    }
+    } else if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+      return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to ban!`, ephemeral: true });
+    } else if (!member.manageable) {
+      return interaction.reply({ content: `Make sure that my role is higher than the role of the person you want to ban!`, ephemeral: true });
+    } else if(!member.bannable){
+     return interaction.reply({content: 'I am unable to ban this member.', ephemeral: true})
+    } else {
 
-    if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
-      interaction.reply({ content: `Your roles must be higher than the roles of the person you want to ban!`, ephemeral: true });
-    }
-
-    if (!member.bannable) {
-      interaction.reply({ content: `Make sure that my role is higher than the role of the person you want to ban!`, ephemeral: true });
-    }
-
-new bandb({
+  new bandb({
     userId: member.id,
     guildId: interaction.guildId,
     moderatorId: interaction.user.id,
@@ -45,27 +43,20 @@ new bandb({
     timestamp: Date.now(),
     
   }).save();
-
-    
-    const author = interaction.member.user.username;
-    
-
-    let color = getRoleColor(interaction.guild);
-
-    
-    const banEmbed = new EmbedBuilder()
+      
+      const banEmbed = new EmbedBuilder()
       .setColor('BLURPLE')
       .setTitle(`***Banned!***`)
       .setDescription(`***Successfully banned*** ${member}! || ${reason} `)
-      .setFooter('Imagine being banned lol')
       .setTimestamp();
-    let msg = `${author} banned you from ${interaction.guild.name}. Reason: ${reason}`;
+      
     
-    member.send(`You have been banned in ${interaction.guild.name} for ${reason}`);
+    member.send(`You have been banned in ${interaction.guild.name}. Reason: ${reason}`);
     
     interaction.guild.members.ban(member);
     modstatsdb.add(`banModstats_${interaction.member.user.id}`, 1)
     modstatsdb.add(`totalModstats_${interaction.member.user.id}`, 1)
-    interaction.reply({ embeds: [banEmbed]})
+    return interaction.reply({ embeds: [banEmbed]})
+    }
   }
 }

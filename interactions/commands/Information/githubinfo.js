@@ -46,17 +46,8 @@ module.exports = {
       {name: 'Company', value: data.company || 'N/A', inline: true},
       {name: 'Twitter', value: data.twitter_username || 'N/A', inline: true},
       {name: 'Created At', value: creationDate.toDateString(), inline: true},
-      {name: 'Last Updated At', value: updateData.toDateString(), inline: true}
+      {name: 'Profile Last Updated At', value: updated_at.toDateString(), inline: true}
     )
-    // .addField('Follower Count', data.followers.toString(), true)
-    // .addField('Following Count', data.following.toString(), true)
-    // .addField('Public Repo Count', data.public_repos.toString(), true)
-    // .addField('Blog', data.blog || 'Not Available')
-    // .addField('Location', data.location || 'Not Available', true)
-    // .addField('Company', data.company || 'Not Available', true)
-    // .addField('Twitter', data.twitter_username || 'Not Available')
-    // .addField('Created At', creationDate.toDateString(), true)
-    // .addField('Last Updated At', updateDate.toDateString(), true)
     interaction.reply({embeds: [embed]})
             }));
     } catch(error) {

@@ -38,6 +38,7 @@ A few things to note:
 2. Add a Command to any category you like using the following template:
 ```javascript
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { InteractionType } = require('discord.js')
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -51,7 +52,7 @@ module.exports = {
   usage: '/command_name <arg>',
   async execute(interaction) {
 
-  if(!interaction.isCommand()) return; // Make sure you include this
+if(interaction.type != InteractionType.ApplicationCommand) return;
     
 
   }

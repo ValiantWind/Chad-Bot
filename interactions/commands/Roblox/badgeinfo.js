@@ -28,6 +28,14 @@ module.exports = {
     // const thumbnailData = (await response.json()).data
 
     // const thumbnailUrl = await thumbnailData.imageUrl
+
+    const row = new ActionRowBuilder()
+			.addComponents(
+				new ButtonBuilder()
+					.setLabel('Group Link')
+					.setStyle('Link')
+          .setURL(`https://roblox.com/badges/${badgeId}/`)
+			);
     
     
    try {

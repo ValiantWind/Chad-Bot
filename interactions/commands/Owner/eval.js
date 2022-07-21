@@ -16,7 +16,7 @@ module.exports = {
     .setRequired(true)
   ),
   cooldown: 5000,
-  userPermissions: "ADMINISTRATOR",
+  //userPerms: "ADMINISTRATOR",
   category: 'Information',
   usage: '/eval <user>',
 	async execute(interaction) {

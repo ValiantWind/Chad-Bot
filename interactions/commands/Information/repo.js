@@ -37,10 +37,14 @@ module.exports = {
     .setThumbnail(avatarUrl)
     .setDescription('**Description:** ' + data.description || 'No Description')
     .addFields(
+      {name: 'Owner', value: data.owner.name},
+      {name: 'Main Language Used', value: data.language || 'Not Available'},
+      {name: 'Template?', value: data.is_template || 'No'},
       {name: 'Fork?', value: data.fork || 'No'},
       {name: 'Star Count', value: data.stargazers_count.toString(), inline: true},
       {name: 'Fork Count', value: data.forks_count.toString(), inline: true},
       {name: 'Watcher Count', value: data.watchers_count.toString(), inline: true},
+      {name: 'Subscriber Count', value: data.sunscribers_count, inline: true},
       {name: 'Open Issues', value: data.open_issues_count.toString(), inline: true},
       {name: 'Default Branch', value: data.default_branch || 'Not Available'},
       {name: 'Template?', value: data.is_template || 'No', inline: true},
@@ -53,7 +57,7 @@ module.exports = {
             }));
     } catch(error) {
       console.log(error)
-      interaction.reply({content: 'An error occured. Make sure the repo name (Format: USERNAME/REPO NAME) you typed in is valid and exists!'})
+      interaction.reply({content: 'An error occured. Make sure the repo name (Format: USERNAME/REPO-NAME) you typed in is valid and exists!'})
     }
   }
 };

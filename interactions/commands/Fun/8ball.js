@@ -16,17 +16,16 @@ module.exports = {
   usage: "/8ball <Your Question>",
   async execute(interaction) {
     if(interaction.type != InteractionType.ApplicationCommand) return;
-    
+        
     const question = interaction.options.getString('question');
-
     
+        
     let replies = [
 			"Yes, of course",
 			"Perhaps not",
 			"Definitely not",
       "Definitely",
 			"Joe says yes. Blame Joe if something goes wrong",
-      "Lite said No, but don't listen to him since he burned the server down",
       "The Karen say No. Try using this command again though since she says no to everything",
       "Reply hazy, try again later",
       "Maybe, maybe not",
@@ -34,7 +33,8 @@ module.exports = {
       "Leave me alone",
 		]
     let random = Math.floor(Math.random() * replies.length);
-
+    
     return interaction.reply(`The Magic 8-Ball Says: ${replies[random]}, <@${interaction.member.id}>.`)  
+
   }
 }

@@ -21,7 +21,8 @@ module.exports = {
     )
    .addStringOption((option) => option
       .setName('duration')
-      .setDescription(`The amount of minutes that you want the user to stay muted.`)
+      .setDescription(`The amount of minutes that you want the user to stay muted. (Eg: 1m, 30m, 50m)`)
+      .setRequired(true)
     ),
   cooldown: 5000,
   category: 'Moderation',
@@ -41,7 +42,6 @@ module.exports = {
       .setColor('BLURPLE')
       .setTitle(`**Muted!**`)
       .setDescription(`***Successfully muted ***${member} for ${duration}! || ${reason} `)
-      .setFooter('Imagine being muted lol')
       .setTimestamp();
 
     let msg = `You have been muted in ${interaction.guild.name}. Reason: ${reason}. Duration: ${duration}.`;
@@ -50,17 +50,17 @@ module.exports = {
       if (member.id == interaction.member.user.id) {
       return interaction.reply({ content: `Stupid mod. You can't mute youself. Why would you even want to do that lol`, ephemeral: true });
     } else if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
-      return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to mute!`, ephemeral: true });
+      return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to mute.`, ephemeral: true });
       } else if (parsedTime < ms('1m') || parsedTime > ms('28d')) {
-        return interaction.reply({content:'Please provide a time greater than 1 minute (1m) and less than 28 days (28d)'})
-      } else {  
-        await member.timeout(parsedTime, reason)
-        member.send(msg)
-        interaction.reply({embeds: [muteEmbed]})
-      }
-  
-     
-new mutedb({
+        return interaction.reply({content:'Please provide a time greater than 1 minute (1m) and less than 28 days (28d)', ephemeral: true})
+      } else if (!member.manageable){
+        return interaction.reply({content: "Make sure my role is higher than the roles of the person you want to mute.", ephemeral: true})
+      } else if(!member.moderatable){
+        return interaction.reply({content: "I am unable to mute this person.", ephemeral: true})
+      } else if(member.isCommunicationDisabled()) { 
+        return interaction.reply('This person is already muted.')
+      } else {
+        new mutedb({
     userId: member.id,
     guildId: interaction.guildId,
     moderatorId: interaction.user.id,
@@ -70,8 +70,12 @@ new mutedb({
     
   }).save();
 
-     
-modstatsdb.add(`muteModstats_${interaction.member.user.id}`, 1)
+        await member.timeout(parsedTime, reason)
+        member.send(msg)
+        modstatsdb.add(`muteModstats_${interaction.member.user.id}`, 1)
     modstatsdb.add(`totalModstats_${interaction.member.user.id}`, 1)
+      return  interaction.reply({embeds: [muteEmbed]})
+      }
+  
   }
 }

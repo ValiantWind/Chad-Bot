@@ -1,4 +1,4 @@
-const { EmbedBuilder, InteractionType } = require('discord.js');
+const { EmbedBuilder, InteractionType, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const moment = require('moment');
 const noblox = require('noblox.js');
@@ -59,6 +59,14 @@ module.exports = {
 
       const avatarurl = await noblox.getPlayerThumbnail([id], '720x720', 'png', false, 'body')
 
+        const row = new ActionRowBuilder()
+			.addComponents(
+				new ButtonBuilder()
+					.setLabel('Profile Link')
+					.setStyle('Link')
+          .setURL(`https://roblox.com/users/${id}/profile`)
+			);
+
   const embed = new EmbedBuilder()
     .setColor('BLURPLE')
     .setTitle(`${username}'s Profile`)
@@ -74,7 +82,8 @@ module.exports = {
       {name: 'Primary Group', value: primaryGroup || 'None'},
       {name: 'Previous Usernames(s)', value: info.oldNames.toString() || 'No Previous Usernames'},
       {name: 'Ban Status', value: info.isBanned.toString()}
-    )
+      )
+    
     // .addField('Display Name', info.displayName || 'No Display Name')
     // .addField('User ID', id.toString(), true)
     // .addField('Join Date', info.joinDate.toDateString(), true)
@@ -89,7 +98,7 @@ module.exports = {
     .setTimestamp()
     .setThumbnail(avatarurl[0].imageUrl)
 
-    interaction.editReply({embeds: [embed]})
+    interaction.editReply({embeds: [embed], components: [row]})
     } catch(error) {
       console.log(error)
       interaction.editReply({content: 'An Error occured. Make sure the username you typed in exists or that the user is not banned!'})

@@ -25,6 +25,8 @@ module.exports = {
     const reason = interaction.options.getString('reason') || 'No reason provided.'
 
     
+
+    
     const unmuteEmbed = new EmbedBuilder()
       .setColor('BLURPLE')
       .setTitle(`**Unmuted!**`)

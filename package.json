@@ -1,6 +1,6 @@
 {
   "name": "chad-bot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Multipurpose Discord Bot with no paywall.",
   "main": "index.js",
   "scripts": {
@@ -32,8 +32,6 @@
     "parse-duration": "^1.0.2",
     "quick.db": "^7.1.3",
     "request-promise": "^4.2.6",
-    "twitter-api-v2": "^1.12.2",
-    "twitter.js": "^0.14.0",
     "uuid": "^8.3.2"
   }
 }

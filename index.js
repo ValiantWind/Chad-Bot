@@ -5,6 +5,7 @@ const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js'
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const fetch = require('node-fetch');
+const GitHub = require('github-api');
 const token = process.env.token
 const clientId = process.env.clientId
 const guildId = process.env.guildId
@@ -31,7 +32,6 @@ const client = new Client({
 });
 
 
-
 module.exports = client;
 
 require("./handler")(client);
@@ -41,7 +41,7 @@ client.commands = new Collection();
 client.categories = new Collection();
 client.usages = new Collection();
 client.cooldowns = new Collection();
-client.userPermissions = new Collection();
+client.userPerms = new Collection();
 client.buttonCommands = new Collection();
 
 // const { GiveawaysManager } = require("discord-giveaways");
@@ -79,18 +79,18 @@ for (const module of commands) {
 
 ///////////////Buttons///////////////////
 
-const buttonCommands = fs.readdirSync("./interactions/buttons");
+// const buttonCommands = fs.readdirSync("./interactions/buttons");
 
-for (const module of buttonCommands) {
-	const commandFiles = fs
-		.readdirSync(`./interactions/buttons/${module}`)
-		.filter((file) => file.endsWith(".js"));
+// for (const module of buttonCommands) {
+// 	const buttonCommandFiles = fs
+// 		.readdirSync(`./interactions/buttons/${module}`)
+// 		.filter((file) => file.endsWith(".js"));
 
-	for (const commandFile of commandFiles) {
-		const command = require(`./interactions/buttons/${module}/${commandFile}`);
-		client.buttonCommands.set(command.id, command);
-	}
-}
+// 	for (const buttonCommandFile of buttonCommandFiles) {
+// 		const buttonCommand = require(`./interactions/buttons/${module}/${buttonCommandFile}`);
+// 		client.buttonCommands.set(buttonCommand.id, buttonCommand);
+// 	}
+// }
 
 const eventFiles = fs
 	.readdirSync("./events")
@@ -119,7 +119,7 @@ const commandJsonData = [
 
 		await rest.put(
 
-			Routes.applicationCommands(clientId, guildId),
+			Routes.applicationCommands(clientId),
 			{ body: commandJsonData }
 		);
 

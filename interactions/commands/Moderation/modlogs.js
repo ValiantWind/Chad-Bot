@@ -13,7 +13,7 @@ module.exports = {
     .addStringOption((option) => option
       .setName('userid')
       .setDescription(`The userid of the user you want to view the modlogs of.`)
-      .setRequired(false)
+      .setRequired(true)
     ),
   cooldown: 5000,
   category: 'Moderation',
@@ -182,7 +182,6 @@ module.exports = {
         }).join("\n\n");
 
     const totalModlogs = userWarnings?.length + userMutes?.length + userKicks?.length + userBans?.length
-    const color = getRoleColor(interaction.guild);
        const embed = new EmbedBuilder()
       .setTitle(`<@${target}>'s ModLogs`)
       .setDescription(`Total ModLogs: ${totalModlogs}`)

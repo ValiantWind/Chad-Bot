@@ -27,13 +27,17 @@ if(interaction.type != InteractionType.ApplicationCommand) return;
 
       const target = options.get('userid')?.value;
 
-      const totalbans = await interaction.guild.bans.fetch()
+      const banned = await interaction.guild.bans.fetch(target);
+    if(banned){
 
       await interaction.guild.bans.remove(target);
       const embed = new EmbedBuilder()
       .setColor('BLURPLE')
       .setDescription(` Successfully unbanned <@${target}>.`)
       await interaction.reply({embeds: [embed]})
+    } else {
+      interaction.reply({content: "This person isn't banned dumbo."})
+    }
   }
 }
 

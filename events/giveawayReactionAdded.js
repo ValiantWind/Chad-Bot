@@ -1,11 +1,11 @@
 const { MessageEmbed } = require("discord.js");
-const getRoleColor = require('./../utils/getRoleColor');
+
 module.exports = {
   async execute(giveaway, reactor, messageReaction) {
-    const color = getRoleColor(interaction.guild)
+    
     let approved =  new MessageEmbed()
     .setTimestamp()
-    .setColor(color || 'BLURPLE')
+    .setColor('BLURPLE')
     .setTitle("Entry Approved!")
     .setDescription(
       `Your entry to [This Giveaway](https://discord.com/channels/${giveaway.guildId}/${giveaway.channelId}/${giveaway.messageId}) has been approved!`
@@ -13,7 +13,7 @@ module.exports = {
     .setTimestamp()
    let denied =  new MessageEmbed()
     .setTimestamp()
-    .setColor(color || 'BLURPLE')
+    .setColor('BLURPLE')
     .setTitle("Entry Denied!")
     .setDescription(
       `Your entry to [This Giveaway](https://discord.com/channels/${giveaway.guildId}/${giveaway.channelId}/${giveaway.messageId}) has been denied. Please review the requirements to enter the giveaway.`

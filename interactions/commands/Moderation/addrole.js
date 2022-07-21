@@ -25,9 +25,12 @@ module.exports = {
     const user = interaction.options.getMember('user');
     const roleToAdd = interaction.options.getRole('role');
 
-    //     if (interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0) {
-    //   return interaction.reply({ content: `You can't modify the roles of someone who has a higher rank than yours. You can't give yourself roles that are higher than yours either.`, ephemeral: true });
-    // }
+        if (interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0) {
+      return interaction.reply({ content: `You can't modify the roles of someone who has a higher rank than yours. You can't give yourself roles that are higher than yours either.`, ephemeral: true });
+    }
+    if (member.roles.cache.some(role => role.name === roleToAdd)) {
+	return interaction.reply({ content: `You already have that role!`, ephemeral: true });
+}
    
       user.roles.add(roleToAdd);
     await interaction.reply('Role Added!')
