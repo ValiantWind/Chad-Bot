@@ -12,6 +12,7 @@ module.exports = {
 	async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
     const res = await fetch('https://api.adviceslip.com/advice');
     const advice = (await res.json()).slip.advice;

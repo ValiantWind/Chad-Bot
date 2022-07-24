@@ -21,6 +21,7 @@ module.exports = {
 	async execute(interaction) {
     
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
 		return getQuote().then(quote => interaction.reply(quote))
 	},

@@ -16,6 +16,7 @@ module.exports = {
 	async execute(interaction) {
     
      if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
     await interaction.deferReply()
 	 const tohack = interaction.options.getMember("user");

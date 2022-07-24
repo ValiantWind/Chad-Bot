@@ -50,6 +50,7 @@ module.exports = {
   async execute(interaction, client) {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
 
     // If the member doesn't have enough permissions
   //   if (!interaction.member.permissions.has('MANAGE_MESSAGES') && !interaction.member.roles.cache.some((r) => r.name === "GiveawayManager")) {

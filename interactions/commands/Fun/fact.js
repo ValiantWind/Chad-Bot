@@ -11,6 +11,7 @@ module.exports = {
 	async execute(interaction) {
 
   if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
       const response = await fetch('https://uselessfacts.jsph.pl/random.json?language=en');
     await response.json().then(res => {

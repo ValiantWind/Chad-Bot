@@ -16,6 +16,7 @@ module.exports = {
  async execute(interaction, client) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
+   if (!interaction.isChatInputCommand()) return;
    
    const channel = interaction.options.getChannel('channel');
    

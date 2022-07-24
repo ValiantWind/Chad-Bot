@@ -14,12 +14,15 @@ module.exports = {
       .setName('role')
       .setDescription(`The role you want to remove from the user`)
       .setRequired(true)
-    ),
+    )
+  .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/removerole <member> <role>',
   async execute(interaction) {
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
     const user = interaction.options.getMember('user');
     const roleToRemove = interaction.options.getRole('role');
 

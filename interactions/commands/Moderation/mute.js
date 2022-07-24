@@ -23,13 +23,16 @@ module.exports = {
       .setName('duration')
       .setDescription(`The amount of minutes that you want the user to stay muted. (Eg: 1m, 30m, 50m)`)
       .setRequired(true)
-    ),
+    )
+  .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/mute <member> <reason> <duration (1m, 1h, 1d)>',
   async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
     
     const member = interaction.options.getMember('user');
     const duration = interaction.options.getString('duration');

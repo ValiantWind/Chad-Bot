@@ -16,6 +16,7 @@ module.exports = {
   usage: "/8ball <Your Question>",
   async execute(interaction) {
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
         
     const question = interaction.options.getString('question');
     

@@ -14,13 +14,16 @@ module.exports = {
     .addStringOption((option) => option
       .setName('time')
       .setDescription(`The number of seconds you want the slowmode to be`)
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
   cooldown: 5000,
   category: 'Moderation',
   usage: "/slowmode <channel> <number of seconds>",
   async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
     
     const amount = interaction.options.getString('time') || 0;
     const channelToSlowDown = interaction.options.getChannel('channel');

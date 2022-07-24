@@ -16,6 +16,8 @@ module.exports = {
   async execute(interaction, client) {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
     
     
     const member = interaction.options.getMember('user');

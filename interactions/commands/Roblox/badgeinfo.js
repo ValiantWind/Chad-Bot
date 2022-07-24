@@ -19,6 +19,8 @@ module.exports = {
 	async execute(interaction) {
 
    if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
 
     const badgeId = interaction.options.getString('badgeid');
 

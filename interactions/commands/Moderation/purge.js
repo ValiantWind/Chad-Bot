@@ -10,12 +10,15 @@ module.exports = {
       .setName('amount')
       .setDescription(`The number of messages you want to purge.`)
       .setRequired(true)
-    ),
+    )
+  .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/purge <messages> (must be less than 100 and greater than 1)',
   async execute(interaction) {
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
     const amount = interaction.options.getInteger('amount');
 
     

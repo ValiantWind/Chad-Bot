@@ -12,6 +12,7 @@ module.exports = {
   async execute(interaction, client) {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
 
     interaction.guild.members.fetch({ withPresences: true }).then(fetchedMembers => {
 	const totalOnline = fetchedMembers.filter(member => member.presence?.status === 'online');

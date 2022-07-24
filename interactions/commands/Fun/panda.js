@@ -12,6 +12,7 @@ module.exports = {
 	async execute(interaction) {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
 		await interaction.deferReply();
     const res = await fetch('https://some-random-api.ml/img/panda');

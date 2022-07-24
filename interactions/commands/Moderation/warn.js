@@ -17,12 +17,15 @@ module.exports = {
       .setDescription(`The reason you're warning this user for.`)
     .setRequired(true)
     ),
+  .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/warn <member> <reason>',
   async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
     
     const user = interaction.options.getMember('target');
     const reason = interaction.options.getString('reason') || 'No reason specified';

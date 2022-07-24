@@ -9,13 +9,16 @@ module.exports = {
       .setName('target')
       .setDescription(`The user that you want to reset the nickname of.`)
       .setRequired(true)
-    ),
+    )
+  .setDefaultMemberPermissions(PermissionFlagsBits.ManageNicknames),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/badnickreset <member>',
   async execute(interaction) {
 
    if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
     
     const user = interaction.options.getMember('target');
 

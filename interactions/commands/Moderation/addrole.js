@@ -14,13 +14,16 @@ module.exports = {
       .setName('role')
       .setDescription(`The role you want to add to the user`)
       .setRequired(true)
-    ),
+    )
+  .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/addrole <member> <role>',
   async execute(interaction) {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
     
     const user = interaction.options.getMember('user');
     const roleToAdd = interaction.options.getRole('role');

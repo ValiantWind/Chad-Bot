@@ -14,13 +14,15 @@ module.exports = {
       .setName('nickname')
       .setDescription(`The nickname you want to set for the user.`)
     .setRequired(true)
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageNicknames),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/setnick <member> <new nickname>',
   async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
     const user = interaction.options.getMember('target');
     const newNick = interaction.options.getString('nickname');

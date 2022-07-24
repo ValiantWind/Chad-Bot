@@ -15,13 +15,17 @@ module.exports = {
     .addStringOption((option) => option
       .setName('reason')
       .setDescription(`The reason you're kicking this user for.`)
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/kick <member> <reason>',
   async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
+
+    if (!interaction.isChatInputCommand()) return;
+
     
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason') || 'No reason specified.';

@@ -12,6 +12,7 @@ module.exports = {
 	async execute(interaction, client) {
 
        if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
         new Trivia({
             message: interaction,

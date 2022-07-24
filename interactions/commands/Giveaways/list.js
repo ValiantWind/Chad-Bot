@@ -12,6 +12,7 @@ module.exports = {
 
       
        if(interaction.type != InteractionType.ApplicationCommand) return;
+      if (!interaction.isChatInputCommand()) return;
       
   //       const select = new SelectMenu().setCustomId("select").setPlaceholder("Select a type of giveaway to view!").addOptions([
   //           {

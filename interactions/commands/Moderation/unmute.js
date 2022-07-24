@@ -14,13 +14,16 @@ module.exports = {
       .setName('reason')
       .setDescription(`The reason you're unmuting this user.`)
       .setRequired(false)
-    ),
+    )
+  .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/unmute <member> <reason>',
   async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason') || 'No reason provided.'
 

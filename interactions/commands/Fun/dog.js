@@ -11,6 +11,7 @@ module.exports = {
 	async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
     const res = await fetch('https://dog.ceo/api/breeds/image/random');
     const img = (await res.json()).message;

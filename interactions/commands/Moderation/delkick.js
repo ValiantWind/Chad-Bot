@@ -11,12 +11,14 @@ module.exports = {
       .setDescription('ID of the modlog you want to delete')
       .setRequired(true)
     ),
+  .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/delkick <kick id>',
   async execute(interaction) {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
    const kickId = interaction.options.getString('kickid');
 

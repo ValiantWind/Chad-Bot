@@ -10,13 +10,15 @@ module.exports = {
       .setName('banid')
       .setDescription('ID of the modlog you want to delete')
       .setRequired(true)
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/delban <ban id>',
   async execute(interaction) {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
    const banId = interaction.options.getString('banid');
 

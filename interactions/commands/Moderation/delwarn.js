@@ -10,13 +10,15 @@ module.exports = {
       .setName('warnid')
       .setDescription('ID of the warn you want to delete')
       .setRequired(true)
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/delwarn <warn id>',
   async execute(interaction) {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
     
    const warnId = interaction.options.getString('warnid');
 

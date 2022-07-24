@@ -5,7 +5,6 @@ const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js'
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const fetch = require('node-fetch');
-const GitHub = require('github-api');
 const token = process.env.token
 const clientId = process.env.clientId
 const guildId = process.env.guildId
@@ -76,22 +75,6 @@ for (const module of commands) {
 	}
 }
 
-
-///////////////Buttons///////////////////
-
-// const buttonCommands = fs.readdirSync("./interactions/buttons");
-
-// for (const module of buttonCommands) {
-// 	const buttonCommandFiles = fs
-// 		.readdirSync(`./interactions/buttons/${module}`)
-// 		.filter((file) => file.endsWith(".js"));
-
-// 	for (const buttonCommandFile of buttonCommandFiles) {
-// 		const buttonCommand = require(`./interactions/buttons/${module}/${buttonCommandFile}`);
-// 		client.buttonCommands.set(buttonCommand.id, buttonCommand);
-// 	}
-// }
-
 const eventFiles = fs
 	.readdirSync("./events")
 	.filter((file) => file.endsWith(".js"));
@@ -130,63 +113,7 @@ const commandJsonData = [
 })();
 
 
-
-async function getLatestPosts() {
-     await fetch('https://devforum.roproxy.com/c/updates/45.json')
-    .then(res => res.json())
-    .then(function(data){
-        let notificationChannel = client.channels.cache.get('972668944597004339')
-        let topicList = data.topic_list;
-        let topics = topicList.topics;
-        // read each topic
-        topics.forEach(topic => {
-            let createdAt = topic.created_at;
-            let date = new Date();
-            // embed data
-            let id = topic.id // topic id
-            let title = topic.title
-            // check if the topic was created today
-            let currentDay = date.getUTCDate();
-            let currentMonth = date.getUTCMonth() + 1;
-            let currentYear = date.getUTCFullYear();
-            // get created at args
-            let timeArgs = createdAt.split("-") // split the created at string to get each arg
-            let createdDay = timeArgs[2];
-            let createdMonth = timeArgs[1];
-            let createdYear = timeArgs[0]
-
-            createdDay = createdDay.split("T")[0] // seperate the rest of the time to get ONLY the day
-            
-            // now check if the topic was created today
-            //currentDay === createdDay && currentMonth === createdMonth && currentYear === createdYear
-            if (currentDay == createdDay && currentMonth == createdMonth && currentYear == createdYear)
-            {
-                console.log('Passed through date check')
-                // add embed
-                const embedData = {
-                    color: "#f50404",
-                    author: {
-                        name: 'New Roblox Update!',
-                        url: `https://devforum.roblox.com/t/${id}`,
-                    },
-                    fields: [
-                        {
-                            name: title,
-                            value: "New Roblox Update!",
-                        }
-                    ]
-                }
-                // send embed
-                notificationChannel.send({ embeds: [embedData] });
-               
-            }
-            setTimeout(() => {}, 1000);
-        });
-    })
-}
-
 client.once('ready', () => {
-	//getLatestPosts()
 });
 
 const express = require('express')

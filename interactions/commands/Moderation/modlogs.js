@@ -20,6 +20,8 @@ module.exports = {
   usage: '/modlogs <member>',
   async execute(interaction) {
     if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
 
     const options = interaction.options;
 

@@ -15,12 +15,15 @@ module.exports = {
     .addStringOption((option) => option
       .setName('reason')
       .setDescription(`The reason you're banning this user.`)
-    ),
+    )
+  .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
   cooldown: 5000,
   category: 'Moderation',
   usage: '/ban <member> <reason>',
   async execute(interaction) {
      if(interaction.type != InteractionType.ApplicationCommand) return;
+    if (!interaction.isChatInputCommand()) return;
+    
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason');
 
