@@ -1,4 +1,4 @@
-const { InteractionType } = require('discord.js');
+const { InteractionType, PermissionFlagsBits } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const kickdb = require('../../../models/kickdb');
 
@@ -10,7 +10,7 @@ module.exports = {
       .setName('kickid')
       .setDescription('ID of the modlog you want to delete')
       .setRequired(true)
-    ),
+    )
   .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
   cooldown: 5000,
   category: 'Moderation',

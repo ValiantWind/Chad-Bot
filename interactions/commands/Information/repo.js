@@ -13,7 +13,7 @@ module.exports = {
     ),
   cooldown: 3000,
   category: 'Information',
-  usage: '/repo <GitHub repository name>',
+  usage: '/repo Username/RepoName (i.e. ValiantWind/Chad-Bot)',
   async execute(interaction, client) {
 
    if(interaction.type != InteractionType.ApplicationCommand) return;

@@ -8,6 +8,7 @@ const fetch = require('node-fetch');
 const token = process.env.token
 const clientId = process.env.clientId
 const guildId = process.env.guildId
+const configdb = require('quick.db');
 
 const client = new Client({
 	intents: [

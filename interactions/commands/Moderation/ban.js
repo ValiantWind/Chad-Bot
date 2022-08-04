@@ -1,4 +1,4 @@
-const { EmbedBuilder, InteractionType } = require('discord.js');
+const { EmbedBuilder, InteractionType, PermissionFlagsBits } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const modstatsdb = require('quick.db');
 const bandb = require('../../../models/bandb');
@@ -22,20 +22,22 @@ module.exports = {
   usage: '/ban <member> <reason>',
   async execute(interaction) {
      if(interaction.type != InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
     
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason');
 
+
     
     if (member.id == interaction.member.user.id) {
-      return interaction.reply({ content: `No.`, ephemeral: true });
-    } else if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
-      return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to ban!`, ephemeral: true });
+      interaction.reply({ content: `No.`, ephemeral: true });
+    }
+      
+    if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+      interaction.reply({ content: `Your roles must be higher than the roles of the person you want to ban!`, ephemeral: true });
     } else if (!member.manageable) {
-      return interaction.reply({ content: `Make sure that my role is higher than the role of the person you want to ban!`, ephemeral: true });
+      interaction.reply({ content: `Make sure that my role is higher than the role of the person you want to ban!`, ephemeral: true });
     } else if(!member.bannable){
-     return interaction.reply({content: 'I am unable to ban this member.', ephemeral: true})
+    interaction.reply({content: 'I am unable to ban this member.', ephemeral: true})
     } else {
 
   new bandb({
@@ -59,7 +61,7 @@ module.exports = {
     interaction.guild.members.ban(member);
     modstatsdb.add(`banModstats_${interaction.member.user.id}`, 1)
     modstatsdb.add(`totalModstats_${interaction.member.user.id}`, 1)
-    return interaction.reply({ embeds: [banEmbed]})
+    interaction.reply({ embeds: [banEmbed]})
     }
   }
 }

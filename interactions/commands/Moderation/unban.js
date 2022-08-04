@@ -1,7 +1,5 @@
-const { EmbedBuilder, InteractionType } = require('discord.js');
+const { EmbedBuilder, InteractionType, PermissionFlagsBits } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
-
-
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -23,7 +21,6 @@ module.exports = {
   async execute(interaction) {
 
 if(interaction.type != InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
     
 
     const options = interaction.options;

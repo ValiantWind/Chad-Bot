@@ -15,7 +15,7 @@ module.exports = {
     
     await interaction.deferReply();
     
-		await interaction.editReply(`Pong! ${Math.round(client.ws.ping)}`);
+		await interaction.editReply(`Pong! ${Math.round(client.ws.ping)} ms`);
     
 	},
 };

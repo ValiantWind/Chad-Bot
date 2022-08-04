@@ -1,5 +1,6 @@
 const { InteractionType } = require('discord.js');
 const ms = require('ms-prettify').default;
+const configdb = require('quick.db');
 
 
 module.exports = {

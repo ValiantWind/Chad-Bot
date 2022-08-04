@@ -1,4 +1,4 @@
-const { InteractionType } = require('discord.js');
+const { InteractionType, PermissionFlagsBits } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const warndb = require('../../../models/warndb');
 const modstatsdb = require('quick.db');
@@ -16,7 +16,7 @@ module.exports = {
       .setName('reason')
       .setDescription(`The reason you're warning this user for.`)
     .setRequired(true)
-    ),
+    )
   .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
   cooldown: 5000,
   category: 'Moderation',

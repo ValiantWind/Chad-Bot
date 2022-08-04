@@ -1,4 +1,4 @@
-const { InteractionType } = require('discord.js');
+const { InteractionType, PermissionFlagsBits } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const ms = require('ms');
 
