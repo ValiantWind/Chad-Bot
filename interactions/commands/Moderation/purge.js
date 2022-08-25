@@ -17,13 +17,12 @@ module.exports = {
   usage: '/purge <messages> (must be less than 100 and greater than 1)',
   async execute(interaction) {
     if(interaction.type != InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
     
     const amount = interaction.options.getInteger('amount');
 
     
     if (amount < 2 || amount > 100) {
-      return interaction.reply({ content: `You must enter a number higher than 1 and less than 100.`, ephemeral: true });
+      interaction.reply({ content: `You must enter a number higher than 1 and less than 100.`, ephemeral: true });
     }
 
    await interaction.channel.bulkDelete(amount, true);

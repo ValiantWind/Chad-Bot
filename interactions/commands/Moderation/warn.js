@@ -24,7 +24,6 @@ module.exports = {
   async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
     
     
     const user = interaction.options.getMember('target');
@@ -33,16 +32,9 @@ module.exports = {
 
     if (user.id == interaction.member.user.id) {
       interaction.reply({ content: `Do you want to get yourself demoted my guy?` });
-    } else if (interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0){
+    } 
+    if (interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0){
       interaction.reply({ content: `Your roles must be higher than the roles of the person you want to warn!`, ephemeral: true });
-  } else if (user.id == 624665686978986020) { // Connor User ID
-  interaction.reply({content: "You fool! You can't warn the almighty Co-Owner Conner! Shame on you."});
-  } else if (user.id == 561653332414955552){ // Lite User ID
-  interaction.reply({content: "You fool! You can't warn the almight Community Manager Lite! Shame on you."});
-  } else if (user.id == 787114312279392317){ // Dom User ID
-   interaction.reply({content: "You fool! You can't warn the almight YouTuber and Server Owner Dom! Shame on you."});
-  } else if (user.id == 791197005832650752){ // Requiem User ID
-  interaction.reply({content: "You fool! You can't warn the almight Mod Stats Speedrunner Requiem! Shame on you."});
   } else {
 
 new warndb({

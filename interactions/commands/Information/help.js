@@ -17,9 +17,6 @@ module.exports = {
     async execute(interaction, client){
       
       if(interaction.type != InteractionType.ApplicationCommand) return;
-      if (!interaction.isChatInputCommand()) return;
-      
-      const color = getRoleColor(interaction.guild)
 
         const commandInt = interaction.options.getString("command");
         if (!commandInt) {
@@ -84,7 +81,7 @@ module.exports = {
         } else {
             let command = client.commands.get(commandInt.toLowerCase());
 
-            // This is what it sends when using the command with argument and it does not find the command
+            
             if (!command) {
                 interaction.reply({ content: `There aren't any Slash Commands named "${commandInt}"` });
             } else {
@@ -99,7 +96,6 @@ module.exports = {
 
                 let helpCmdEmbed = new EmbedBuilder()
                     .setTitle(`\`${(name.toLocaleString())}\` Slash Command Info`)
-                    .setDescription('')
                     .addFields(
                         { name: "Description", value: `${description}` },
                       { name: 'Category', value: `${category}` },

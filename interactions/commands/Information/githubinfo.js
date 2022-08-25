@@ -19,7 +19,6 @@ module.exports = {
   async execute(interaction) {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
     
     const username = interaction.options.getString("user");
 
@@ -32,6 +31,15 @@ module.exports = {
           let updateDate = new Date(data.updated_at)
           let id = data.id
           let avatarUrl = `https://avatars.githubusercontent.com/u/${id}?v=4`
+
+          const row = new ActionRowBuilder()
+			.addComponents(
+				new ButtonBuilder()
+					.setLabel('Profile Link')
+					.setStyle('Link')
+          .setURL(`https://github.com/${username}`)
+			);
+          
   const embed = new EmbedBuilder()
     .setColor('BLURPLE')
     .setTitle(`${username}'s GitHub Profile`)
@@ -41,15 +49,15 @@ module.exports = {
     .addFields(
       {name: "Follower Count", value: data.followers.toString(), inline: true},
       {name: "Following Count", value: data.following.toString(), inline: true},
-      {name: 'Public Repo Count', value: data.public_repos_toString(), inline: true},
+      {name: 'Public Repo Count', value: data.public_repos.toString(), inline: true},
       {name: 'Blog', value: data.blog || 'N/A', inline: false},
       {name: 'Location', value: data.location || 'N/A', inline: true},
       {name: 'Company', value: data.company || 'N/A', inline: true},
       {name: 'Twitter', value: data.twitter_username || 'N/A', inline: true},
       {name: 'Created At', value: creationDate.toDateString(), inline: true},
-      {name: 'Profile Last Updated At', value: updated_at.toDateString(), inline: true}
+      {name: 'Profile Last Updated At', value: updateDate.toDateString(), inline: true}
     )
-    interaction.reply({embeds: [embed]})
+    interaction.reply({embeds: [embed], components: [row]})
             }));
     } catch(error) {
       console.log(error)

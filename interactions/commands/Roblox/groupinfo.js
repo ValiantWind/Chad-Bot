@@ -18,7 +18,6 @@ module.exports = {
   async execute(interaction) {
 
      if(interaction.type != InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
     
     
     const groupId = interaction.options.getInteger("groupid");

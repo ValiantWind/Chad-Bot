@@ -1,5 +1,5 @@
 require('dotenv').config;
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, ActionRowBuilder, SelectMenuBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, InteractionType } = require('discord.js');
 const fetch = require('node-fetch');
 const noblox = require('noblox.js');
@@ -8,15 +8,9 @@ const ownerId = process.env.valiantId
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('eval')
-		.setDescription('Ignore this command')
-  .addUserOption((option) => option
-    .setName('user')
-    .setDescription('stop using this command its useless')
-    .setRequired(true)
-  ),
+		.setName('restart')
+		.setDescription("This is an Owner-Only command. Don't bother trying to use, as it will not work."),
   cooldown: 5000,
-  //userPerms: "ADMINISTRATOR",
   category: 'Information',
   usage: '/eval <user>',
 	async execute(interaction) {
@@ -25,9 +19,12 @@ module.exports = {
 
     if(interaction.user.id === ownerId) {
 
-     interaction.reply('Pog')
+    
+      process.exit();
+
+		
     } else {
-       interaction.reply('Only the developer can use this command.')
+       interaction.reply('Nice try lol. Only the developer can use this command.')
     }
     
 	},

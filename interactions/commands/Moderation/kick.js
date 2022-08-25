@@ -30,7 +30,8 @@ module.exports = {
     
     if (member.id == interaction.member.user.id) {
       return interaction.reply({ content: `I mean you could just leave the server.` });
-    } else if (interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
+    }
+    if(interaction.member.roles.highest.comparePositionTo(member.roles.highest) <= 0) {
      return interaction.reply({ content: `Your roles must be higher than the roles of the person you want to kick!`, ephemeral: true });
     } else  if (!member.kickable) {
      return interaction.reply({ content: `I am unable to kick this member.`, ephemeral: true });

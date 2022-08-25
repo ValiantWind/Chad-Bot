@@ -22,8 +22,6 @@ module.exports = {
   async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
-    
     
     const amount = interaction.options.getString('time') || 0;
     const channelToSlowDown = interaction.options.getChannel('channel');

@@ -20,31 +20,30 @@ module.exports = {
   async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
     
     const username = interaction.options.getString("username");
 
     interaction.deferReply()
 
       try {
-      const devForumData = await request({
-        uri: `https://devforum.roblox.com/u/${username}.json`,
-        json: true,
-        simple: false,
-      })
-      let devProfile = devForumData.user
+      // const devForumData = await request({
+      //   uri: `https://devforum.roblox.com/u/${username}.json`,
+      //   json: true,
+      //   simple: false,
+      // })
+      // let devProfile = devForumData.user
 
-      let trustLevels = {
-          4: "Roblox Staff",
-          3: "Community Editor",
-          2: "Regular",
-          1: "Member",
-          0: "Visitor",
-        }
+      // let trustLevels = {
+      //     4: "Roblox Staff",
+      //     3: "Community Editor",
+      //     2: "Regular",
+      //     1: "Member",
+      //     0: "Visitor",
+      //   }
       
-      const id = await noblox.getIdFromUsername(username)
-      const info = await noblox.getPlayerInfo(id)
-      const groupId = process.env.groupId
+      // const id = await noblox.getIdFromUsername(username)
+      // const info = await noblox.getPlayerInfo(id)
+      // const groupId = process.env.groupId
 
       // let trustLevel;
       // if(!devForumData){
@@ -53,12 +52,12 @@ module.exports = {
       //  // let trustLevel = trustLevels[devProfile.trust_level] || trustLevels[devForumData.trust_level];
       // }
 
-        const res = await fetch(`https://groups.roblox.com/v1/users/${id}/groups/primary/role`);
+      //   const res = await fetch(`https://groups.roblox.com/v1/users/${id}/groups/primary/role`);
 
-        const primaryGroup = (await res.json()).group.name
+      //   const primaryGroup = (await res.json()).group.name
 
 
-      const avatarurl = await noblox.getPlayerThumbnail([id], '720x720', 'png', false, 'body')
+      // const avatarurl = await noblox.getPlayerThumbnail([id], '720x720', 'png', false, 'body')
 
         const row = new ActionRowBuilder()
 			.addComponents(
@@ -80,22 +79,10 @@ module.exports = {
       {name: 'Friend Count', value: info.friendCount.toString(), inline: true},
       {name: 'Follower Count', value: info.followerCount.toString(), inline: true},
       {name: 'Following Count', value: info.followingCount.toString(), inline: true},
-      {name: 'Primary Group', value: primaryGroup || 'None'},
+    //  {name: 'Primary Group', value: primaryGroup || 'None'},
       {name: 'Previous Usernames(s)', value: info.oldNames.toString() || 'No Previous Usernames'},
       {name: 'Ban Status', value: info.isBanned.toString()}
       )
-    
-    // .addField('Display Name', info.displayName || 'No Display Name')
-    // .addField('User ID', id.toString(), true)
-    // .addField('Join Date', info.joinDate.toDateString(), true)
-    // .addField('Account Age (in days)', info.age.toString() || "Not Available", true)
-    // .addField('Friend Count', info.friendCount.toString(), true)
-    // .addField('Follower Count', info.followerCount.toString(), true)
-    // .addField('Following Count', info.followingCount.toString(), true)
-    // .addField('Primary Group', primaryGroup || 'None')
-    // .addField('Previous Username(s)', info.oldNames.toString() || 'No Previous Username(s)')
-    // .addField('Ban Status', info.isBanned.toString())
-    //.addField('DevForum Trust Level', trustLevel)
     .setTimestamp()
     .setThumbnail(avatarurl[0].imageUrl)
 

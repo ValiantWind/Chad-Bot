@@ -1,5 +1,5 @@
  const { EmbedBuilder, InteractionType } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, ActionRowBuilder } = require('@discordjs/builders');
 const fetch = require('node-fetch');
 
 module.exports = {
@@ -31,6 +31,14 @@ module.exports = {
           let updateDate = new Date(data.updated_at)
           let id = data.owner.id
           let avatarUrl = `https://avatars.githubusercontent.com/u/${id}?v=4`
+
+              const row = new ActionRowBuilder()
+			.addComponents(
+				new ButtonBuilder()
+					.setLabel('Repository Link')
+					.setStyle('Link')
+          .setURL(`https://github.com/${repository}`)
+			);
   const embed = new EmbedBuilder()
     .setColor('BLURPLE')
     .setTitle(`${repository} Repository Information`)
@@ -50,11 +58,11 @@ module.exports = {
       {name: 'Default Branch', value: data.default_branch || 'Not Available'},
       {name: 'Template?', value: data.is_template || 'No', inline: true},
       {name: 'Archived?', value: data.archived || 'No', inline: true},
-      {name: 'License', value: data.license.name || 'No License'},
+      {name: 'License', value: data.license || 'No License'},
       {name: 'Created At', value: creationDate.toDateString(), inline: true},
       {name: 'Last Updated At', value: updateDate.toDateString(), inline: true},
     )
-    interaction.reply({embeds: [embed]})
+    interaction.reply({embeds: [embed], components: [row]})
             }));
     } catch(error) {
       console.log(error)

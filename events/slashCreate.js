@@ -10,13 +10,13 @@ module.exports = {
 
 		const { client } = interaction;
 
-		if(interaction.type != InteractionType.ApplicationCommand) return;
 
 
 		const command = client.commands.get(interaction.commandName);
 
 
 		if (!command) return;
+
 
 
 		try {

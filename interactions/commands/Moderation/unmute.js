@@ -22,7 +22,6 @@ module.exports = {
   async execute(interaction) {
 
     if(interaction.type != InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
     
     const member = interaction.options.getMember('user');
     const reason = interaction.options.getString('reason') || 'No reason provided.'

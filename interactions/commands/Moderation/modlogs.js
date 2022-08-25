@@ -1,5 +1,5 @@
 const { EmbedBuilder, InteractionType, PermissionFlagsBits } = require('discord.js');
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder, SelectMenuBuilder, ActionRowBuilder } = require('@discordjs/builders');
 const warndb = require('../../../models/warndb');
 const mutedb = require('../../../models/mutedb');
 const kickdb = require('../../../models/kickdb');
@@ -20,7 +20,7 @@ module.exports = {
   usage: '/modlogs <member>',
   async execute(interaction) {
     if(interaction.type != InteractionType.ApplicationCommand) return;
-    if (!interaction.isChatInputCommand()) return;
+    
     
 
     const options = interaction.options;
@@ -96,6 +96,7 @@ module.exports = {
         }).join("\n\n");
 
     const totalModlogs = userWarnings?.length + userMutes?.length + userKicks?.length + userBans?.length
+      
        const embed = new EmbedBuilder()
       .setTitle(`${interaction.user.tag}'s ModLogs`)
       .setDescription(`Total ModLogs: ${totalModlogs}`)
@@ -184,20 +185,18 @@ module.exports = {
         }).join("\n\n");
 
     const totalModlogs = userWarnings?.length + userMutes?.length + userKicks?.length + userBans?.length
-       const embed = new EmbedBuilder()
-      .setTitle(`<@${target}>'s ModLogs`)
-      .setDescription(`Total ModLogs: ${totalModlogs}`)
+       let embed = new EmbedBuilder()
+      .setTitle(`<@${target}>'s Warnings`)
          .addFields(
         {name: 'Warnings', value: warnField || 'No Warnings'},
         {name: 'Mutes', value: muteField || 'No Mutes'},
         {name: 'Kicks', value: kickField || 'No Kicks'},
         {name: 'Bans', value: banField || 'No Bans'}
       )
-      // .addField('Warnings', warnField || 'No Warnings')
-      // .addField('Mutes', muteField || 'No Mutes')
-      // .addField('Kicks', kickField || 'No Kicks')
-      // .addField('Bans', banField || 'No Bans')
+      
       .setColor('BLURPLE')
+
+    
 
     interaction.reply({embeds: [embed]})
   

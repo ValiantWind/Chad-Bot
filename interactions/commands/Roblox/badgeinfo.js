@@ -34,7 +34,7 @@ module.exports = {
     const row = new ActionRowBuilder()
 			.addComponents(
 				new ButtonBuilder()
-					.setLabel('Group Link')
+					.setLabel('Badge Link')
 					.setStyle('Link')
           .setURL(`https://roblox.com/badges/${badgeId}/`)
 			);
