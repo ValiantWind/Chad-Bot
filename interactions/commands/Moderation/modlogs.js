@@ -28,7 +28,6 @@ module.exports = {
     if(interaction.type != InteractionType.ApplicationCommand) return;
     if (!interaction.isChatInputCommand()) return;
     
-
     const options = interaction.options;
 
       const target = options.get('userid')?.value;
