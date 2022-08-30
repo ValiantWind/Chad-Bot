@@ -29,7 +29,7 @@ module.exports = {
     if (interaction.member.roles.highest.comparePositionTo(user.roles.highest) <= 0) {
       return interaction.reply({ content: `You can't modify the roles of someone who has a higher rank than yours.`, ephemeral: true });
       
-    } else if (!member.roles.cache.some(role => role.name === roleToRemove)) {
+    } else if (!user.roles.cache.some(role => role.name === roleToRemove)) {
 	return interaction.reply({ content: `You don't have that role!`, ephemeral: true });
     } else {
       user.roles.remove(roleToRemove);

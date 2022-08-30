@@ -1,4 +1,4 @@
-const { InteractionType, PermissionFlagsBits } = require('discord.js');
+const { InteractionType, PermissionFlagsBits, ChannelType } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const ms = require('ms');
 
@@ -26,17 +26,24 @@ module.exports = {
     const amount = interaction.options.getString('time') || 0;
     const channelToSlowDown = interaction.options.getChannel('channel');
 
+    const milliseconds = ms(amount)
+
   
-    if(isNaN(amount)){
+    if(isNaN(milliseconds)){
       interaction.reply('Please enter a valid time!')
       
-    } else if (channelToSlowDown.isText()) {
-   
-    channelToSlowDown.setRateLimitPerUser(amount);
+    } else if (channelToSlowDown.type != ChannelType.GuildText) {
 
-    interaction.reply(`Successfully set the slowmode in ${channelToSlowDown} to ${amount} seconds.`);
-    } else {
       interaction.reply('Please enter a Text channel!')
+   
+    } else if (milliseconds < 1000) {
+      interaction.reply('The minimum slowmode time is 1 second')
+    } else if (milliseconds > 21600) {
+      interaction.reply('The maximum slowmode time is 6 hours')
+    } else {
+          channelToSlowDown.setRateLimitPerUser(milliseconds / 1000);
+
+    interaction.reply(`Successfully set the slowmode in ${channelToSlowDown} to ${ms(milliseconds, {long: true})}`);
     }
   }
 }
