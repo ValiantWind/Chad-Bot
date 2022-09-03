@@ -1,4 +1,8 @@
 # Chad Bot
+## MOVED REPOSITORIES DUE TO THIS ONE BEING CORRUPTED:
+
+https://github.com/ValiantWind/Valiantilities
+
 
 A Multipurpose Discord Bot coded with Discord.js with various different commands.
 
